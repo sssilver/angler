@@ -1,15 +1,24 @@
 app.directive('scDatepicker', function() {
     return {
         restrict: 'A',
-        link: function(scope, element, attrs) {
+        require: 'ngModel',
+        link: function(scope, element, attrs, ngModelCtrl) {
             var startView = attrs.startView;
 
             if (!startView)
-                startView = 2;
+                startView = 'month';
 
             $(element).datetimepicker({
-                'startView': startView
-            });
+                'startView': startView,
+                'autoclose': true
+            }).on('changeDate', function(e) {
+                var outputDate = new Date(e.date);
+
+                var n = outputDate.getTime();
+
+                ngModelCtrl.$setViewValue(n);
+                scope.$apply();
+            });;
         }
     };
 });
