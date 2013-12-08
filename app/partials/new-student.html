@@ -80,81 +80,6 @@
     </div>
 
     <div class="form-group">
-      <label for="student.availability" class="col-sm-2 control-label">Availability</label>
-
-      <div class="col-sm-1">
-        <div class="btn-group-vertical" data-toggle="buttons">
-          <label class="btn btn-default disabled">
-            <strong>MON</strong>
-          </label>
-          <label class="btn btn-default" ng-repeat="time in times" ng-click="toggleRange(time)">
-            <input type="checkbox"> {{time}}
-          </label>
-        </div>
-      </div>
-      <div class="col-sm-1">
-       <div class="btn-group-vertical" data-toggle="buttons">
-          <label class="btn btn-default disabled">
-            <strong>TUE</strong>
-          </label>
-          <label class="btn btn-default" ng-repeat="time in times">
-            <input type="checkbox"> {{time}}
-          </label>
-        </div>
-      </div>
-      <div class="col-sm-1">
-        <div class="btn-group-vertical" data-toggle="buttons">
-          <label class="btn btn-default disabled">
-            <strong>WED</strong>
-          </label>
-          <label class="btn btn-default" ng-repeat="time in times">
-            <input type="checkbox"> {{time}}
-          </label>
-        </div>
-      </div>
-      <div class="col-sm-1">
-       <div class="btn-group-vertical" data-toggle="buttons">
-          <label class="btn btn-default disabled">
-            <strong>THU</strong>
-          </label>
-          <label class="btn btn-default" ng-repeat="time in times">
-            <input type="checkbox"> {{time}}
-          </label>
-        </div>
-      </div>
-      <div class="col-sm-1">
-        <div class="btn-group-vertical" data-toggle="buttons">
-          <label class="btn btn-default disabled">
-            <strong>FRI</strong>
-          </label>
-          <label class="btn btn-default" ng-repeat="time in times">
-            <input type="checkbox"> {{time}}
-          </label>
-        </div>
-      </div>
-      <div class="col-sm-1">
-       <div class="btn-group-vertical" data-toggle="buttons">
-          <label class="btn btn-default disabled">
-            <strong>SAT</strong>
-          </label>
-          <label class="btn btn-default" ng-repeat="time in times">
-            <input type="checkbox"> {{time}}
-          </label>
-        </div>
-      </div>
-      <div class="col-sm-1">
-        <div class="btn-group-vertical" data-toggle="buttons">
-          <label class="btn btn-default disabled">
-            <strong>SUN</strong>
-          </label>
-          <label class="btn btn-default" ng-repeat="time in times">
-            <input type="checkbox" value="1" ng-model="student.time"> {{time}}
-          </label>
-        </div>
-      </div>
-    </div>
-
-    <div class="form-group">
       <label for="input_ref_type" class="col-sm-2 control-label">Referral type</label>
       <div class="col-sm-10">
         <select class="form-control">
@@ -168,6 +93,40 @@
       <div class="col-sm-10">
         <input type="text" class="form-control" id="student.ref" ng-model="student.ref">
       </div>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Availability</legend>
+
+    <div class="form-group" ng-repeat="(dayIndex, dayName) in days">
+      <label for="student.availability" class="col-sm-2 control-label">{{dayName}}</label>
+
+      <div class="col-sm-10">
+        <div class="col-sm-10 form-group" ng-repeat="(availIndex, availRange) in student.availability[dayIndex]">
+          <div class="col-sm-4">
+            <select class="form-control input-sm" ng-model="student.availability[dayIndex][availIndex][0]" id="student.ivw_teacher">
+              <option style="display:none" value="">From</option>
+              <option ng-repeat="time in times" value="{{time.minute}}">{{time.time}}</option>
+            </select>
+          </div>
+          <div class="col-sm-4">
+            <select class="form-control input-sm" ng-model="student.availability[dayIndex][availIndex][1]" id="student.ivw_teacher">
+              <option style="display:none" value="">To</option>
+              <option ng-repeat="time in times | timeRangeFilter:student.availability[dayIndex][availIndex][0]" value="{{time.minute}}">{{time.time}}</option>
+            </select>
+          </div>
+          <button type="button" class="btn btn-xs" ng-click="removeAvailability(dayIndex, availIndex)">
+            <span class="glyphicon glyphicon-remove"></span>
+          </button>
+        </div>
+
+        <button type="button" class="btn btn-sm" ng-click="addAvailability(dayIndex)">
+          <span class="glyphicon glyphicon-plus"></span> Add
+        </button>
+
+      </div>
+
     </div>
   </fieldset>
 

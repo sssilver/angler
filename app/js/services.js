@@ -9,8 +9,8 @@ app.constant('DAYS', {
 });
 
 
-app.factory('HOURS', [function(value) {
-    hours = {};
+app.factory('TIMES', [function(value) {
+    times = [];
 
     for (i = 0; i < 1440; i+=30) {
         hour = Math.floor(i / 60);
@@ -22,8 +22,11 @@ app.factory('HOURS', [function(value) {
         if (hour < 10 || hour > 19)
             continue;
 
-        hours[i] = str_hour + ':' + str_minute;
+        times.push({
+            'minute': i,
+            'time': str_hour + ':' + str_minute
+        });
     }
 
-    return hours;
+    return times;
 }]);

@@ -43,15 +43,31 @@ app.controller('LoginCtrl', ['$scope', function($scope) {
 }]);
 
 
-app.controller('StudentsCtrl', ['$scope', 'Students', 'HOURS', 'DAYS', function($scope, Students, HOURS, DAYS) {
-    $scope.hours = HOURS;
-    $scope.days = DAYS;
+app.controller(
+    'StudentsCtrl',
+        ['$scope', 'Students', 'TIMES', 'DAYS',
+            function($scope, Students, TIMES, DAYS) {
 
+    $scope.times = TIMES;
+    $scope.days = DAYS;
+    $scope.student = {
+        'availability': []
+    }
+
+    for (var i in DAYS)
+        $scope.student.availability[i] = [];
 
     //$scope.items = Students.query();
 
-    $scope.toggleRange = function(time, status) {
-        $scope.student.availability[time] = !($scope.student.availability[time]);
-        console.log(time);
+    $scope.addAvailability = function(day) {
+        console.log('Adding availability for day ' + day.toString());
+        $scope.student.availability[day].push([0, 0]);
     }
+
+    $scope.removeAvailability = function(day, availability) {
+        console.log('Removing availability #' + availability.toString() + ' from day ' + day.toString());
+        $scope.student.availability[day].splice(availability, 1);
+    }
+
+
 }]);
