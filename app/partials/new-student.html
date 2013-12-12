@@ -116,7 +116,7 @@
               <option ng-repeat="time in times | timeRangeFilter:student.availability[dayIndex][availIndex][0]" value="{{time.minute}}">{{time.time}}</option>
             </select>
           </div>
-          <button type="button" class="btn btn-xs" ng-click="removeAvailability(dayIndex, availIndex)">
+          <button type="button" class="btn btn-sm" ng-click="removeAvailability(dayIndex, availIndex)">
             <span class="glyphicon glyphicon-remove"></span>
           </button>
         </div>
@@ -207,7 +207,7 @@
 
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="btn btn-primary btn-lg" ng-click="">Register the Student</button>
+      <button type="submit" class="btn btn-primary btn-lg" ng-click="registerStudent()">Register the Student</button>
       <button type="submit" class="btn" ng-click="go('students')">Cancel</button>
     </div>
   </div>

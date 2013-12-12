@@ -30,3 +30,29 @@ app.factory('TIMES', [function(value) {
 
     return times;
 }]);
+
+
+app.factory('Student', function($resource) {
+    return $resource('http://localhost\\:5000/students/:student_id', {}, {
+        query: {
+            method: 'GET',
+            params: {
+                student_id: ''
+            },
+            isArray: true
+        },
+
+        post: {
+            method: 'POST'
+        },
+
+        save: {
+            method: 'PUT'
+        },
+
+        remove: {
+            method: 'DELETE'
+        }
+    });
+});
+

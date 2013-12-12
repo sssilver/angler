@@ -14,15 +14,6 @@ app.config(['$routeProvider', function($routeProvider) {
 }]);
 
 
-app.factory('Students', function($resource) {
-    return $resource('http://localhost\\:8080/students/:student_id', {}, {
-        query: {method: 'GET', params: {student_id: ''}, isArray: true},
-        post: {method: 'POST'},
-        update: {method: 'PUT'},
-        remove: {method: 'DELETE'}
-    });
-});
-
 
 app.controller('IndexCtrl', ['$scope', '$location', function($scope, $location) {
     $scope.go = function(path) {
@@ -45,14 +36,12 @@ app.controller('LoginCtrl', ['$scope', function($scope) {
 
 app.controller(
     'StudentsCtrl',
-        ['$scope', 'Students', 'TIMES', 'DAYS',
-            function($scope, Students, TIMES, DAYS) {
+        ['$scope', 'Student', 'TIMES', 'DAYS',
+            function($scope, Student, TIMES, DAYS) {
 
     $scope.times = TIMES;
     $scope.days = DAYS;
-    $scope.student = {
-        'availability': []
-    }
+    $scope.student = new Student({'availability': []});
 
     for (var i in DAYS)
         $scope.student.availability[i] = [];
@@ -67,6 +56,10 @@ app.controller(
     $scope.removeAvailability = function(day, availability) {
         console.log('Removing availability #' + availability.toString() + ' from day ' + day.toString());
         $scope.student.availability[day].splice(availability, 1);
+    }
+
+    $scope.registerStudent = function() {
+        $scope.student.$save();
     }
 
 
