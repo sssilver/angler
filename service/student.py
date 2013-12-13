@@ -2,6 +2,7 @@ import datetime
 
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.types import String, Date, Boolean
+from sqlalchemy.orm import validates
 
 
 Base = declarative_base()
@@ -27,11 +28,21 @@ class Student(Base):
     ref = Column(String)
 
     # Availability
-    availability = relationship('Availability', primaryjoin='and_(Student.id==Availability.student_id)', back_populates='student')
+    availability = relationship(
+        'Availability',
+        primaryjoin='and_(Student.id==Availability.student_id)',
+        back_populates='student'
+    )
 
     # Interview
-    ivw_teacher = relatinship('Teacher', primaryjoin='and_(Student.ivw_teacher==Teacher.id)')
-    ivw_level = relationship('Level', primaryjoin='and_(Student.ivw_level==Level.id)')
+    ivw_teacher = relationship(
+        'Teacher',
+        primaryjoin='and_(Student.ivw_teacher==Teacher.id)'
+    )
+    ivw_level = relationship(
+        'Level',
+        primaryjoin='and_(Student.ivw_level==Level.id)'
+    )
     ivw_notes = Column(String)
 
     # Notes
@@ -42,6 +53,19 @@ class Student(Base):
     needs = Column(String)
     focus = Column(String)
 
+    @validates('fname', 'lname')
+    def validate_name(self, key, name):
+        assert name.isalpha()
+        return name
+
+    @validates('phone')
+    def validate_name(self, key, phone):
+        return phone
+
+    @validates('email')
+    def validate_name(self, key, email):
+        assert re.match(r'[^@]+@[^@]+\.[^@]+', email)
+        return email
 
 
 class Availability(Base):
