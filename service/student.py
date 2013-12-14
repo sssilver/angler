@@ -1,8 +1,10 @@
 import datetime
+import re
 
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.types import String, Date, Boolean
-from sqlalchemy.orm import validates
+from sqlalchemy.types import Integer, String, Date, Boolean
+from sqlalchemy.schema import Column, ForeignKey
+from sqlalchemy.orm import validates, relationship
 
 
 Base = declarative_base()
