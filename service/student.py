@@ -1,13 +1,11 @@
-import datetime
+from datetime import datetime
 import re
 
-from sqlalchemy.ext.declarative import declarative_base
+from database import Base
+
 from sqlalchemy.types import Integer, String, Date, Boolean
 from sqlalchemy.schema import Column, ForeignKey
 from sqlalchemy.orm import validates, relationship
-
-
-Base = declarative_base()
 
 
 class Student(Base):
@@ -71,8 +69,10 @@ class Student(Base):
 
 
 class Availability(Base):
+    __tablename__ = 'availability'
+
     id = Column(Integer, primary_key=True)
     student_id = Column(Integer, ForeignKey('student.id'))
     student = relationship('Student')
-    from = Column(Integer)
-    to = Column(Integer)
+    range_from = Column(Integer)
+    range_to = Column(Integer)
