@@ -41,21 +41,21 @@ app.controller(
 
     $scope.times = TIMES;
     $scope.days = DAYS;
-    $scope.student = new Student({'availability': []});
+    $scope.student = new Student({'availabilities': []});
 
     for (var i in DAYS)
-        $scope.student.availability[i] = [];
+        $scope.student.availabilities[i] = [];
 
     //$scope.items = Students.query();
 
     $scope.addAvailability = function(day) {
         console.log('Adding availability for day ' + day.toString());
-        $scope.student.availability[day].push([0, 0]);
+        $scope.student.availabilities[day].push([0, 0]);
     }
 
     $scope.removeAvailability = function(day, availability) {
         console.log('Removing availability #' + availability.toString() + ' from day ' + day.toString());
-        $scope.student.availability[day].splice(availability, 1);
+        $scope.student.availabilities[day].splice(availability, 1);
     }
 
     $scope.registerStudent = function() {

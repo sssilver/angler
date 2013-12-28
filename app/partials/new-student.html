@@ -11,7 +11,7 @@
 
 {{student}}
 
-{{ranges}}
+{{times}}
 
 <form class="form-horizontal" role="form">
   <fieldset>
@@ -100,20 +100,16 @@
     <legend>Availability</legend>
 
     <div class="form-group" ng-repeat="(dayIndex, dayName) in days">
-      <label for="student.availability" class="col-sm-2 control-label">{{dayName}}</label>
+      <label for="student.availabilities" class="col-sm-2 control-label">{{dayName}}</label>
 
       <div class="col-sm-10">
-        <div class="col-sm-10 form-group" ng-repeat="(availIndex, availRange) in student.availability[dayIndex]">
+        <div class="col-sm-10 form-group" ng-repeat="(availIndex, availRange) in student.availabilities[dayIndex]">
           <div class="col-sm-4">
-            <select class="form-control input-sm" ng-model="student.availability[dayIndex][availIndex][0]" id="student.ivw_teacher">
-              <option style="display:none" value="">From</option>
-              <option ng-repeat="time in times" value="{{time.minute}}">{{time.time}}</option>
+            <select sc-integer class="form-control input-sm" ng-model="student.availabilities[dayIndex][availIndex][0]" ng-options="time.minute as time.time for time in times" id="student.ivw_teacher">
             </select>
           </div>
           <div class="col-sm-4">
-            <select class="form-control input-sm" ng-model="student.availability[dayIndex][availIndex][1]" id="student.ivw_teacher">
-              <option style="display:none" value="">To</option>
-              <option ng-repeat="time in times | timeRangeFilter:student.availability[dayIndex][availIndex][0]" value="{{time.minute}}">{{time.time}}</option>
+            <select sc-integer class="form-control input-sm" ng-model="student.availabilities[dayIndex][availIndex][1]" ng-options="time.minute as time.time for time in times | timeRangeFilter:student.availabilities[dayIndex][availIndex][0]" id="student.ivw_teacher">
             </select>
           </div>
           <button type="button" class="btn btn-sm" ng-click="removeAvailability(dayIndex, availIndex)">

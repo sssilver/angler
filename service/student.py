@@ -2,7 +2,7 @@ import datetime
 import re
 
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.types import Integer, String, Date, Boolean
+from sqlalchemy.types import Integer, SmallInteger, String, Date, Boolean
 from sqlalchemy.schema import Column, ForeignKey
 from sqlalchemy.orm import validates, relationship
 
@@ -25,7 +25,7 @@ class Student(Base):
     gender = Column(Boolean)
 
     # Student Data
-    reg_date = Column(Date, default=datetime.now)
+    reg_date = Column(Date, default=datetime.datetime.now())
     ref_type = Column(Integer)
     ref = Column(String)
 
@@ -37,14 +37,18 @@ class Student(Base):
     )
 
     # Interview
+    ivw_teacher_id = Column(Integer, ForeignKey('teacher.id'))
     ivw_teacher = relationship(
         'Teacher',
-        primaryjoin='and_(Student.ivw_teacher==Teacher.id)'
+        primaryjoin='and_(Student.ivw_teacher_id==Teacher.id)'
     )
+
+    ivw_level_id = Column(Integer, ForeignKey('level.id'))
     ivw_level = relationship(
         'Level',
-        primaryjoin='and_(Student.ivw_level==Level.id)'
+        primaryjoin='and_(Student.ivw_level_id==Level.id)'
     )
+
     ivw_notes = Column(String)
 
     # Notes
@@ -71,8 +75,23 @@ class Student(Base):
 
 
 class Availability(Base):
+    __tablename__ = 'availability'
+
     id = Column(Integer, primary_key=True)
     student_id = Column(Integer, ForeignKey('student.id'))
     student = relationship('Student')
-    from = Column(Integer)
-    to = Column(Integer)
+    day = Column(SmallInteger)  # 0..6 for each weekday
+    range_from = Column(Integer)
+    range_to = Column(Integer)
+
+
+class Teacher(Base):
+    __tablename__ = 'teacher'
+
+    id = Column(Integer, primary_key=True)
+
+
+class Level(Base):
+    __tablename__ = 'level'
+
+    id = Column(Integer, primary_key=True)
