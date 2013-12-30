@@ -3,7 +3,11 @@ import re
 
 from database import Base
 
-from sqlalchemy.types import Integer, String, Date, Boolean
+from sqlalchemy.types import String
+from sqlalchemy.types import Integer, SmallInteger
+from sqlalchemy.types import Date, DateTime
+from sqlalchemy.types import Boolean
+
 from sqlalchemy.schema import Column, ForeignKey
 from sqlalchemy.orm import validates, relationship
 
@@ -23,7 +27,7 @@ class Student(Base):
     gender = Column(Boolean)
 
     # Student Data
-    reg_date = Column(Date, default=datetime.now)
+    reg_date = Column(DateTime, default=datetime.utcnow)
     ref_type = Column(Integer)
     ref = Column(String)
 
@@ -35,6 +39,7 @@ class Student(Base):
     )
 
     # Interview
+    ivw_date = Column(DateTime, default=datetime.now)
     ivw_teacher_id = Column(Integer, ForeignKey('teacher.id'))
     ivw_teacher = relationship(
         'Teacher',
@@ -61,6 +66,10 @@ class Student(Base):
     def validate_name(self, key, name):
         assert name.isalpha()
         return name
+
+    @validates('dob', 'reg_date')
+    def validate_date(self, key, date):
+        return datetime.utcfromtimestamp(date)
 
     @validates('phone')
     def validate_name(self, key, phone):

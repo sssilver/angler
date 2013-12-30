@@ -12,11 +12,12 @@ app.directive('scDatepicker', function() {
                 'startView': startView,
                 'autoclose': true
             }).on('changeDate', function(e) {
-                var outputDate = new Date(e.date);
+                var outputDate = +new Date(e.date);
 
-                var n = outputDate.getTime();
+                // Apparently, Javascript timestamps are in milliseconds
+                var unix_timestamp = Math.round(outputDate / 1000);
 
-                ngModelCtrl.$setViewValue(n);
+                ngModelCtrl.$setViewValue(unix_timestamp);
                 scope.$apply();
             });;
         }
