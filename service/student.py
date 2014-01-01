@@ -39,7 +39,7 @@ class Student(Base):
     )
 
     # Interview
-    ivw_date = Column(DateTime, default=datetime.now)
+    ivw_date = Column(DateTime)
     ivw_teacher_id = Column(Integer, ForeignKey('teacher.id'))
     ivw_teacher = relationship(
         'Teacher',
@@ -67,8 +67,8 @@ class Student(Base):
         assert name.isalpha()
         return name
 
-    @validates('dob', 'reg_date')
-    def validate_date(self, key, date):
+    @validates('dob', 'reg_date', 'ivw_date')
+    def validate_datetime(self, key, date):
         return datetime.utcfromtimestamp(date)
 
     @validates('phone')
