@@ -1,13 +1,15 @@
 from datetime import datetime
-
-from database import db_session, init_db
+import logging
 
 from flask import Flask, jsonify, request
+
+from database import db_session, init_db
 from flask.ext.cors import origin
 
-from student import Student, Availability
+from model.student import Student, Availability
+from model.level import Level
+from model.teacher import Teacher
 
-import logging
 logging.basicConfig()
 logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
 
@@ -35,6 +37,21 @@ def students():
                 'range_to': int(range[1])
             }))
 
+    try:
+        data['dob'] = datetime.utcfromtimestamp(data['dob'])
+    except KeyError:
+        pass
+
+    try:
+        data['reg_date'] = datetime.utcfromtimestamp(data['reg_date'])
+    except KeyError:
+        pass
+
+    try:
+        data['ivw_date'] = datetime.utcfromtimestamp(data['ivw_date'])
+    except KeyError:
+        pass
+
     data['availability'] = availability
 
     new_student = Student(**data)
@@ -43,6 +60,24 @@ def students():
 
     try:
         db_session.add(new_student)
+        db_session.commit()
+    except:
+        db_session.rollback()
+        raise
+    finally:
+        db_session.close()
+
+    return jsonify(request.get_json())
+
+
+@app.route("/levels", methods=['PUT'])
+@origin(origin='*', headers='Content-Type')
+def levels():
+    data = dict(request.get_json())
+    new_level = Level(**data)
+
+    try:
+        db_session.add(new_level)
         db_session.commit()
     except:
         db_session.rollback()

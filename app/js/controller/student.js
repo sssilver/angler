@@ -3,44 +3,25 @@ app.controller(
         ['$scope', '$log', 'Student', 'TIMES', 'DAYS', '$modal',
             function($scope, $log, Student, TIMES, DAYS, $modal) {
 
-    $scope.open = function () {
-
+    $scope.dlgAddStudent = function() {
         var modalInstance = $modal.open({
             templateUrl: 'template/form-student.html',
-            controller: 'StudentFormCtrl',
-            resolve: {
-                items: function () {
-                    return $scope.items;
-                }
-            }
+            controller: 'StudentFormCtrl'
         });
 
-        modalInstance.result.then(function (selectedItem) {
-            $scope.selected = selectedItem;
-        }, function () {
+        modalInstance.result.then(function(student) {
+            student.$save();
+        }, function() {
             $log.info('Modal dismissed at: ' + new Date());
         });
     };
-
-
-
-    $scope.dlgAddStudent = function() {
-        $scope.isShowDlgAddStudent = true;
-        console.log('must show now');
-    }
-
-    $scope.registerStudent = function() {
-
-        $scope.student.$save();
-    }
-
 }]);
 
 
 app.controller(
     'StudentFormCtrl',
-        ['$scope', 'Student', 'TIMES', 'DAYS',
-            function($scope, Student, TIMES, DAYS) {
+        ['$scope', '$modalInstance', 'Student', 'TIMES', 'DAYS',
+            function($scope, $modalInstance, Student, TIMES, DAYS) {
 
 
     $scope.times = TIMES;
@@ -61,4 +42,13 @@ app.controller(
         console.log('Removing availability #' + availability.toString() + ' from day ' + day.toString());
         $scope.student.availabilities[day].splice(availability, 1);
     }
+
+    $scope.ok = function() {
+        $modalInstance.close($scope.student);
+    }
+
+    $scope.cancel = function() {
+        $modalInstance.dismiss('cancel');
+    };
+
 }]);

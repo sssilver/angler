@@ -59,37 +59,3 @@ app.directive('scInteger', function() {
         }
     };
 });
-
-
-app.directive('bsModal', function() {
-    var link = function(scope, element, attrs) {
-        /*
-        scope.toggleModal = function(show) {
-            if (show)
-                $(element).modal('show');
-            else
-                $(element).modal('hide');
-        }
-
-        scope.$watch(attrs.bsModalShow, function (newValue, oldValue) {
-            scope.toggleModal(newValue, attrs.$$element);
-        });
-        */
-
-        $(element).modal('show');
-
-        // Update the visible value when the dialog is closed through UI actions (Ok, cancel, etc.)
-        element.bind('hide.bs.modal', function () {
-            $parse(attrs.bsModalShow).assign(scope, false);
-            if (!scope.$$phase && !scope.$root.$$phase)
-                scope.$apply();
-        });
-    };
-
-    return {
-        link: link,
-        restrict: 'A',
-        templateUrl: 'template/modal.html',
-        transclude: true
-    };
-})

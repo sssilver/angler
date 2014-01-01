@@ -69,7 +69,8 @@ class Student(Base):
 
     @validates('dob', 'reg_date', 'ivw_date')
     def validate_datetime(self, key, date):
-        return datetime.utcfromtimestamp(date)
+        assert isinstance(date, datetime)
+        return date
 
     @validates('phone')
     def validate_name(self, key, phone):
@@ -90,15 +91,3 @@ class Availability(Base):
     day = Column(SmallInteger)  # 0..6 for each weekday
     range_from = Column(Integer)
     range_to = Column(Integer)
-
-
-class Teacher(Base):
-    __tablename__ = 'teacher'
-
-    id = Column(Integer, primary_key=True)
-
-
-class Level(Base):
-    __tablename__ = 'level'
-
-    id = Column(Integer, primary_key=True)
