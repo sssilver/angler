@@ -1,3 +1,5 @@
+import config
+
 from datetime import datetime
 import logging
 
@@ -14,6 +16,7 @@ logging.basicConfig()
 logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
 
 app = Flask(__name__)
+app.config.from_object('config')
 
 
 @app.route('/init', methods=['GET'])
@@ -21,7 +24,7 @@ def init():
     init_db()
     return 'OK'
 
-@app.route("/students", methods=['PUT'])
+@app.route('/students', methods=['PUT'])
 @origin(origin='*', headers='Content-Type')
 def students():
     data = dict(request.get_json())
@@ -70,9 +73,9 @@ def students():
     return jsonify(request.get_json())
 
 
-@app.route("/levels", methods=['PUT'])
+@app.route('/levels', methods=['PUT'])
 @origin(origin='*', headers='Content-Type')
-def levels():
+def save_level():
     data = dict(request.get_json())
     new_level = Level(**data)
 
@@ -87,5 +90,12 @@ def levels():
 
     return jsonify(request.get_json())
 
-if __name__ == "__main__":
-    app.run(debug=True)
+@app.route('/levels', methods=['GET'])
+@origin(origin='*', headers='Content-Type')
+def list_levels():
+    levels = db_session.query(Level).order_by(Level.title).all()
+
+    return jsonify(levels)
+
+if __name__ == '__main__':
+    app.run()
