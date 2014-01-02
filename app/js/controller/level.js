@@ -10,12 +10,30 @@ app.controller(
         });
 
         modalInstance.result.then(function(level) {
-            level.$save();
+            level.$post(function() {
+                $scope.refresh();
+            });
         }, function() {
             $log.info('Modal dismissed at: ' + new Date());
         });
     };
 
+    $scope.refresh = function() {
+        levels = Level.query(function() {
+            $scope.levels = levels;
+            console.log($scope.levels);
+        });
+    }
+
+    $scope.remove = function(id) {
+        if (confirm('Are you sure?')) {
+            Level.remove({'id': id}, function() {
+                $scope.refresh();
+            });
+        }
+    }
+
+    $scope.refresh();
 }]);
 
 

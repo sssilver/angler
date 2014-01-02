@@ -11,6 +11,9 @@ from sqlalchemy.types import Boolean
 from sqlalchemy.schema import Column, ForeignKey
 from sqlalchemy.orm import validates, relationship
 
+from teacher import Teacher
+from level import Level
+
 
 class Student(Base):
     __tablename__ = 'student'
@@ -61,6 +64,9 @@ class Student(Base):
     previous_schools = Column(String)
     needs = Column(String)
     focus = Column(String)
+
+    def serialize(self):
+        return {'a': 'b'}
 
     @validates('fname', 'lname')
     def validate_name(self, key, name):

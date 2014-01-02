@@ -8,3 +8,19 @@
     </div>
   </h1>
 </div>
+
+<table class="table table-striped">
+  <tr>
+    <th>Level title</th>
+    <th></th>
+  </tr>
+
+  <tr ng-repeat="level in levels.objects">
+    <td>{{level.title}}</td>
+    <td>
+      <div class="pull-right">
+        <button class="btn btn-danger btn-xs" ng-click="remove(level.id)"><span class="glyphicon-white glyphicon glyphicon-remove"></span></button>
+      </div>
+    </td>
+  </tr>
+</table>

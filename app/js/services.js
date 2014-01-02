@@ -58,13 +58,13 @@ app.factory('Student', function($resource) {
 
 
 app.factory('Level', function($resource) {
-    return $resource('http://localhost\\:5000/levels/:level_id', {}, {
+    return $resource('http://localhost\\:5000/api/level/:id', {}, {
         query: {
             method: 'GET',
             params: {
-                level_id: ''
+                id: ''
             },
-            isArray: true
+            isArray: false
         },
 
         post: {

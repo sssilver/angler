@@ -1,16 +1,15 @@
-import config
-
 from datetime import datetime
 import logging
 
 from flask import Flask, jsonify, request
+from api import create_api_blueprints
 
 from database import db_session, init_db
 from flask.ext.cors import origin
+from flask.ext.restless import APIManager
 
 from model.student import Student, Availability
 from model.level import Level
-from model.teacher import Teacher
 
 logging.basicConfig()
 logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
@@ -18,12 +17,19 @@ logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
 app = Flask(__name__)
 app.config.from_object('config')
 
+manager = APIManager(app, session=db_session)
+
+blueprints = create_api_blueprints(manager, [Level])
+for blueprint in blueprints:
+    app.register_blueprint(blueprint)
+
 
 @app.route('/init', methods=['GET'])
 def init():
     init_db()
     return 'OK'
 
+"""
 @app.route('/students', methods=['PUT'])
 @origin(origin='*', headers='Content-Type')
 def students():
@@ -70,7 +76,7 @@ def students():
     finally:
         db_session.close()
 
-    return jsonify(request.get_json())
+    return scool_jsonify(request.get_json())
 
 
 @app.route('/levels', methods=['PUT'])
@@ -95,7 +101,8 @@ def save_level():
 def list_levels():
     levels = db_session.query(Level).order_by(Level.title).all()
 
-    return jsonify(levels)
+    return scool_jsonify(levels)
+"""
 
 if __name__ == '__main__':
     app.run()
