@@ -19,7 +19,7 @@ app.config.from_object('config')
 
 manager = APIManager(app, session=db_session)
 
-blueprints = create_api_blueprints(manager, [Level])
+blueprints = create_api_blueprints(manager, [Level, Student])
 for blueprint in blueprints:
     app.register_blueprint(blueprint)
 

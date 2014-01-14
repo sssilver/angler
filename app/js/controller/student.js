@@ -10,11 +10,30 @@ app.controller(
         });
 
         modalInstance.result.then(function(student) {
-            student.$save();
+            student.$post(function() {
+                $scope.refresh();
+            });
         }, function() {
             $log.info('Modal dismissed at: ' + new Date());
         });
     };
+
+    $scope.refresh = function() {
+        students = Student.query(function() {
+            $scope.students = students;
+            console.log($scope.students);
+        });
+    }
+
+    $scope.remove = function(id) {
+        if (confirm('Are you sure?')) {
+            Student.remove({'id': id}, function() {
+                $scope.refresh();
+            });
+        }
+    }
+
+    $scope.refresh();
 }]);
 
 

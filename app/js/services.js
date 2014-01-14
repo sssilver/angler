@@ -33,13 +33,13 @@ app.factory('TIMES', [function(value) {
 
 
 app.factory('Student', function($resource) {
-    return $resource('http://localhost\\:5000/students/:student_id', {}, {
+    return $resource('http://localhost\\:5000/api/student/:id', {}, {
         query: {
             method: 'GET',
             params: {
-                student_id: ''
+                id: ''
             },
-            isArray: true
+            isArray: false
         },
 
         post: {
