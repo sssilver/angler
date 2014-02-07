@@ -3,16 +3,35 @@ app.controller(
         ['$scope', '$log', '$modal', 'Level', 'TIMES', 'DAYS',
             function($scope, $log, $modal, Level, TIMES, DAYS) {
 
-    $scope.dlgAddLevel = function() {
+    $scope.dlgLevel = function(level) {
+
+        if (level)
+            $scope.level = level;
+        else
+            $scope.level = {};
+
         var modalInstance = $modal.open({
             templateUrl: 'template/form-level.html',
-            controller: 'LevelFormCtrl'
+            controller: 'LevelFormCtrl',
+            resolve: {
+                level: function() {
+                    return $scope.level;
+                }
+            }
         });
 
         modalInstance.result.then(function(level) {
-            level.$post(function() {
-                $scope.refresh();
-            });
+            level_service = new Level(level);
+
+            if (level.id) {
+                level_service.$save({'id': level.id}, function() {
+                    $scope.refresh();
+                });
+            } else {
+                level_service.$post(function() {
+                    $scope.refresh();
+                });
+            }
         }, function() {
             $log.info('Modal dismissed at: ' + new Date());
         });
@@ -21,7 +40,6 @@ app.controller(
     $scope.refresh = function() {
         levels = Level.query(function() {
             $scope.levels = levels;
-            console.log($scope.levels);
         });
     }
 
@@ -39,11 +57,10 @@ app.controller(
 
 app.controller(
     'LevelFormCtrl',
-        ['$scope', '$modalInstance', 'Level',
-            function($scope, $modalInstance, Level) {
+        ['$scope', '$modalInstance', 'level',
+            function($scope, $modalInstance, level) {
 
-
-    $scope.level = new Level();
+    $scope.level = level;
 
     $scope.ok = function() {
         $modalInstance.close($scope.level);

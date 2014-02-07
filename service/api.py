@@ -7,7 +7,7 @@ def create_api_blueprints(manager, models):
     for model in models:
         options = {
             'model': model,
-            'methods': ['GET', 'PUT', 'POST', 'DELETE']
+            'methods': ['GET', 'PUT', 'PATCH', 'POST', 'DELETE']
         }
 
         blueprint = manager.create_api_blueprint(**options)

@@ -3,7 +3,6 @@ from database import Base
 from sqlalchemy.types import Integer, String
 
 from sqlalchemy.schema import Column, ForeignKey
-from sqlalchemy.orm import validates, relationship
 
 
 class Level(Base):

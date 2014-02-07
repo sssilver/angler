@@ -2,7 +2,7 @@
   <h1>
     Levels
     <div class="pull-right">
-      <button class="btn btn-primary" ng-click="dlgAddLevel()">
+      <button class="btn btn-primary" ng-click="dlgLevel()">
         Add a new level
       </button>
     </div>
@@ -16,7 +16,7 @@
   </tr>
 
   <tr ng-repeat="level in levels.objects">
-    <td>{{level.title}}</td>
+    <td><a ng-click="dlgLevel(level)">{{level.title}}</a></td>
     <td>
       <div class="pull-right">
         <button class="btn btn-danger btn-xs" ng-click="remove(level.id)"><span class="glyphicon-white glyphicon glyphicon-remove"></span></button>
