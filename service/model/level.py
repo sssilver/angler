@@ -11,8 +11,3 @@ class Level(Base):
 
     id = Column(Integer, primary_key=True)
     title = Column(String(100))
-
-    @validates('title')
-    def validate_title(self, key, name):
-        assert name.isalpha()
-        return name

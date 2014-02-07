@@ -21,8 +21,7 @@ class Student(Base):
     id = Column(Integer, primary_key=True)
 
     # Personal Information
-    fname = Column(String(50))
-    lname = Column(String(50))
+    name = Column(String(50))
     phone = Column(String(50))
     email = Column(String(50))
     address = Column(String(100))
@@ -68,19 +67,10 @@ class Student(Base):
     def serialize(self):
         return {'a': 'b'}
 
-    @validates('fname', 'lname')
-    def validate_name(self, key, name):
-        assert name.isalpha()
-        return name
-
     @validates('dob', 'reg_date', 'ivw_date')
     def validate_datetime(self, key, date):
         assert isinstance(date, datetime)
         return date
-
-    @validates('phone')
-    def validate_name(self, key, phone):
-        return phone
 
     @validates('email')
     def validate_name(self, key, email):

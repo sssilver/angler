@@ -5,7 +5,7 @@ from flask import Flask, jsonify, request
 from api import create_api_blueprints
 
 from database import db_session, init_db
-from flask.ext.cors import origin
+from flask.ext.cors import cross_origin
 from flask.ext.restless import APIManager
 
 from model.student import Student, Availability
