@@ -39,13 +39,18 @@ app.controller(
 
 app.controller(
     'StudentFormCtrl',
-        ['$scope', '$modalInstance', 'Student', 'TIMES', 'DAYS',
-            function($scope, $modalInstance, Student, TIMES, DAYS) {
+        ['$scope', '$modalInstance', 'Student', 'Level', 'TIMES', 'DAYS',
+            function($scope, $modalInstance, Student, Level, TIMES, DAYS) {
 
 
     $scope.times = TIMES;
     $scope.days = DAYS;
     $scope.student = new Student({'availabilities': []});
+
+    levels = Level.query(function() {
+        $scope.levels = levels.objects;
+    });
+
 
     for (var i in DAYS)
         $scope.student.availabilities[i] = [];
