@@ -22,6 +22,5 @@ def add_cors_headers(response):
     response.headers['Access-Control-Allow-Methods'] = 'HEAD, GET, POST, PATCH, PUT, OPTIONS, DELETE'
     response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept'
     response.headers['Access-Control-Allow-Credentials'] = 'true'
-    response.headers['Allow'] = response.headers['Access-Control-Allow-Methods']
 
     return response

@@ -1,18 +1,69 @@
+from datetime import datetime
+
 from cors import add_cors_headers
 
+from model.level import Level
+from model.student import Student, Availability
 
-def create_api_blueprints(manager, models):
+
+def create_api_blueprints(manager):
     blueprints = []
 
-    for model in models:
-        options = {
-            'model': model,
+    # Models to create blueprints for
+    models = [
+        {
+            'model': Level,
             'methods': ['GET', 'PUT', 'PATCH', 'POST', 'DELETE']
+        },
+        {
+            'model': Student,
+            'methods': ['GET', 'PUT', 'PATCH', 'POST', 'DELETE'],
+            'preprocessors': {
+                'POST': [pre_post_student]
+            }
         }
+    ]
 
-        blueprint = manager.create_api_blueprint(**options)
+    # Create the blueprints for each model with their respective options
+    for model in models:
+        blueprint = manager.create_api_blueprint(**model)
         blueprint.after_request(add_cors_headers)
-
         blueprints.append(blueprint)
 
     return blueprints
+
+
+def pre_post_student(data):
+    # Pop the availabilities data out of what came via HTTP
+    availabilities_data = data.pop('availabilities')
+
+    availability = []
+
+    for day, ranges in enumerate(availabilities_data):
+        for range in ranges:
+            availability.append(Availability(**{
+                'day': day,
+                'range_from': int(range[0]),
+                'range_to': int(range[1])
+            }))
+
+    #
+    # Format the dates properly
+    #
+
+    try:
+        data['dob'] = datetime.utcfromtimestamp(data['dob'])
+    except KeyError:
+        pass
+
+    try:
+        data['reg_date'] = datetime.utcfromtimestamp(data['reg_date'])
+    except KeyError:
+        pass
+
+    try:
+        data['ivw_date'] = datetime.utcfromtimestamp(data['ivw_date'])
+    except KeyError:
+        pass
+
+    data['availability'] = availability

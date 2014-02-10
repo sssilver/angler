@@ -1,4 +1,3 @@
-from datetime import datetime
 import logging
 
 from flask import Flask, jsonify, request
@@ -8,7 +7,7 @@ from database import db_session, init_db
 from flask.ext.cors import cross_origin
 from flask.ext.restless import APIManager
 
-from model.student import Student, Availability
+from model.student import Student
 from model.level import Level
 
 logging.basicConfig()
@@ -19,7 +18,7 @@ app.config.from_object('config')
 
 manager = APIManager(app, session=db_session)
 
-blueprints = create_api_blueprints(manager, [Level, Student])
+blueprints = create_api_blueprints(manager)
 for blueprint in blueprints:
     app.register_blueprint(blueprint)
 

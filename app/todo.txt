@@ -1,0 +1,11 @@
+Short term
+==========
+ - If a dialog resolves with an error (e.g. server is not available when creating a student, or the database is not
+accessible), instead of just losing the dialog, show some sort of an informative message, and let the user try again.
+If we close the dialog, the inputted data is being lost
+ - Proper server -> client form validation and error messages for fields and the entire form
+
+Long term
+=========
+ - Student availabilities
+ - Online balance refill for the students

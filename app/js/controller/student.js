@@ -50,8 +50,6 @@ app.controller(
     for (var i in DAYS)
         $scope.student.availabilities[i] = [];
 
-    //$scope.items = Students.query();
-
     $scope.addAvailability = function(day) {
         console.log('Adding availability for day ' + day.toString());
         $scope.student.availabilities[day].push([0, 0]);
