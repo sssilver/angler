@@ -9,22 +9,15 @@ from sqlalchemy.schema import Column, ForeignKey
 from sqlalchemy.orm import validates, relationship
 
 
-class Teacher(Base):
-    __tablename__ = 'teacher'
+class Staff(Base):
+    __tablename__ = 'staff'
 
     id = Column(Integer, primary_key=True)
 
     # Personal Information
-    fname = Column(String(50))
-    lname = Column(String(50))
+    name = Column(String(50))
     phone = Column(String(50))
     email = Column(String(50))
     address = Column(String(100))
     dob = Column(Date)
     gender = Column(Boolean)
-
-
-    @validates('fname', 'lname')
-    def validate_name(self, key, name):
-        assert name.isalpha()
-        return name

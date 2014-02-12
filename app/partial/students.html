@@ -10,6 +10,14 @@
   </h1>
 </div>
 
+<div class="panel panel-info">
+  <div class="panel-body">
+    This page to display a Students stats dashboard and also feature the Add Student button, not just a paginated list
+    of students.
+  </div>
+</div>
+
+
 
 <table class="table table-striped">
   <tr>
@@ -23,7 +31,9 @@
     <td>{{student.email}}</td>
     <td>
       <div class="pull-right">
-        <button class="btn btn-danger btn-xs" ng-click="remove(student.id)"><span class="glyphicon-white glyphicon glyphicon-remove"></span></button>
+        <button class="btn btn-danger btn-xs" ng-click="remove(student.id)">
+          <span class="glyphicon-white glyphicon glyphicon-remove"></span>
+        </button>
       </div>
     </td>
   </tr>

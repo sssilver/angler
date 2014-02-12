@@ -11,7 +11,7 @@ from sqlalchemy.types import Boolean
 from sqlalchemy.schema import Column, ForeignKey
 from sqlalchemy.orm import validates, relationship
 
-from teacher import Teacher
+from staff import Teacher
 from level import Level
 
 
@@ -54,15 +54,20 @@ class Student(Base):
         primaryjoin='and_(Student.ivw_level_id==Level.id)'
     )
 
-    ivw_notes = Column(String)
+    ivw_notes = Column(Text)
 
-    # Notes
-    notes = Column(String)
-    admin_notes = Column(String)
-    teacher_notes = Column(String)
-    previous_schools = Column(String)
-    needs = Column(String)
-    focus = Column(String)
+    # Notes & comments
+    note = Column(String)
+
+    comments = relationship(
+        'Comment',
+        primaryjoin='and_(Student.id==Comment.student_id)',
+        back_populates='student'
+    )
+
+    previous_schools = Column(Text)
+    needs = Column(Text)
+    focus = Column(Text)
 
     def serialize(self):
         return {'a': 'b'}

@@ -25,83 +25,13 @@ for blueprint in blueprints:
 
 @app.route('/init', methods=['GET'])
 def init():
+    """
+    Initialize the database tables
+    """
+
     init_db()
     return 'OK'
 
-"""
-@app.route('/students', methods=['PUT'])
-@origin(origin='*', headers='Content-Type')
-def students():
-    data = dict(request.get_json())
-    availabilities_data = data.pop('availabilities')
-
-    availability = []
-
-    for day, ranges in enumerate(availabilities_data):
-        for range in ranges:
-            availability.append(Availability(**{
-                'day': day,
-                'range_from': int(range[0]),
-                'range_to': int(range[1])
-            }))
-
-    try:
-        data['dob'] = datetime.utcfromtimestamp(data['dob'])
-    except KeyError:
-        pass
-
-    try:
-        data['reg_date'] = datetime.utcfromtimestamp(data['reg_date'])
-    except KeyError:
-        pass
-
-    try:
-        data['ivw_date'] = datetime.utcfromtimestamp(data['ivw_date'])
-    except KeyError:
-        pass
-
-    data['availability'] = availability
-
-    new_student = Student(**data)
-
-    print new_student
-
-    try:
-        db_session.add(new_student)
-        db_session.commit()
-    except:
-        db_session.rollback()
-        raise
-    finally:
-        db_session.close()
-
-    return scool_jsonify(request.get_json())
-
-
-@app.route('/levels', methods=['PUT'])
-@origin(origin='*', headers='Content-Type')
-def save_level():
-    data = dict(request.get_json())
-    new_level = Level(**data)
-
-    try:
-        db_session.add(new_level)
-        db_session.commit()
-    except:
-        db_session.rollback()
-        raise
-    finally:
-        db_session.close()
-
-    return jsonify(request.get_json())
-
-@app.route('/levels', methods=['GET'])
-@origin(origin='*', headers='Content-Type')
-def list_levels():
-    levels = db_session.query(Level).order_by(Level.title).all()
-
-    return scool_jsonify(levels)
-"""
 
 if __name__ == '__main__':
     app.run()
