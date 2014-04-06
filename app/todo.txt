@@ -22,3 +22,5 @@ transaction
  - student
  - time
  - type (0: cash, 1: card, 2: online, 3: refund, )
+
+ ! Discuss accounting with Lucy

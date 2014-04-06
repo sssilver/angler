@@ -3,7 +3,7 @@ import re
 
 from database import Base
 
-from sqlalchemy.types import String
+from sqlalchemy.types import String, Text
 from sqlalchemy.types import Integer, SmallInteger
 from sqlalchemy.types import Date, DateTime
 from sqlalchemy.types import Boolean
@@ -11,7 +11,7 @@ from sqlalchemy.types import Boolean
 from sqlalchemy.schema import Column, ForeignKey
 from sqlalchemy.orm import validates, relationship
 
-from staff import Teacher
+from staff import Staff
 from level import Level
 
 
@@ -42,10 +42,10 @@ class Student(Base):
 
     # Interview
     ivw_date = Column(DateTime)
-    ivw_teacher_id = Column(Integer, ForeignKey('teacher.id'))
+    ivw_teacher_id = Column(Integer, ForeignKey('staff.id'))
     ivw_teacher = relationship(
-        'Teacher',
-        primaryjoin='and_(Student.ivw_teacher_id==Teacher.id)'
+        'Staff',
+        primaryjoin='and_(Student.ivw_teacher_id==Staff.id)'
     )
 
     ivw_level_id = Column(Integer, ForeignKey('level.id'))
