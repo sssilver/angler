@@ -1,7 +1,7 @@
 app.controller(
     'LevelsCtrl',
-        ['$scope', '$log', '$modal', 'Level', 'TIMES', 'DAYS',
-            function($scope, $log, $modal, Level, TIMES, DAYS) {
+        ['$scope', '$log', '$modal', 'Model', 'TIMES', 'DAYS',
+            function($scope, $log, $modal, Model, TIMES, DAYS) {
 
     $scope.dlgLevel = function(level) {
 
@@ -38,7 +38,7 @@ app.controller(
     };
 
     $scope.refresh = function() {
-        levels = Level.query(function() {
+        levels = Model.query({'model': 'level'}, function() {
             $scope.levels = levels;
         });
     }

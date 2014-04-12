@@ -31,7 +31,7 @@ class Transaction(Base):
     staff_id = Column(Integer, ForeignKey('staff.id'))
     staff = relationship(
         'Staff',
-        primaryjoin='and_(Payment.staff_id==Staff.id)'
+        primaryjoin='and_(Transaction.staff_id==Staff.id)'
     )
 
     # How much?

@@ -1,0 +1,26 @@
+<div class="page-header">
+  <h1>
+    Courses
+    <div class="pull-right">
+      <button class="btn btn-primary" ng-click="dlgCourse()">
+        Add a new course
+      </button>
+    </div>
+  </h1>
+</div>
+
+<table class="table table-striped">
+  <tr>
+    <th>Course title</th>
+    <th></th>
+  </tr>
+
+  <tr ng-repeat="course in courses.objects">
+    <td><a ng-click="dlgCourse(course)">{{course.title}}</a></td>
+    <td>
+      <div class="pull-right">
+        <button class="btn btn-danger btn-xs" ng-click="remove(course.id)"><span class="glyphicon-white glyphicon glyphicon-remove"></span></button>
+      </div>
+    </td>
+  </tr>
+</table>

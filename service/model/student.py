@@ -13,6 +13,7 @@ from sqlalchemy.orm import validates, relationship
 
 from staff import Staff
 from level import Level
+from comment import Comment
 
 
 class Student(Base):

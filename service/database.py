@@ -18,6 +18,7 @@ def init_db():
     from model.staff import Staff
     from model.student import Student
     from model.company import Company
+    from model.course import Course
     from model.transaction import Transaction, StudentTransaction, CompanyTransaction
 
     Base.metadata.create_all(bind=db_engine)
