@@ -142,7 +142,16 @@ app.controller(
         console.log(course);
 
         levels = Model.query(
-            {model: 'level', course_id: course.id},
+            {
+                model: 'level',
+                q: {
+                    filters: [{
+                        name: 'course_id',
+                        op: 'eq',
+                        val: course.id
+                    }]
+                }
+            },
             function() {
                 $scope.levels = levels.objects;
             }
