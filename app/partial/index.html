@@ -7,3 +7,17 @@
         </button>
 
         <pre>{{singleModel}}</pre>
+
+        zzz: {{zzz}}
+
+        <!--select
+            multiple="multiple"
+            ng-multiple="true"
+            ng-model="zzz"
+            ng-options="test.id as test.name for test in tests"
+            sc-multiselect>
+        </select-->
+
+
+        <select ui-select2 ng-model="zzz" data-placeholder="Pick a number" ng-options="test.id as test.name for test in tests">
+        </select>

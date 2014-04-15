@@ -83,11 +83,13 @@ app.factory('Level', function($resource) {
 
 app.factory('Model', function($resource) {
     return $resource('http://localhost\\:5000/api/:model/:id', {}, {
+        get: {
+            method: 'GET',
+            isArray: false
+        },
+
         query: {
             method: 'GET',
-            params: {
-                id: ''
-            },
             isArray: false
         },
 

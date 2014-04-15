@@ -16,9 +16,10 @@
   </tr>
 
   <tr ng-repeat="course in courses.objects">
-    <td><a ng-click="dlgCourse(course)">{{course.title}}</a></td>
+    <td><a ng-click="dlgCourse(course)">{{course.title}}</a> <p>{{course}}</p></td>
     <td>
       <div class="pull-right">
+        <button class="btn btn-xs" ng-click="dlgLevels(course)"><span class="glyphicon-white glyphicon glyphicon-tasks"></span></button>
         <button class="btn btn-danger btn-xs" ng-click="remove(course.id)"><span class="glyphicon-white glyphicon glyphicon-remove"></span></button>
       </div>
     </td>

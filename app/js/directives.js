@@ -59,3 +59,37 @@ app.directive('scInteger', function() {
         }
     };
 });
+
+app.directive('scMultiselect', [function() {
+    return {
+        link: function(scope, element, attrs) {
+            //element = $(element);
+            //console.log(element);
+
+            element.multiselect({
+                enableFiltering: true,
+
+                // Replicate the native functionality on the elements so
+                // that Angular can handle the changes for us
+                onChange: function(optionElement, checked) {
+                    optionElement.prop('selected', false);
+
+                    if (checked)
+                        optionElement.prop('selected', true);
+
+                    element.change();
+                }
+            });
+
+            scope.$watch(function () {
+                return element[0].length;
+            }, function () {
+                element.multiselect('rebuild');
+            });
+
+            scope.$watch(attrs.ngModel, function() {
+                element.multiselect('refresh');
+            });
+        }
+    };
+}]);

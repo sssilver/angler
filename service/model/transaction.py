@@ -49,7 +49,7 @@ class Transaction(Base):
 
 
 class CompanyTransaction(Transaction):
-    __mapper_args__ = {'polymorphic_identity': 'company'}
+    __mapper_args__ = {'polymorphic_identity': 'tx_company'}
 
     company_id = Column(Integer, ForeignKey('company.id'))
     company = relationship(
@@ -59,7 +59,7 @@ class CompanyTransaction(Transaction):
 
 
 class StudentTransaction(Transaction):
-    __mapper_args__ = {'polymorphic_identity': 'student'}
+    __mapper_args__ = {'polymorphic_identity': 'tx_student'}
 
     student_id = Column(Integer, ForeignKey('student.id'))
     student = relationship(

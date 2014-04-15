@@ -1,0 +1,42 @@
+<div class="modal-header">
+  <h3>
+    Levels of {{course.title}}
+    <div class="pull-right">
+      <button class="btn btn-primary" ng-click="dlgLevel(course)">
+        Add a new level
+      </button>
+    </div>
+
+  </h3>
+</div>
+<div class="modal-body">
+
+
+  <form role="form">
+    <table class="table table-striped">
+      <tr>
+        <th>Level title</th>
+        <th>Teachers</th>
+        <th></th>
+      </tr>
+
+      <tr ng-repeat="level in levels">
+        <td><a ng-click="dlgLevel(course, level)">{{level.title}}</a></td>
+        <td>
+          <span ng-repeat="teacher in level.teachers">{{teacher.name}}</span>
+        </td>
+        <td>
+          <div class="pull-right">
+            <button class="btn btn-danger btn-xs" ng-click="remove(level.id)"><span class="glyphicon-white glyphicon glyphicon-remove"></span></button>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </form>
+
+
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" ng-click="ok()">OK</button>
+  <button class="btn" ng-click="cancel()">Cancel</button>
+</div>

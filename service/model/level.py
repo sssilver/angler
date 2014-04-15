@@ -2,10 +2,16 @@ from database import Base
 
 from sqlalchemy.types import Integer, String
 
-from sqlalchemy.schema import Column, ForeignKey
+from sqlalchemy.schema import Column, ForeignKey, Table
 from sqlalchemy.orm import relationship
 
 from course import Course
+
+
+level_staff_table = Table('level_staff', Base.metadata,
+    Column('level_id', Integer, ForeignKey('level.id')),
+    Column('staff_id', Integer, ForeignKey('staff.id'))
+)
 
 
 class Level(Base):
@@ -18,5 +24,13 @@ class Level(Base):
     course_id = Column(Integer, ForeignKey('course.id'))
     course = relationship(
         'Course',
-        primaryjoin='and_(Level.course_id==Course.id)'
+        primaryjoin='and_(Level.course_id==Course.id)',
+        join_depth=30  # Up to the level's teachers
+    )
+
+    # Teachers who can teach this level
+    teachers = relationship(
+        'Staff',
+        secondary=level_staff_table,
+        join_depth=30  # Up to the level's teachers
     )
