@@ -1,7 +1,11 @@
 body {
-	padding: 20px;
+    padding: 20px;
 }
 
 .nav, .pagination, .carousel a {
-	cursor: pointer;
+    cursor: pointer;
+}
+
+a {
+    cursor: pointer;
 }

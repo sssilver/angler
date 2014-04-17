@@ -90,11 +90,13 @@ app.controller(
     }
 
     $scope.dlgLevel = function(course, level) {
-
-        if (level)
+        if (level) {
             $scope.level = level;
-        else
+        } else {
+            console.log('new level dialog');
             $scope.level = {};
+            $scope.level.course = {id: course.id};
+        }
 
         var modalInstance = $modal.open({
             templateUrl: 'template/form-level.html',
@@ -107,6 +109,11 @@ app.controller(
         });
 
         modalInstance.result.then(function(level) {
+            // Transform level.teachers
+            level.teachers = level.teachers.map(function(teacher) {
+                return {id: teacher}
+            });
+
             level_service = new Model(level);
 
             if (level.id) {
@@ -167,7 +174,13 @@ app.controller(
         ['$scope', '$modalInstance', 'level', 'Model',
             function($scope, $modalInstance, level, Model) {
 
-    $scope.level = level;
+    $scope.level = angular.copy(level);
+
+    if (level.teachers) {
+        $scope.level.teachers = level.teachers.map(function(teacher) {
+            return teacher.id
+        });
+    }
 
     teachers = Model.query(
         {model: 'staff'},
