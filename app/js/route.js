@@ -5,6 +5,7 @@ app.config(['$routeProvider', function($routeProvider) {
 
         when('/lessons', {templateUrl: 'partial/lessons.html', controller: 'LessonsCtrl'}).
         when('/students', {templateUrl: 'partial/students.html', controller: 'StudentsCtrl'}).
+        when('/students/:student_id', {templateUrl: 'partial/student.html', controller: 'StudentsCtrl'}).
         when('/students/new', {templateUrl: 'partial/new-student.html', controller: 'StudentsCtrl'}).
         when('/teachers', {templateUrl: 'partial/teachers.html', controller: 'TeachersCtrl'}).
 

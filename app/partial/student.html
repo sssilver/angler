@@ -1,0 +1,18 @@
+<div class="page-header">
+  <h1>
+    {{student.name}}
+    <div class="pull-right">
+      <!-- Button trigger modal -->
+      <button class="btn btn-primary" ng-click="dlgPayment()">
+        Make a payment
+      </button>
+    </div>
+  </h1>
+</div>
+
+
+<ul>
+  <li ng-repeat="(attribute, value) in student">
+    {{attribute}}: <em>{{value}}</em>
+  </li>
+</ul>

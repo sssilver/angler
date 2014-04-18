@@ -1,7 +1,21 @@
 app.controller(
     'StudentsCtrl',
-        ['$scope', '$log', 'Student', 'TIMES', 'DAYS', '$modal',
-            function($scope, $log, Student, TIMES, DAYS, $modal) {
+        ['$scope', '$routeParams', '$log', 'Student', 'Model', 'TIMES', 'DAYS', '$modal',
+            function($scope, $routeParams, $log, Student, Model, TIMES, DAYS, $modal) {
+
+    if ($routeParams.student_id) {  // Detail view?
+        // Load the requested student
+        student = Model.query(
+            {
+                model: 'student',
+                id: $routeParams.student_id
+            },
+            function() {
+                $scope.student = student;
+                console.log(student);
+            }
+        );
+    }
 
     $scope.dlgAddStudent = function() {
         var modalInstance = $modal.open({
@@ -31,6 +45,26 @@ app.controller(
                 $scope.refresh();
             });
         }
+    }
+
+    $scope.dlgEditStudent = function(student) {
+        // TODO
+        var modalInstance = $modal.open({
+            templateUrl: 'template/form-student.html',
+            controller: 'StudentFormCtrl'
+        });
+    }
+
+    $scope.dlgPayment = function(student) {
+        var modalInstance = $modal.open({
+            templateUrl: 'template/form-payment.html',
+            controller: 'StudentPaymentDialogCtrl',
+            resolve: {
+                student: function() {
+                    return $scope.student;
+                }
+            }
+        });
     }
 
     $scope.refresh();
@@ -72,5 +106,23 @@ app.controller(
     $scope.cancel = function() {
         $modalInstance.dismiss('cancel');
     };
+
+}]);
+
+
+app.controller(
+    'StudentPaymentDialogCtrl',
+        ['$scope', '$log', '$modalInstance', '$modal', 'student', 'Model',
+            function($scope, $log, $modalInstance, $modal, student, Model) {
+
+    $scope.student = student;
+
+    $scope.remove = function(level_id) {
+        if (confirm('Are you sure?')) {
+            Model.remove({'model': 'level', 'id': level_id}, function() {
+                $scope.$parent.refresh();
+            });
+        }
+    }
 
 }]);
