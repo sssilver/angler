@@ -7,15 +7,15 @@
 
   <form role="form" class="form-horizontal">
     <div class="form-group">
-      <label class="col-sm-2 control-label">Name</label>
-      <div class="col-sm-10">
+      <label class="col-sm-3 control-label">Name</label>
+      <div class="col-sm-9">
         <p class="form-control-static">{{student.name}}</p>
       </div>
     </div>
 
     <div class="form-group">
-      <label class="col-sm-2 control-label">Balance</label>
-      <div class="col-sm-10">
+      <label class="col-sm-3 control-label">Balance</label>
+      <div class="col-sm-9">
         <p class="form-control-static">
           {{student.balance}}
           <span ng-if="transaction.amount" class="label label-info">
@@ -27,6 +27,17 @@
 
     <div class="panel panel-default">
       <div class="panel-body">
+        <div class="form-group">
+          <label for="payment_type" class="col-sm-3 control-label">Payment type</label>
+          <div class="col-sm-9">
+            <select id="payment_type"
+                    class="form-control"
+                    ng-model="transaction.type">
+              <option value="cash">Cash</option>
+            </select>
+          </div>
+        </div>
+
         <input id="payment_amount"
                type="number"
                class="form-control text-center input-lg"

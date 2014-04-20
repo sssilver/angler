@@ -7,6 +7,7 @@ from model.course import Course
 from model.level import Level
 from model.student import Student, Availability
 from model.company import Company
+from model.transaction import StudentTransaction
 
 
 def create_api_blueprints(manager):
@@ -31,6 +32,14 @@ def create_api_blueprints(manager):
             'methods': ['GET', 'PUT', 'PATCH', 'POST', 'DELETE'],
             'preprocessors': {
                 'POST': [pre_post_student]
+            }
+        },
+        {
+            'model': StudentTransaction,
+            'collection_name': 'student-transaction',
+            'methods': ['GET', 'PUT', 'PATCH', 'POST', 'DELETE'],
+            'preprocessors': {
+                'POST': [pre_post_transaction]
             }
         }
     ]
@@ -78,3 +87,8 @@ def pre_post_student(data):
         pass
 
     data['availability'] = availability
+
+
+def pre_post_transaction(data):
+    data['time'] = str(datetime.utcnow())
+    data['staff_id'] = 1  # TODO: Use the actual logged in staff data

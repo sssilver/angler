@@ -4,17 +4,21 @@ app.controller(
             function($scope, $routeParams, $log, Student, Model, TIMES, DAYS, $modal) {
 
     if ($routeParams.student_id) {  // Detail view?
-        // Load the requested student
-        student = Model.query(
-            {
-                model: 'student',
-                id: $routeParams.student_id
-            },
-            function() {
-                $scope.student = student;
-                console.log(student);
-            }
-        );
+        $scope.refresh_student = function() {
+            // Load the requested student
+            student = Model.query(
+                {
+                    model: 'student',
+                    id: $routeParams.student_id
+                },
+                function() {
+                    $scope.student = student;
+                    console.log(student);
+                }
+            );
+        }
+
+        $scope.refresh_student();
     }
 
     $scope.dlgAddStudent = function() {
@@ -64,6 +68,19 @@ app.controller(
                     return $scope.student;
                 }
             }
+        });
+
+        modalInstance.result.then(function(transaction) {
+            transaction_service = new Model(transaction);
+
+            transaction_service.$post(
+                {'model': 'student-transaction'},
+                function() {
+                    $scope.refresh_student();
+                }
+            );
+        }, function() {
+            $log.info('Modal dismissed at: ' + new Date());
         });
     }
 
@@ -116,6 +133,9 @@ app.controller(
             function($scope, $log, $modalInstance, $modal, student, Model) {
 
     $scope.student = student;
+    $scope.transaction = {
+        student_id: student.id
+    }
 
     $scope.remove = function(level_id) {
         if (confirm('Are you sure?')) {
@@ -124,5 +144,13 @@ app.controller(
             });
         }
     }
+
+    $scope.ok = function() {
+        $modalInstance.close($scope.transaction);
+    }
+
+    $scope.cancel = function() {
+        $modalInstance.dismiss('cancel');
+    };
 
 }]);
