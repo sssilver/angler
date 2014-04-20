@@ -24,8 +24,7 @@ class Level(Base):
     course_id = Column(Integer, ForeignKey('course.id'))
     course = relationship(
         'Course',
-        primaryjoin='and_(Level.course_id==Course.id)',
-        join_depth=30  # Up to the level's teachers
+        primaryjoin='and_(Level.course_id==Course.id)'
     )
 
     # Teachers who can teach this level

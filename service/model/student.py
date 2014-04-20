@@ -10,10 +10,13 @@ from sqlalchemy.types import Boolean
 
 from sqlalchemy.schema import Column, ForeignKey
 from sqlalchemy.orm import validates, relationship
+from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy.sql import select, func
 
 from staff import Staff
 from level import Level
 from comment import Comment
+from transaction import StudentTransaction
 
 
 class Student(Base):
@@ -70,8 +73,23 @@ class Student(Base):
     needs = Column(Text)
     focus = Column(Text)
 
-    def serialize(self):
-        return {'a': 'b'}
+    transactions = relationship(
+        'StudentTransaction',
+        primaryjoin='and_(Student.id==StudentTransaction.student_id)',
+        back_populates='student'
+    )
+
+
+    @hybrid_property
+    def balance(self):
+        return sum([transaction.amount for transaction in self.transactions])
+
+    @balance.expression
+    def balance(cls):
+        return select([
+            func.sum(StudentTransaction.amount)
+        ]).where(StudentTransaction.student_id==cls.id).as_scalar()
+
 
     @validates('dob', 'reg_date', 'ivw_date')
     def validate_datetime(self, key, date):

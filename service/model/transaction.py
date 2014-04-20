@@ -49,20 +49,20 @@ class Transaction(Base):
 
 
 class CompanyTransaction(Transaction):
-    __mapper_args__ = {'polymorphic_identity': 'tx_company'}
+    __mapper_args__ = {'polymorphic_identity': 'company'}
 
     company_id = Column(Integer, ForeignKey('company.id'))
     company = relationship(
         'Company',
-        primaryjoin='and_(Transaction.company_id=Company.id)'
+        primaryjoin='and_(CompanyTransaction.company_id==Company.id)'
     )
 
 
 class StudentTransaction(Transaction):
-    __mapper_args__ = {'polymorphic_identity': 'tx_student'}
+    __mapper_args__ = {'polymorphic_identity': 'student'}
 
     student_id = Column(Integer, ForeignKey('student.id'))
     student = relationship(
         'Student',
-        primaryjoin='and_(Transaction.student_id=Student.id)'
+        primaryjoin='and_(StudentTransaction.student_id==Student.id)'
     )

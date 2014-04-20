@@ -6,6 +6,7 @@ from model.staff import Staff
 from model.course import Course
 from model.level import Level
 from model.student import Student, Availability
+from model.company import Company
 
 
 def create_api_blueprints(manager):
