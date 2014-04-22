@@ -4,9 +4,13 @@ app.config(['$routeProvider', function($routeProvider) {
         when('/login', {templateUrl: 'partial/login.html', controller: 'LoginCtrl'}).
 
         when('/lessons', {templateUrl: 'partial/lessons.html', controller: 'LessonsCtrl'}).
+
         when('/students', {templateUrl: 'partial/students.html', controller: 'StudentsCtrl'}).
         when('/students/:student_id', {templateUrl: 'partial/student.html', controller: 'StudentsCtrl'}).
-        when('/students/new', {templateUrl: 'partial/new-student.html', controller: 'StudentsCtrl'}).
+
+        when('/companies', {templateUrl: 'partial/companies.html', controller: 'CompaniesCtrl'}).
+        when('/companies/:company_id', {templateUrl: 'partial/company.html', controller: 'CompaniesCtrl'}).
+
         when('/teachers', {templateUrl: 'partial/teachers.html', controller: 'TeachersCtrl'}).
 
         // Administration

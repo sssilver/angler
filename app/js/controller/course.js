@@ -25,7 +25,7 @@ app.controller(
 
         var modalInstance = $modal.open({
             templateUrl: 'template/form-course.html',
-            controller: 'CourseFormCtrl',
+            controller: 'CourseDialogCtrl',
             resolve: {
                 course: function() {
                     return $scope.course;
@@ -73,6 +73,23 @@ app.controller(
     $scope.refresh();
 }]);
 
+
+app.controller(
+    'CourseDialogCtrl',
+        ['$scope', '$log', '$modalInstance', '$modal', 'course', 'Model',
+            function($scope, $log, $modalInstance, $modal, course, Model) {
+
+    $scope.course = course;
+
+    $scope.ok = function() {
+        $modalInstance.close($scope.course);
+    }
+
+    $scope.cancel = function() {
+        $modalInstance.dismiss('cancel');
+    };
+
+}]);
 
 app.controller(
     'LevelsDialogCtrl',
