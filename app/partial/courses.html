@@ -16,11 +16,18 @@
   </tr>
 
   <tr ng-repeat="course in courses.objects">
-    <td><a ng-click="dlgCourse(course)">{{course.title}}</a> <p>{{course}}</p></td>
+    <td><a ng-click="dlgCourse(course)">{{course.title}}</a></td>
     <td>
       <div class="pull-right">
-        <button class="btn btn-xs" ng-click="dlgLevels(course)"><span class="glyphicon-white glyphicon glyphicon-tasks"></span></button>
-        <button class="btn btn-danger btn-xs" ng-click="remove(course.id)"><span class="glyphicon-white glyphicon glyphicon-remove"></span></button>
+        <button class="btn" ng-click="dlgTariffs(course)">
+          Payment plans
+        </button>
+        <button class="btn" ng-click="dlgLevels(course)">
+          Course levels
+        </button>
+        <button class="btn btn-danger" ng-click="remove(course.id)">
+          <span class="glyphicon-white glyphicon glyphicon-remove"></span>
+        </button>
       </div>
     </td>
   </tr>
