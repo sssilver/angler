@@ -16,6 +16,19 @@ app.controller(
         });
     }
 
+    $scope.dlgTariffs = function(course) {
+        var modalInstance = $modal.open({
+            templateUrl: 'template/tariffs.html',
+            controller: 'TariffsDialogCtrl',
+            resolve: {
+                course: function() {
+                    return course;
+                }
+            },
+            scope: $scope
+        });
+    }
+
     $scope.dlgCourse = function(course) {
 
         if (course)
@@ -209,6 +222,111 @@ app.controller(
 
     $scope.ok = function() {
         $modalInstance.close($scope.level);
+    }
+
+    $scope.cancel = function() {
+        $modalInstance.dismiss('cancel');
+    };
+
+}]);
+
+
+
+app.controller(
+    'TariffsDialogCtrl',
+        ['$scope', '$log', '$modalInstance', '$modal', 'course', 'Model',
+            function($scope, $log, $modalInstance, $modal, course, Model) {
+
+    $scope.course = course;
+
+    $scope.remove = function(tariff_id) {
+        if (confirm('Are you sure?')) {
+            Model.remove({'model': 'tariff', 'id': tariff_id}, function() {
+                $scope.$parent.refresh();
+            });
+        }
+    }
+
+    $scope.dlgTariff = function(course, tariff) {
+        if (tariff) {
+            $scope.tariff = tariff;
+        } else {
+            $scope.tariff = {};
+            $scope.tariff.course = {id: course.id};
+        }
+
+        var modalInstance = $modal.open({
+            templateUrl: 'template/form-tariff.html',
+            controller: 'TariffDialogCtrl',
+            resolve: {
+                tariff: function() {
+                    return $scope.tariff;
+                }
+            }
+        });
+
+        modalInstance.result.then(function(tariff) {
+            tariff_service = new Model(tariff);
+
+            if (tariff.id) {
+                tariff_service.$save(
+                    {'model': 'tariff', 'id': tariff.id},
+                    function() {
+                        $scope.refresh();
+                    }
+                );
+            } else {
+                tariff_service.$post(
+                    {'model': 'tariff'},
+                    function() {
+                        $scope.refresh();
+                    }
+                );
+            }
+        }, function() {
+            $log.info('Modal dismissed at: ' + new Date());
+        });
+    }
+
+    $scope.ok = function() {
+        $modalInstance.close();
+    }
+
+    $scope.cancel = function() {
+        $modalInstance.dismiss('cancel');
+    };
+
+    $scope.refresh = function() {
+        tariffs = Model.query(
+            {
+                model: 'tariff',
+                q: {
+                    filters: [{
+                        name: 'course_id',
+                        op: 'eq',
+                        val: course.id
+                    }]
+                }
+            },
+            function() {
+                $scope.tariffs = tariffs.objects;
+            }
+        );
+    }
+
+    $scope.refresh();
+}]);
+
+
+app.controller(
+    'TariffDialogCtrl',
+        ['$scope', '$modalInstance', 'tariff', 'Model',
+            function($scope, $modalInstance, tariff, Model) {
+
+    $scope.tariff = angular.copy(tariff);
+
+    $scope.ok = function() {
+        $modalInstance.close($scope.tariff);
     }
 
     $scope.cancel = function() {

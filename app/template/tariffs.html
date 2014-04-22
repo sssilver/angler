@@ -1,0 +1,47 @@
+<div class="modal-header">
+  <h3>
+    Payment plans of {{course.title}}
+    <div class="pull-right">
+      <button class="btn btn-primary btn-xs" ng-click="dlgTariff(course)">
+        Add a new payment plan
+      </button>
+    </div>
+
+  </h3>
+</div>
+<div class="modal-body">
+
+
+  <form role="form">
+    <table class="table table-striped">
+      <tr>
+        <th>Plan title</th>
+        <th>Price</th>
+        <th></th>
+      </tr>
+
+      <tr ng-repeat="tariff in tariffs">
+        <td>
+          <a ng-click="dlgTariff(course, tariff)">
+            {{tariff.title}}
+            <span class="label label-primary" ng-if="tariff.type == 'company'"><span class="glyphicon glyphicon-briefcase"></span></span>
+          </a>
+        </td>
+        <td>{{tariff.price}}</td>
+        <td>
+          <div class="pull-right">
+            <button class="btn btn-danger btn-xs" ng-click="remove(tariff.id)">
+              <span class="glyphicon-white glyphicon glyphicon-remove"></span>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </form>
+
+
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" ng-click="ok()">OK</button>
+  <button class="btn" ng-click="cancel()">Cancel</button>
+</div>

@@ -5,6 +5,7 @@ from cors import add_cors_headers
 from model.staff import Staff
 from model.course import Course
 from model.level import Level
+from model.tariff import Tariff
 from model.student import Student, Availability
 from model.company import Company
 from model.transaction import StudentTransaction
@@ -25,6 +26,10 @@ def create_api_blueprints(manager):
         },
         {
             'model': Level,
+            'methods': ['GET', 'PUT', 'PATCH', 'POST', 'DELETE']
+        },
+        {
+            'model': Tariff,
             'methods': ['GET', 'PUT', 'PATCH', 'POST', 'DELETE']
         },
         {
