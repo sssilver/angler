@@ -1,0 +1,44 @@
+<div class="page-header">
+  <h1>
+    Companies
+    <div class="pull-right">
+      <!-- Button trigger modal -->
+      <button class="btn btn-primary" ng-click="dlgCompany()">
+        Add a new company
+      </button>
+    </div>
+  </h1>
+</div>
+
+<div class="panel panel-info">
+  <div class="panel-body">
+    This page to display a Companies stats dashboard and also feature the Add Company button, not just a paginated list
+    of companies.
+  </div>
+</div>
+
+
+<table class="table table-striped">
+  <tr>
+    <th>Company name</th>
+    <th>Contact person</th>
+    <th>Phone</th>
+    <th></th>
+  </tr>
+
+  <tr ng-repeat="company in companies.objects">
+    <td><a ng-click="dlgCompany(company)">{{company.title}}</a></td>
+    <td>{{company.contact_name}}</td>
+    <td>{{company.contact_phone}}</td>
+    <td>
+      <div class="pull-right">
+        <a class="btn btn-default" ng-href="#/companies/{{company.id}}">
+          View company
+        </a>
+        <button class="btn btn-danger" ng-click="remove(company.id)">
+          <span class="glyphicon-white glyphicon glyphicon-remove"></span>
+        </button>
+      </div>
+    </td>
+  </tr>
+</table>

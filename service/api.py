@@ -40,6 +40,10 @@ def create_api_blueprints(manager):
             }
         },
         {
+            'model': Company,
+            'methods': ['GET', 'PUT', 'PATCH', 'POST', 'DELETE'],
+        },
+        {
             'model': StudentTransaction,
             'collection_name': 'student-transaction',
             'methods': ['GET', 'PUT', 'PATCH', 'POST', 'DELETE'],

@@ -13,5 +13,6 @@ class Company(Base):
 
     # Contact person
     contact_name = Column(Text)
+    contact_email = Column(Text)
     contact_phone = Column(Text)
     contact_position = Column(Text)

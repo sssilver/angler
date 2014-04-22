@@ -1,0 +1,77 @@
+<div class="modal-header">
+  <h3 ng-if="!company.id">Add a new company</h3>
+  <h3 ng-if="company.id">Edit a company</h3>
+</div>
+<div class="modal-body">
+
+
+  <form role="form" class="form-horizontal">
+    <fieldset>
+      <legend>General</legend>
+      <div class="form-group">
+        <label for="company_title" class="col-sm-3 control-label">Name</label>
+        <div class="col-sm-9">
+          <input type="text"
+                 class="form-control"
+                 id="company_title"
+                 placeholder="Name of the company"
+                 ng-model="company.title"
+                 required />
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Contact Information</legend>
+      <div class="form-group">
+        <label for="company_contact_name" class="col-sm-3 control-label">Contact name</label>
+        <div class="col-sm-9">
+          <input type="text"
+                 class="form-control"
+                 id="company_contact_name"
+                 placeholder="Contact person"
+                 ng-model="company.contact_name"
+                 required />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="company_contact_position" class="col-sm-3 control-label">Position</label>
+        <div class="col-sm-9">
+          <input type="text"
+                 class="form-control"
+                 id="company_contact_position"
+                 placeholder="Contact person's position"
+                 ng-model="company.contact_position"
+                 required />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="company_contact_phone" class="col-sm-3 control-label">Phone number</label>
+        <div class="col-sm-9">
+          <input type="text"
+                 class="form-control"
+                 id="company_contact_phone"
+                 placeholder="Contact person's phone number"
+                 ng-model="company.contact_phone"
+                 required />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="company_contact_email" class="col-sm-3 control-label">Email</label>
+        <div class="col-sm-9">
+          <input type="text"
+                 class="form-control"
+                 id="company_contact_email"
+                 placeholder="Contact person's email address"
+                 ng-model="company.contact_email"
+                 required />
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-primary" ng-click="ok()">OK</button>
+  <button class="btn" ng-click="cancel()">Cancel</button>
+</div>
