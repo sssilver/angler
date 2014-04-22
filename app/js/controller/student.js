@@ -23,7 +23,7 @@ app.controller(
 
     $scope.dlgAddStudent = function() {
         var modalInstance = $modal.open({
-            templateUrl: 'template/form-student.html',
+            templateUrl: 'template/dlg-student.html',
             controller: 'StudentFormCtrl'
         });
 
@@ -54,14 +54,14 @@ app.controller(
     $scope.dlgEditStudent = function(student) {
         // TODO
         var modalInstance = $modal.open({
-            templateUrl: 'template/form-student.html',
+            templateUrl: 'template/dlg-student.html',
             controller: 'StudentFormCtrl'
         });
     }
 
     $scope.dlgPayment = function(student) {
         var modalInstance = $modal.open({
-            templateUrl: 'template/form-payment.html',
+            templateUrl: 'template/dlg-payment.html',
             controller: 'StudentPaymentDialogCtrl',
             resolve: {
                 student: function() {

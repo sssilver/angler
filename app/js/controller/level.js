@@ -11,7 +11,7 @@ app.controller(
             $scope.level = {};
 
         var modalInstance = $modal.open({
-            templateUrl: 'template/form-level.html',
+            templateUrl: 'template/dlg-level.html',
             controller: 'LevelFormCtrl',
             resolve: {
                 level: function() {

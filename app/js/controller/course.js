@@ -37,7 +37,7 @@ app.controller(
             $scope.course = {};
 
         var modalInstance = $modal.open({
-            templateUrl: 'template/form-course.html',
+            templateUrl: 'template/dlg-course.html',
             controller: 'CourseDialogCtrl',
             resolve: {
                 course: function() {
@@ -129,7 +129,7 @@ app.controller(
         }
 
         var modalInstance = $modal.open({
-            templateUrl: 'template/form-level.html',
+            templateUrl: 'template/dlg-level.html',
             controller: 'LevelDialogCtrl',
             resolve: {
                 level: function() {
@@ -256,7 +256,7 @@ app.controller(
         }
 
         var modalInstance = $modal.open({
-            templateUrl: 'template/form-tariff.html',
+            templateUrl: 'template/dlg-tariff.html',
             controller: 'TariffDialogCtrl',
             resolve: {
                 tariff: function() {
