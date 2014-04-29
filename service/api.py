@@ -101,3 +101,9 @@ def pre_post_student(data):
 def pre_post_transaction(data):
     data['time'] = str(datetime.utcnow())
     data['staff_id'] = 1  # TODO: Use the actual logged in staff data
+
+    # Is this a refund? Then the amount has to be negative
+    if data['type'].startswith('refund_'):
+        data['amount'] = str(-1 * abs(int(data['amount'])))
+
+        print data

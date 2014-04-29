@@ -84,6 +84,31 @@ app.controller(
         });
     }
 
+    $scope.dlgRefund = function(student) {
+        var modalInstance = $modal.open({
+            templateUrl: 'template/dlg-refund.html',
+            controller: 'StudentRefundDialogCtrl',
+            resolve: {
+                student: function() {
+                    return $scope.student;
+                }
+            }
+        });
+
+        modalInstance.result.then(function(transaction) {
+            transaction_service = new Model(transaction);
+
+            transaction_service.$post(
+                {'model': 'student-transaction'},
+                function() {
+                    $scope.refresh_student();
+                }
+            );
+        }, function() {
+            $log.info('Modal dismissed at: ' + new Date());
+        });
+    }
+
     $scope.refresh();
 }]);
 
@@ -137,12 +162,25 @@ app.controller(
         student_id: student.id
     }
 
-    $scope.remove = function(level_id) {
-        if (confirm('Are you sure?')) {
-            Model.remove({'model': 'level', 'id': level_id}, function() {
-                $scope.$parent.refresh();
-            });
-        }
+    $scope.ok = function() {
+        $modalInstance.close($scope.transaction);
+    }
+
+    $scope.cancel = function() {
+        $modalInstance.dismiss('cancel');
+    };
+
+}]);
+
+
+app.controller(
+    'StudentRefundDialogCtrl',
+        ['$scope', '$log', '$modalInstance', '$modal', 'student', 'Model',
+            function($scope, $log, $modalInstance, $modal, student, Model) {
+
+    $scope.student = student;
+    $scope.transaction = {
+        student_id: student.id
     }
 
     $scope.ok = function() {

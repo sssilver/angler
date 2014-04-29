@@ -34,17 +34,26 @@ class Transaction(Base):
         primaryjoin='and_(Transaction.staff_id==Staff.id)'
     )
 
-    # How much?
-    amount = Column(Integer)  # Negative for refunds, includes the decimal part
+    # How much? (includes the decimal part)
+    amount = Column(Integer)  # Negative for refunds and lessons
 
     # Type of transaction
     type = Column(Enum(
+        'lesson'
+
         'cash',
         'card',
         'transfer',
         'online_arca',
         'online_idram',
-        'online_other'
+        'online_other',
+
+        'refund_cash',
+        'refund_card',
+        'refund_transfer',
+        'refund_online_arca',
+        'refund_online_idram',
+        'refund_online_other'
     ))
 
 

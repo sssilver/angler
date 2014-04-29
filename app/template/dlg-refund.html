@@ -1,0 +1,56 @@
+<div class="modal-header">
+  <h3>Issue a refund</h3>
+</div>
+
+<div class="modal-body">
+
+
+  <form role="form" class="form-horizontal">
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Name</label>
+      <div class="col-sm-9">
+        <p class="form-control-static">{{student.name}}</p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Balance</label>
+      <div class="col-sm-9">
+        <p class="form-control-static">
+          {{student.balance}}
+          <span ng-if="transaction.amount" class="label label-info">
+            &rarr; {{student.balance - transaction.amount}}
+          </span>
+        </p>
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="form-group">
+          <label for="payment_type" class="col-sm-3 control-label">Refund type</label>
+          <div class="col-sm-9">
+            <select id="payment_type"
+                    class="form-control"
+                    ng-model="transaction.type">
+              <option value="refund_cash">Cash</option>
+            </select>
+          </div>
+        </div>
+
+        <input id="payment_amount"
+               type="number"
+               class="form-control text-center input-lg"
+               placeholder="Payment amount"
+               ng-model="transaction.amount"
+               required>
+      </div>
+    </div>
+  </form>
+
+
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" ng-click="ok()">OK</button>
+  <button class="btn" ng-click="cancel()">Cancel</button>
+</div>
