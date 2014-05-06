@@ -1,9 +1,16 @@
-from database import Base
+from db.database import Base
 
 from sqlalchemy.types import Integer, String
 
 from sqlalchemy.schema import Column, ForeignKey
 from sqlalchemy.orm import relationship
+
+
+
+group_student_table = Table('group_student', Base.metadata,
+    Column('group_id', Integer, ForeignKey('group.id')),
+    Column('student_id', Integer, ForeignKey('student.id'))
+)
 
 
 class Group(Base):

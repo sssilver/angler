@@ -1,4 +1,4 @@
-from database import Base
+from db.database import Base
 
 from sqlalchemy.types import Integer, String
 

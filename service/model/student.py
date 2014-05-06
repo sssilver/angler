@@ -1,7 +1,7 @@
 from datetime import datetime
 import re
 
-from database import Base
+from db.database import Base
 
 from sqlalchemy.types import String, Text
 from sqlalchemy.types import Integer, SmallInteger

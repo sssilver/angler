@@ -1,11 +1,7 @@
-from database import Base
-
-from sqlalchemy.types import Integer, String, Text
-
-from sqlalchemy.schema import Column, ForeignKey
+from db.base import PersistentBase
 
 
-class Company(Base):
+class Company(PersistentBase):
     __tablename__ = 'company'
 
     id = Column(Integer, primary_key=True)

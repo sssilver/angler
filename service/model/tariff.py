@@ -1,4 +1,4 @@
-from database import Base
+from db.base import PersistentBase
 
 from sqlalchemy.types import Integer, String, Enum
 
@@ -8,7 +8,7 @@ from sqlalchemy.orm import relationship
 from course import Course
 
 
-class Tariff(Base):
+class Tariff(PersistentBase):
     __tablename__ = 'tariff'
 
     id = Column(Integer, primary_key=True)
