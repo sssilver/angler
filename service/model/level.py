@@ -1,4 +1,4 @@
-from db.database import Base
+from db.base import PersistentBase
 
 from sqlalchemy.types import Integer, String
 
@@ -8,13 +8,13 @@ from sqlalchemy.orm import relationship
 from course import Course
 
 
-level_staff_table = Table('level_staff', Base.metadata,
+level_staff_table = Table('level_staff', PersistentBase.metadata,
     Column('level_id', Integer, ForeignKey('level.id')),
     Column('staff_id', Integer, ForeignKey('staff.id'))
 )
 
 
-class Level(Base):
+class Level(PersistentBase):
     __tablename__ = 'level'
 
     id = Column(Integer, primary_key=True)

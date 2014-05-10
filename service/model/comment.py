@@ -1,4 +1,4 @@
-from db.database import Base
+from db.base import PersistentBase
 
 from sqlalchemy.types import Text
 from sqlalchemy.types import DateTime
@@ -8,7 +8,7 @@ from sqlalchemy.schema import Column, ForeignKey
 from sqlalchemy.orm import relationship
 
 
-class Comment(Base):
+class Comment(PersistentBase):
     __tablename__ = 'comment'
 
     id = Column(Integer, primary_key=True)

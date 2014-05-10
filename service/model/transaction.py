@@ -1,4 +1,4 @@
-from db.database import Base
+from db.base import PersistentBase
 from datetime import datetime
 
 from sqlalchemy import UniqueConstraint
@@ -13,7 +13,7 @@ from sqlalchemy.orm import relationship
 
 
 
-class Transaction(Base):
+class Transaction(PersistentBase):
     __tablename__ = 'transaction'
 
     id = Column(Integer, primary_key=True)

@@ -1,5 +1,8 @@
 from db.base import PersistentBase
 
+from sqlalchemy.schema import Column
+from sqlalchemy.types import Integer, Text
+
 
 class Company(PersistentBase):
     __tablename__ = 'company'

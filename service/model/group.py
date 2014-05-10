@@ -1,4 +1,4 @@
-from db.database import Base
+from db.base import PersistentBase
 
 from sqlalchemy.types import Integer, String
 
@@ -13,7 +13,7 @@ group_student_table = Table('group_student', Base.metadata,
 )
 
 
-class Group(Base):
+class Group(PersistentBase):
     __tablename__ = 'group'
 
     id = Column(Integer, primary_key=True)

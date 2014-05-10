@@ -1,4 +1,4 @@
-from db.database import Base
+from db.base import PersistentBase
 
 from sqlalchemy.types import String
 from sqlalchemy.types import Integer, SmallInteger
@@ -9,7 +9,7 @@ from sqlalchemy.schema import Column, ForeignKey
 from sqlalchemy.orm import validates, relationship
 
 
-class Staff(Base):
+class Staff(PersistentBase):
     __tablename__ = 'staff'
 
     id = Column(Integer, primary_key=True)

@@ -1,4 +1,4 @@
-from db.database import Base
+from db.base import PersistentBase
 
 from sqlalchemy.types import Integer, String
 
@@ -6,7 +6,7 @@ from sqlalchemy.schema import Column, ForeignKey
 from sqlalchemy.orm import relationship
 
 
-class Course(Base):
+class Course(PersistentBase):
     __tablename__ = 'course'
 
     id = Column(Integer, primary_key=True)

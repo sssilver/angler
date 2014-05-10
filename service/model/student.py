@@ -1,7 +1,7 @@
 from datetime import datetime
 import re
 
-from db.database import Base
+from db.base import PersistentBase, Base
 
 from sqlalchemy.types import String, Text
 from sqlalchemy.types import Integer, SmallInteger
@@ -19,7 +19,7 @@ from comment import Comment
 from transaction import StudentTransaction
 
 
-class Student(Base):
+class Student(PersistentBase):
     __tablename__ = 'student'
 
     id = Column(Integer, primary_key=True)
