@@ -24,4 +24,4 @@ def init_db():
     import model
 
     # Create their schemas in the database
-    Base.metadata.create_all(bind=db_engine)
+    PersistentBase.metadata.create_all(bind=db_engine)

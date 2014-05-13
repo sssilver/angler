@@ -81,7 +81,7 @@ app.factory('Level', function($resource) {
     });
 });
 
-app.factory('Model', function($resource) {
+app.factory('Model', function($resource, $http) {
     return $resource('http://localhost\\:5000/api/:model/:id', {}, {
         get: {
             method: 'GET',
@@ -90,7 +90,16 @@ app.factory('Model', function($resource) {
 
         query: {
             method: 'GET',
-            isArray: false
+            isArray: false,
+            params: {
+                q: {
+                    filters: [{
+                        name: 'is_deleted',
+                        op: 'eq',
+                        val: false
+                    }]
+                }
+            }
         },
 
         post: {
@@ -102,7 +111,16 @@ app.factory('Model', function($resource) {
         },
 
         remove: {
-            method: 'DELETE'
+            method: 'PUT',
+            params: {
+                model: '@model',
+                id: '@id'
+            },
+            transformRequest: [
+                function(data, headers_getter) {
+                    return {is_deleted: true};
+                }
+            ].concat($http.defaults.transformRequest)
         }
     });
 });
