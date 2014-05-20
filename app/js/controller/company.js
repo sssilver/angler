@@ -1,7 +1,7 @@
 app.controller(
     'CompaniesCtrl',
-        ['$scope', '$log', '$modal', 'Model', 'TIMES', 'DAYS',
-            function($scope, $log, $modal, Model, TIMES, DAYS) {
+        ['$scope', '$log', '$modal', 'Model',
+            function($scope, $log, $modal, Model) {
 
     $scope.dlgCompany = function(company) {
 
