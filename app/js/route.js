@@ -3,7 +3,7 @@ app.config(['$routeProvider', function($routeProvider) {
         when('/', {templateUrl: 'partial/index.html', controller: 'IndexCtrl'}).
         when('/login', {templateUrl: 'partial/login.html', controller: 'LoginCtrl'}).
 
-        when('/lessons', {templateUrl: 'partial/lessons.html', controller: 'LessonsCtrl'}).
+        when('/groups', {templateUrl: 'partial/groups.html', controller: 'GroupsCtrl'}).
 
         when('/students', {templateUrl: 'partial/students.html', controller: 'StudentsCtrl'}).
         when('/students/:student_id', {templateUrl: 'partial/student.html', controller: 'StudentsCtrl'}).
