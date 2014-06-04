@@ -36,11 +36,38 @@ app.controller(
         });
     };
 
-    $scope.refresh = function() {
+    $scope.refresh = function(query) {
         students = Student.query(function() {
             $scope.students = students;
             console.log($scope.students);
         });
+    }
+
+    $scope.viewStudent = function(studentID) {
+        console.log(studentID);
+    }
+
+    $scope.selectStudent = function(studentID) {
+        var index = $scope.selectedStudents.indexOf(studentID);
+
+        if (index > -1)  // Deselect
+          $scope.selectedStudents.splice(index, 1);
+        else             // Select
+          $scope.selectedStudents.push(studentID);
+    }
+
+    $scope.listAllStudents = function() {
+        $scope.refresh();  // no query filter
+    }
+
+    $scope.listPendingStudents = function() {
+        //[{"name":"computers__manufacturer","op":"any","val":"Apple"}]
+        /*
+        var query = [{
+            'name': 'groups',
+            'op': 'is_
+        }]
+        */
     }
 
     $scope.remove = function(id) {
@@ -110,6 +137,7 @@ app.controller(
     }
 
     $scope.refresh();
+    $scope.selectedStudents = [];
 }]);
 
 
