@@ -24,7 +24,7 @@
       </tabset>
 
     <div class="spaced">
-      <div class="panel panel-success" ng-if="selectedStudents.length">
+      <div class="panel panel-info" ng-if="selectedStudents.length">
         <div class="panel-heading">
           <span class="panel-title">Marked students</span>
         </div>
@@ -53,21 +53,31 @@
 
       <tr ng-repeat="student in students.objects"
           ng-click="viewStudent(student.id)"
-          ng-class="{success: selectedStudents.indexOf(student) > -1}">
+          ng-class="{info: selectedStudents.indexOf(student) > -1}">
         <td>
-          <input type="checkbox"
-                 ng-click="selectStudent(student)"
-                 ng-checked="selectedStudents.indexOf(student) > -1">
+          <button class="btn btn-xs"
+                  ng-click="selectStudent(student); $event.stopPropagation()"
+                  ng-class="{'btn-info': selectedStudents.indexOf(student) > -1}">
+            <span class="glyphicon-white glyphicon"
+                  ng-class="
+                    {
+                      'glyphicon-check': selectedStudents.indexOf(student) > -1,
+                      'glyphicon-unchecked': selectedStudents.indexOf(student) == -1
+                    }
+                  "></span>
+          </button>
         </td>
-        <td><a ng-click="dlgEditStudent(student.id)">{{student.name}}</a></td>
+        <td>{{student.name}}</td>
         <td>{{student.phone}}</td>
         <td>{{student.email}}</td>
-        <td>
-          <div class="pull-right">
-            <a class="btn btn-default btn-xs" ng-href="#/students/{{student.id}}">
-              View student
-            </a>
-            <button class="btn btn-danger btn-xs" ng-click="remove(student.id)">
+        <td class="col-md-1">
+          <div class="pull-right hover">
+            <button class="btn btn-xs"
+                    ng-click="dlgEditStudent(student.id); $event.stopPropagation()">
+              <span class="glyphicon-white glyphicon glyphicon-pencil"></span>
+            </button>
+            <button class="btn btn-danger btn-xs"
+                    ng-click="remove(student.id); $event.stopPropagation()">
               <span class="glyphicon-white glyphicon glyphicon-remove"></span>
             </button>
           </div>

@@ -13,3 +13,11 @@ a {
 .spaced {
     margin-top: 20px;
 }
+
+.hover {
+    display: none;
+}
+
+tr:hover .hover {
+    display: block;
+}
