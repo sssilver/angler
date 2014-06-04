@@ -47,13 +47,13 @@ app.controller(
         console.log(studentID);
     }
 
-    $scope.selectStudent = function(studentID) {
-        var index = $scope.selectedStudents.indexOf(studentID);
+    $scope.selectStudent = function(student) {
+        var index = $scope.selectedStudents.indexOf(student);
 
         if (index > -1)  // Deselect
           $scope.selectedStudents.splice(index, 1);
         else             // Select
-          $scope.selectedStudents.push(studentID);
+          $scope.selectedStudents.push(student);
     }
 
     $scope.listAllStudents = function() {
