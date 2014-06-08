@@ -15,6 +15,7 @@ def create_api_blueprints(manager):
     blueprints = []
 
     # Models to create blueprints for
+    # TODO: Remove DELETE methods for models derived from PersistentBase
     models = [
         {
             'model': Staff,

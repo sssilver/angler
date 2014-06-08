@@ -36,6 +36,31 @@ app.controller(
         });
     };
 
+    $scope.dlgGroups = function(students) {
+        var modalInstance = $modal.open({
+            templateUrl: 'template/dlg-groups.html',
+            controller: 'GroupsDialogCtrl',
+            resolve: {
+                students: function() {
+                    return students;
+                }
+            }
+        });
+
+        modalInstance.result.then(function(transaction) {
+            transaction_service = new Model(transaction);
+
+            transaction_service.$post(
+                {'model': 'student-transaction'},
+                function() {
+                    $scope.refresh_student();
+                }
+            );
+        }, function() {
+            $log.info('Modal dismissed at: ' + new Date());
+        });
+    }
+
     $scope.refresh = function(query) {
         students = Student.query(function() {
             $scope.students = students;
@@ -215,6 +240,38 @@ app.controller(
 
     $scope.ok = function() {
         $modalInstance.close($scope.transaction);
+    }
+
+    $scope.cancel = function() {
+        $modalInstance.dismiss('cancel');
+    };
+
+}]);
+
+
+app.controller(
+    'GroupsDialogCtrl',
+        ['$scope', '$log', '$modalInstance', '$modal', 'students', 'Model',
+            function($scope, $log, $modalInstance, $modal, students, Model) {
+
+    $scope.students = students;
+
+    courses = Model.query({model: 'course'}, function() {
+        $scope.courses = courses.objects;
+    });
+
+    $scope.populateLevels = function(course) {
+        levels = Model.query(
+        {
+            model: 'level',
+            course_id: course.id
+        }, function() {
+            $scope.levels = levels.objects;
+        });
+    }
+
+    $scope.ok = function() {
+        $modalInstance.close();
     }
 
     $scope.cancel = function() {

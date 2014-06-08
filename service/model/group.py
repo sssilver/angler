@@ -19,8 +19,16 @@ class Group(PersistentBase):
     id = Column(Integer, primary_key=True)
     title = Column(String(100))
 
-    levels = relationship(
+    level_id = Column(Integer, ForeignKey('level.id'))
+    level = relationship(
         'Level',
-        primaryjoin='and_(Course.id==Level.course_id)',
-        back_populates='course'
+        primaryjoin='and_(Level.id==Group.level_id)',
+        back_populates='groups'
+    )
+
+    teacher_id = Column(Integer, ForeignKey('staff.id'))
+    teacher = relationship(
+        'Staff',
+        primaryjoin='and_(Staff.id==Group.teacher_id)',
+        back_populates='groups'
     )

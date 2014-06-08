@@ -1,3 +1,6 @@
+var SERVICE_ENDPOINT = 'localhost';  //'192.168.1.95';
+
+
 app.constant('DAYS', {
     0: 'Monday',
     1: 'Tuesday',
@@ -33,7 +36,7 @@ app.factory('TIMES', [function(value) {
 
 
 app.factory('Student', function($resource) {
-    return $resource('http://localhost\\:5000/api/student/:id', {}, {
+    return $resource('http://' + SERVICE_ENDPOINT + '\\:5000/api/student/:id', {}, {
         query: {
             method: 'GET',
             params: {
@@ -58,7 +61,7 @@ app.factory('Student', function($resource) {
 
 
 app.factory('Level', function($resource) {
-    return $resource('http://localhost\\:5000/api/level/:id', {}, {
+    return $resource('http://' + SERVICE_ENDPOINT + '\\:5000/api/level/:id', {}, {
         query: {
             method: 'GET',
             params: {
@@ -82,7 +85,7 @@ app.factory('Level', function($resource) {
 });
 
 app.factory('Model', function($resource, $http) {
-    return $resource('http://localhost\\:5000/api/:model/:id', {}, {
+    return $resource('http://' + SERVICE_ENDPOINT + '\\:5000/api/:model/:id', {}, {
         get: {
             method: 'GET',
             isArray: false

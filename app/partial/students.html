@@ -34,7 +34,11 @@
             <td>{{student.name}}</td>
           </tr>
           <tr>
-            <td><button class="btn">Add to a group</button></td>
+            <td>
+              <button class="btn" ng-click="dlgGroups(selectedStudents)">
+                Add to a group
+              </button>
+            </td>
           </tr>
         </table>
       </div>
@@ -48,7 +52,7 @@
         <th>Student name</th>
         <th>Phone number</th>
         <th>Email</th>
-        <th></th>
+        <th class="col-md-1"></th>
       </tr>
 
       <tr ng-repeat="student in students.objects"
