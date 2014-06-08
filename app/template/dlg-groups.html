@@ -2,7 +2,7 @@
   <h3>
     Add
     <span ng-if="students.length > 1">students</span>
-    <span ng-if="students.length == 1">{{students[0].name}}</span>
+    <em ng-if="students.length == 1">{{students[0].name}}</em>
     to a group</h3>
 </div>
 
@@ -12,7 +12,8 @@
     <div class="form-group">
       <label class="col-sm-3 control-label">Course</label>
       <div class="col-sm-9">
-        <select ng-options="course.title for course in courses"
+        <select class="form-control"
+                ng-options="course.title for course in courses"
                 ng-model="selected_course"
                 ng-change="populateLevels(selected_course)"></select>
       </div>
@@ -21,7 +22,8 @@
     <div class="form-group">
       <label class="col-sm-3 control-label">Level</label>
       <div class="col-sm-9">
-        <select ng-options="level.title for level in levels"
+        <select class="form-control"
+                ng-options="level.title for level in levels"
                 ng-model="selected_level"></select>
       </div>
     </div>
@@ -29,7 +31,8 @@
     <div class="form-group">
       <label class="col-sm-3 control-label">Teacher</label>
       <div class="col-sm-9">
-        <select ng-options="teacher.name for teacher in selected_level.teachers"
+        <select class="form-control"
+                ng-options="teacher.name for teacher in selected_level.teachers"
                 ng-model="selected_teacher"></select>
       </div>
     </div>
