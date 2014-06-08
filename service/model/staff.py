@@ -21,3 +21,9 @@ class Staff(PersistentBase):
     address = Column(String(100))
     dob = Column(Date)
     gender = Column(Boolean)
+
+    groups = relationship(
+        'Group',
+        primaryjoin='and_(Staff.id==Group.teacher_id)',
+        back_populates='teacher'
+    )

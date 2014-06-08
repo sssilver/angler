@@ -262,11 +262,51 @@ app.controller(
 
     $scope.populateLevels = function(course) {
         levels = Model.query(
-        {
-            model: 'level',
-            course_id: course.id
+            {
+                model: 'level',
+                course_id: course.id
+            },
+            function() {
+                $scope.levels = levels.objects;
+            }
+        );
+    }
+
+    $scope.populateGroups = function(level, teacher) {
+        if (!level || !teacher) {
+            $scope.groups = [];
+
+            return;
+        }
+
+        groups = Model.query(
+            {
+                model: 'group',
+                level_id: level.id,
+                teacher_id: teacher.id
+            },
+            function() {
+                $scope.groups = groups.objects;
+            }
+        );
+    }
+
+    $scope.createGroup = function(level, teacher) {
+        var title;
+
+        if (!(title = prompt('Level title')))
+            return;
+
+        group_service = new Model({
+            title: title,
+            level_id: level.id,
+            teacher_id: teacher.id
+        });
+
+        group_service.$post({
+            model: 'group'
         }, function() {
-            $scope.levels = levels.objects;
+            $scope.populateGroups(level, teacher);
         });
     }
 

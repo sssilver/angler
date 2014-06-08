@@ -9,6 +9,7 @@ from model.tariff import Tariff
 from model.student import Student, Availability
 from model.company import Company
 from model.transaction import StudentTransaction
+from model.group import Group
 
 
 def create_api_blueprints(manager):
@@ -51,7 +52,11 @@ def create_api_blueprints(manager):
             'preprocessors': {
                 'POST': [pre_post_transaction]
             }
-        }
+        },
+        {
+            'model': Group,
+            'methods': ['GET', 'PUT', 'PATCH', 'POST', 'DELETE']
+        },
     ]
 
     # Create the blueprints for each model with their respective options

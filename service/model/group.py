@@ -2,12 +2,12 @@ from db.base import PersistentBase
 
 from sqlalchemy.types import Integer, String
 
-from sqlalchemy.schema import Column, ForeignKey
+from sqlalchemy.schema import Column, ForeignKey, Table
 from sqlalchemy.orm import relationship
 
 
 
-group_student_table = Table('group_student', Base.metadata,
+group_student_table = Table('group_student', PersistentBase.metadata,
     Column('group_id', Integer, ForeignKey('group.id')),
     Column('student_id', Integer, ForeignKey('student.id'))
 )

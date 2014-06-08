@@ -1,7 +1,7 @@
 <div class="modal-header">
   <h3>
     Add
-    <span ng-if="students.length > 1">students</span>
+    <span ng-if="students.length > 1">{{students.length}} students</span>
     <em ng-if="students.length == 1">{{students[0].name}}</em>
     to a group</h3>
 </div>
@@ -24,7 +24,8 @@
       <div class="col-sm-9">
         <select class="form-control"
                 ng-options="level.title for level in levels"
-                ng-model="selected_level"></select>
+                ng-model="selected_level"
+                ng-disabled="!levels.length"></select>
       </div>
     </div>
 
@@ -33,8 +34,25 @@
       <div class="col-sm-9">
         <select class="form-control"
                 ng-options="teacher.name for teacher in selected_level.teachers"
-                ng-model="selected_teacher"></select>
+                ng-model="selected_teacher"
+                ng-change="populateGroups(selected_teacher)"
+                ng-disabled="!selected_level.teachers.length"></select>
       </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Group</label>
+      <div class="col-sm-6">
+        <select class="form-control"
+                ng-options="group.title for group in groups"
+                ng-model="selected_group"
+                ng-disabled="!groups.length"></select>
+      </div>
+      <button class="btn btn-sm col-sm-2"
+              ng-click="createGroup(selected_level, selected_teacher)"
+              ng-disabled="!selected_teacher">
+        New group
+      </button>
     </div>
 
   </form>
