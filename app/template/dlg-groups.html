@@ -7,7 +7,6 @@
 </div>
 
 <div class="modal-body">
-
   <form role="form" class="form-horizontal">
     <div class="form-group">
       <label class="col-sm-3 control-label">Course</label>
@@ -25,6 +24,7 @@
         <select class="form-control"
                 ng-options="level.title for level in levels"
                 ng-model="selected_level"
+                ng-change="populateGroups(selected_level)"
                 ng-disabled="!levels.length"></select>
       </div>
     </div>
@@ -35,7 +35,7 @@
         <select class="form-control"
                 ng-options="teacher.name for teacher in selected_level.teachers"
                 ng-model="selected_teacher"
-                ng-change="populateGroups(selected_teacher)"
+                ng-change="populateGroups(selected_level, selected_teacher)"
                 ng-disabled="!selected_level.teachers.length"></select>
       </div>
     </div>

@@ -47,15 +47,8 @@ app.controller(
             }
         });
 
-        modalInstance.result.then(function(transaction) {
-            transaction_service = new Model(transaction);
-
-            transaction_service.$post(
-                {'model': 'student-transaction'},
-                function() {
-                    $scope.refresh_student();
-                }
-            );
+        modalInstance.result.then(function(group) {
+            alert(students.length);
         }, function() {
             $log.info('Modal dismissed at: ' + new Date());
         });
@@ -311,7 +304,7 @@ app.controller(
     }
 
     $scope.ok = function() {
-        $modalInstance.close();
+        $modalInstance.close($scope.selected_group);
     }
 
     $scope.cancel = function() {
