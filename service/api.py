@@ -38,8 +38,10 @@ def create_api_blueprints(manager):
             'model': Student,
             'methods': ['GET', 'PUT', 'PATCH', 'POST', 'DELETE'],
             'preprocessors': {
-                'POST': [pre_post_student]
-            }
+                'POST': [pre_post_student],
+                'PATCH_MANY': [pre_patch_many_student]
+            },
+            'allow_patch_many': True
         },
         {
             'model': Company,
@@ -102,6 +104,12 @@ def pre_post_student(data):
         pass
 
     data['availability'] = availability
+
+
+def pre_patch_many_student(search_params=None, data=None, **kw):
+    # Handle group management for the given students
+
+    print data
 
 
 def pre_post_transaction(data):

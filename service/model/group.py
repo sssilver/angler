@@ -32,3 +32,11 @@ class Group(PersistentBase):
         primaryjoin='and_(Staff.id==Group.teacher_id)',
         back_populates='groups'
     )
+
+    # Students who are a member of this group
+    students = relationship(
+        'Student',
+        secondary=group_student_table,
+        join_depth=30  # Up to the level's teachers
+    )
+

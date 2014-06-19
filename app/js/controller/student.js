@@ -48,7 +48,32 @@ app.controller(
         });
 
         modalInstance.result.then(function(group) {
-            alert(students.length);
+            var filters = [];
+
+            for (var i = 0; i < students.length; ++i) {
+                var student = students[i];
+
+                filters.push({
+                    'name': 'id',
+                    'op': '==',
+                    'val': student.id
+                });
+            }
+
+            students_data = {add_group_id: group.id};
+
+            var student_service = new Model(students_data);
+
+            student_service.$save({
+                model: 'student',
+                q: JSON.stringify({
+                    filters: filters,
+                    disjunction: true
+                })
+            });
+
+
+
         }, function() {
             $log.info('Modal dismissed at: ' + new Date());
         });
@@ -248,6 +273,7 @@ app.controller(
             function($scope, $log, $modalInstance, $modal, students, Model) {
 
     $scope.students = students;
+    $scope.selected_group = {};
 
     courses = Model.query({model: 'course'}, function() {
         $scope.courses = courses.objects;
@@ -304,7 +330,7 @@ app.controller(
     }
 
     $scope.ok = function() {
-        $modalInstance.close($scope.selected_group);
+        $modalInstance.close($scope.selected_group.data);
     }
 
     $scope.cancel = function() {
