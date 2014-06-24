@@ -1,24 +1,71 @@
-app.config(['$routeProvider', function($routeProvider) {
-    $routeProvider.
-        when('/', {templateUrl: 'partial/index.html', controller: 'IndexCtrl'}).
-        when('/login', {templateUrl: 'partial/login.html', controller: 'LoginCtrl'}).
+app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
-        when('/groups', {templateUrl: 'partial/groups.html', controller: 'GroupsCtrl'}).
+    $stateProvider
+        .state('index', {
+            url: '/',
+            templateUrl: 'partial/index.html',
+            controller: 'IndexCtrl'
+        })
+        .state('login', {
+            url: '/login',
+            templateUrl: 'partial/login.html',
+            controller: 'LoginCtrl'
+        })
 
-        when('/students', {templateUrl: 'partial/students.html', controller: 'StudentsCtrl'}).
-        when('/students/:student_id', {templateUrl: 'partial/student.html', controller: 'StudentsCtrl'}).
+        .state('groups', {
+            url: '/groups',
+            templateUrl: 'partial/groups.html',
+            controller: 'GroupsCtrl'
+        })
 
-        when('/companies', {templateUrl: 'partial/companies.html', controller: 'CompaniesCtrl'}).
-        when('/companies/:company_id', {templateUrl: 'partial/company.html', controller: 'CompaniesCtrl'}).
+        .state('students', {
+            url: '/students',
+            templateUrl: 'partial/students.html',
+            controller: 'StudentsCtrl'
+        })
+        .state('student', {
+            url: 'students/:student_id',
+            templateUrl: 'partial/student.html',
+            controller: 'StudentsCtrl'
+        })
 
-        when('/teachers', {templateUrl: 'partial/teachers.html', controller: 'TeachersCtrl'}).
+        .state('companies', {
+            url: '/companies',
+            templateUrl: 'partial/companies.html',
+            controller: 'CompaniesCtrl'
+        })
+        .state('company', {
+            url: '/companies/:company_id',
+            templateUrl: 'partial/company.html',
+            controller: 'CompaniesCtrl'
+        })
 
-        // Administration
-        when('/administration/courses', {templateUrl: 'partial/courses.html', controller: 'CoursesCtrl'}).
-        when('/administration/courses/new', {templateUrl: 'partial/new-course.html', controller: 'CoursesCtrl'}).
+        .state('teachers', {
+            url: '/teachers',
+            templateUrl: 'partial/teachers.html',
+            controller: 'TeachersCtrl'
+        })
 
-        when('/administration/levels', {templateUrl: 'partial/levels.html', controller: 'LevelsCtrl'}).
-        when('/administration/levels/new', {templateUrl: 'partial/new-level.html', controller: 'LevelsCtrl'}).
+        .state('administration.courses', {
+            url: '/administration/courses',
+            templateUrl: 'partial/courses.html',
+            controller: 'CoursesCtrl'
+        })
+        .state('administration.courses.new', {
+            url: '/administration/courses/new',
+            templateUrl: 'partial/new-course.html',
+            controller: 'CoursesCtrl'
+        })
 
-        otherwise({redirectTo: '/'});
+        .state('administration.levels', {
+            url: '/administration/levels',
+            templateUrl: 'partial/levels.html',
+            controller: 'LevelsCtrl'
+        })
+        .state('administration.levels.new', {
+            url: '/administration/levels/new',
+            templateUrl: 'partial/new-level.html',
+            controller: 'LevelsCtrl'
+        })
+
 }]);

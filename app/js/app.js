@@ -1,8 +1,8 @@
 var app = angular.module(
     'scool',
     [
-        'ngRoute',
         'ngResource',
+        'ui.router',
         'ui.bootstrap',
         'ui.select2'
     ]
