@@ -23,7 +23,6 @@
 
     <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script src="bower_components/angular-ui-select2/src/select2.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script src="bower_components/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
 
@@ -69,9 +68,7 @@
           <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown">Administration <b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li><a href="#/administration/courses">Courses</a></li>
-              <li><a href="#/administration/levels">Levels</a></li>
-              <li><a href="#/administration/groups">Groups</a></li>
+              <li><a ui-sref="administration.courses">Courses</a></li>
             </ul>
           </li>
           <li class="dropdown">

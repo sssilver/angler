@@ -46,26 +46,20 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
             controller: 'TeachersCtrl'
         })
 
+        .state('administration', {
+            abstract: true,
+            url: '/administration',
+            template: '<ui-view/>'
+        })
         .state('administration.courses', {
-            url: '/administration/courses',
+            url: '/courses',
             templateUrl: 'partial/courses.html',
             controller: 'CoursesCtrl'
         })
         .state('administration.courses.new', {
-            url: '/administration/courses/new',
+            url: '/new',
             templateUrl: 'partial/new-course.html',
             controller: 'CoursesCtrl'
-        })
-
-        .state('administration.levels', {
-            url: '/administration/levels',
-            templateUrl: 'partial/levels.html',
-            controller: 'LevelsCtrl'
-        })
-        .state('administration.levels.new', {
-            url: '/administration/levels/new',
-            templateUrl: 'partial/new-level.html',
-            controller: 'LevelsCtrl'
         })
 
 }]);

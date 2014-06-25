@@ -1,15 +1,15 @@
 app.controller(
     'StudentsCtrl',
-        ['$scope', '$routeParams', '$log', '$location', 'Student', 'Model', 'TIMES', 'DAYS', '$modal',
-            function($scope, $routeParams, $log, $location, Student, Model, TIMES, DAYS, $modal) {
+        ['$scope', '$stateParams', '$log', '$location', 'Student', 'Model', 'TIMES', 'DAYS', '$modal',
+            function($scope, $stateParams, $log, $location, Student, Model, TIMES, DAYS, $modal) {
 
-    if ($routeParams.student_id) {  // Detail view?
+    if ($stateParams.student_id) {  // Detail view?
         $scope.refresh_student = function() {
             // Load the requested student
             student = Model.query(
                 {
                     model: 'student',
-                    id: $routeParams.student_id
+                    id: $stateParams.student_id
                 },
                 function() {
                     $scope.student = student;
