@@ -1,65 +1,78 @@
 app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
     $stateProvider
-        .state('index', {
+        .state('public', {
+            abstract: true,
+            templateUrl: 'partial/public/index.html',
+            data: {
+                access: ['public']
+            }
+        })
+        .state('public.login', {
+            url: '/login/',
+            templateUrl: 'partial/public/login.html',
+            controller: 'LoginCtrl'
+        })
+
+
+        .state('user', {
+            abstract: true,
+            templateUrl: 'partial/user/index.html',
+            data: {
+                access: ['teacher', 'admin']
+            }
+        })
+
+        .state('user.home', {
             url: '/',
             templateUrl: 'partial/index.html',
             controller: 'IndexCtrl'
         })
-        .state('login', {
-            url: '/login',
-            templateUrl: 'partial/login.html',
-            controller: 'LoginCtrl'
-        })
 
-        .state('groups', {
-            url: '/groups',
-            templateUrl: 'partial/groups.html',
-            controller: 'GroupsCtrl'
-        })
-
-        .state('students', {
+        .state('user.students', {
             url: '/students',
             templateUrl: 'partial/students.html',
             controller: 'StudentsCtrl'
         })
-        .state('student', {
-            url: 'students/:student_id',
+        .state('user.students.view', {
+            url: '/:student_id',
             templateUrl: 'partial/student.html',
             controller: 'StudentsCtrl'
         })
 
-        .state('companies', {
+        .state('user.companies', {
             url: '/companies',
             templateUrl: 'partial/companies.html',
             controller: 'CompaniesCtrl'
         })
-        .state('company', {
-            url: '/companies/:company_id',
+        .state('user.companies.view', {
+            url: '/:company_id',
             templateUrl: 'partial/company.html',
             controller: 'CompaniesCtrl'
         })
 
-        .state('teachers', {
+        .state('user.teachers', {
             url: '/teachers',
             templateUrl: 'partial/teachers.html',
             controller: 'TeachersCtrl'
         })
 
-        .state('administration', {
+        .state('user.administration', {
             abstract: true,
-            url: '/administration',
-            template: '<ui-view/>'
+            template: '<ui-view />',
+            data: {
+                access: 'access.admin'
+            }
         })
-        .state('administration.courses', {
+        .state('user.administration.courses', {
             url: '/courses',
             templateUrl: 'partial/courses.html',
             controller: 'CoursesCtrl'
         })
-        .state('administration.courses.new', {
+        .state('user.administration.courses.new', {
             url: '/new',
             templateUrl: 'partial/new-course.html',
             controller: 'CoursesCtrl'
-        })
+        });
 
 }]);

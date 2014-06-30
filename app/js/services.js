@@ -1,15 +1,21 @@
 var SERVICE_ENDPOINT = 'localhost';  //'192.168.1.95';
 
 
-app.constant('DAYS', {
-    0: 'Monday',
-    1: 'Tuesday',
-    2: 'Wednesday',
-    3: 'Thursday',
-    4: 'Friday',
-    5: 'Saturday',
-    6: 'Sunday'
+app.constant('AUTH_EVENTS', {
+    loginSuccess: 'auth-login-success',
+    loginFailed: 'auth-login-failed',
+    logoutSuccess: 'auth-logout-success',
+    sessionTimeout: 'auth-session-timeout',
+    notAuthenticated: 'auth-not-authenticated',
+    notAuthorized: 'auth-not-authorized'
 });
+
+
+app.constant('ROLES', {
+    public: '*',
+    teacher: 'teacher',
+    admin: 'admin'
+})
 
 
 app.factory('TIMES', [function(value) {
@@ -34,55 +40,6 @@ app.factory('TIMES', [function(value) {
     return times;
 }]);
 
-
-app.factory('Student', function($resource) {
-    return $resource('http://' + SERVICE_ENDPOINT + '\\:5000/api/student/:id', {}, {
-        query: {
-            method: 'GET',
-            params: {
-                id: ''
-            },
-            isArray: false
-        },
-
-        post: {
-            method: 'POST'
-        },
-
-        save: {
-            method: 'PUT'
-        },
-
-        remove: {
-            method: 'DELETE'
-        }
-    });
-});
-
-
-app.factory('Level', function($resource) {
-    return $resource('http://' + SERVICE_ENDPOINT + '\\:5000/api/level/:id', {}, {
-        query: {
-            method: 'GET',
-            params: {
-                id: ''
-            },
-            isArray: false
-        },
-
-        post: {
-            method: 'POST'
-        },
-
-        save: {
-            method: 'PUT'
-        },
-
-        remove: {
-            method: 'DELETE'
-        }
-    });
-});
 
 app.factory('Model', function($resource, $http) {
     return $resource('http://' + SERVICE_ENDPOINT + '\\:5000/api/:model/:id', {}, {
@@ -126,4 +83,45 @@ app.factory('Model', function($resource, $http) {
             ].concat($http.defaults.transformRequest)
         }
     });
+});
+
+
+app.factory('Auth', function($http, Session) {
+    return {
+        login: function(credentials) {
+            return $http
+                .post('/login', credentials)
+                .then(function(res) {
+                    Session.create(res.id, res.userid, res.role);
+                });
+        },
+
+        is_authenticated: function () {
+            return !!Session.user_id;
+        },
+
+        is_authorized: function(authorized_roles) {
+            if (!angular.isArray(authorized_roles))
+                authorized_roles = [authorized_roles];
+
+            return (authorized_roles.indexOf('public') !== -1);
+        }
+    };
+});
+
+
+app.service('Session', function() {
+    this.create = function(session_id, user_id, user_role) {
+        this.id = session_id;
+        this.user_id = user_id;
+        this.user_role = user_role;
+    };
+
+    this.destroy = function () {
+        this.id = null;
+        this.user_id = null;
+        this.user_role = null;
+    };
+
+    return this;
 });
