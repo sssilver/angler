@@ -11,6 +11,8 @@ from model.company import Company
 from model.transaction import StudentTransaction
 from model.group import Group
 
+from service import app
+
 
 def create_api_blueprints(manager):
     blueprints = []
@@ -38,8 +40,7 @@ def create_api_blueprints(manager):
             'model': Student,
             'methods': ['GET', 'PUT', 'PATCH', 'POST', 'DELETE'],
             'preprocessors': {
-                'POST': [pre_post_student],
-                'PATCH_MANY': [pre_patch_many_student]
+                'POST': [pre_post_student]
             },
             'allow_patch_many': True
         },
@@ -106,12 +107,6 @@ def pre_post_student(data):
     data['availability'] = availability
 
 
-def pre_patch_many_student(search_params=None, data=None, **kw):
-    # Handle group management for the given students
-
-    print data
-
-
 def pre_post_transaction(data):
     data['time'] = str(datetime.utcnow())
     data['staff_id'] = 1  # TODO: Use the actual logged in staff data
@@ -121,3 +116,6 @@ def pre_post_transaction(data):
         data['amount'] = str(-1 * abs(int(data['amount'])))
 
         print data
+
+
+

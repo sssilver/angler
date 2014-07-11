@@ -18,6 +18,7 @@ class Staff(PersistentBase):
     name = Column(String(50))
     phone = Column(String(50))
     email = Column(String(50))
+    password = Column(String(50))
     address = Column(String(100))
     dob = Column(Date)
     gender = Column(Boolean)
@@ -27,3 +28,8 @@ class Staff(PersistentBase):
         primaryjoin='and_(Staff.id==Group.teacher_id)',
         back_populates='teacher'
     )
+
+
+    def authenticate(self, password):
+        # TODO: Secure this
+        return self.password == password
