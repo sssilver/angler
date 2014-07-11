@@ -1,4 +1,4 @@
-var SERVICE_ENDPOINT = 'localhost';  //'192.168.1.95';
+var SERVICE_ENDPOINT = 'http://localhost:5000';  //'192.168.1.95';
 
 
 app.constant('AUTH_EVENTS', {
@@ -42,7 +42,7 @@ app.factory('TIMES', [function(value) {
 
 
 app.factory('Model', function($resource, $http) {
-    return $resource('http://' + SERVICE_ENDPOINT + '\\:5000/api/:model/:id', {}, {
+    return $resource(SERVICE_ENDPOINT + '/api/:model/:id', {}, {
         get: {
             method: 'GET',
             isArray: false
@@ -90,7 +90,7 @@ app.factory('Auth', function($http, Session) {
     return {
         login: function(credentials) {
             return $http
-                .post('/login', credentials)
+                .post(SERVICE_ENDPOINT + '/login', credentials)
                 .then(function(res) {
                     Session.create(res.id, res.userid, res.role);
                 });
