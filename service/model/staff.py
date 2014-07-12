@@ -1,5 +1,7 @@
 from db.base import PersistentBase
 
+from flask.ext.login import UserMixin
+
 from sqlalchemy.types import String
 from sqlalchemy.types import Integer, SmallInteger
 from sqlalchemy.types import Date, DateTime
@@ -9,7 +11,7 @@ from sqlalchemy.schema import Column, ForeignKey
 from sqlalchemy.orm import validates, relationship
 
 
-class Staff(PersistentBase):
+class Staff(PersistentBase, UserMixin):
     __tablename__ = 'staff'
 
     id = Column(Integer, primary_key=True)
@@ -28,8 +30,3 @@ class Staff(PersistentBase):
         primaryjoin='and_(Staff.id==Group.teacher_id)',
         back_populates='teacher'
     )
-
-
-    def authenticate(self, password):
-        # TODO: Secure this
-        return self.password == password

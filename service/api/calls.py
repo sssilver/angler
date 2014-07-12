@@ -1,5 +1,6 @@
 from flask import request, abort, jsonify
 from flask.ext.cors import cross_origin
+from flask.ext.login import login_user
 
 from db.base import init_db
 
@@ -18,16 +19,22 @@ def init():
     return 'OK'
 
 
-@app.route('/login', methods=['POST', 'OPTIONS'])
+@app.route('/api/login', methods=['POST', 'OPTIONS'])
 @cross_origin(headers='Content-Type')
 def login():
     credentials = request.get_json()
 
     # Authenticate
-    staff = Staff.query.filter_by(email=credentials['email'].lower()).first()
+    staff = Staff.query.filter_by(
+        email=credentials['email'].lower(),
+        password=credentials['password']
+    ).first()
 
-    if staff and staff.authenticate(credentials['password']):
-        return jsonify(staff)
+    if staff:
+        login_user(staff)
+
+        return '', 200
+
 
     abort(401)
 
