@@ -8,6 +8,7 @@ var app = angular.module(
     ]
 );
 
+
 app.controller('IndexCtrl',
     ['$scope', '$rootScope', '$location', '$state', 'AUTH_EVENTS', 'Auth', 'ROLES',
         function($scope, $rootScope, $location, $state, AUTH_EVENTS, Auth, ROLES) {
@@ -22,6 +23,7 @@ app.controller('IndexCtrl',
 
     console.log('IndexCtrl');
 
+    /*
     $rootScope.$on('$stateChangeStart',
         function(event, toState, toParams, fromState, fromParams) {
             console.log(fromState);
@@ -46,6 +48,7 @@ app.controller('IndexCtrl',
 
     console.log('Broadcasting a $stateChangeStart');
     $rootScope.$broadcast('$stateChangeStart', $state, null, $state, null);
+    */
 
 }]);
 

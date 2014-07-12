@@ -1,23 +1,25 @@
-app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+app.config(
+    ['$stateProvider', '$httpProvider', '$urlRouterProvider',
+        function($stateProvider, $httpProvider, $urlRouterProvider) {
 
     $stateProvider
         .state('public', {
             abstract: true,
-            templateUrl: 'partial/public/index.html',
+            templateUrl: 'partial/outer.html',
             data: {
                 access: ['public']
             }
         })
         .state('public.login', {
             url: '/login/',
-            templateUrl: 'partial/public/login.html',
+            templateUrl: 'partial/login.html',
             controller: 'LoginCtrl'
         })
 
 
         .state('user', {
             abstract: true,
-            templateUrl: 'partial/user/index.html',
+            templateUrl: 'partial/inner.html',
             data: {
                 access: ['teacher', 'admin']
             }
@@ -25,8 +27,8 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 
         .state('user.home', {
             url: '/',
-            templateUrl: 'partial/index.html',
-            controller: 'IndexCtrl'
+            templateUrl: 'partial/home.html',
+            controller: 'HomeCtrl'
         })
 
         .state('user.students', {
@@ -74,5 +76,9 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
             templateUrl: 'partial/new-course.html',
             controller: 'CoursesCtrl'
         });
+
+
+    // Add the Authentication interceptor
+    $httpProvider.interceptors.push('AuthHttpInterceptor');
 
 }]);

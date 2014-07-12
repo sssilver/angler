@@ -1,7 +1,7 @@
 app.controller(
     'StudentsCtrl',
-        ['$scope', '$stateParams', '$log', '$location', 'Student', 'Model', 'TIMES', 'DAYS', '$modal',
-            function($scope, $stateParams, $log, $location, Student, Model, TIMES, DAYS, $modal) {
+        ['$scope', '$stateParams', '$log', '$location', 'Model', 'TIMES', 'DAYS', '$modal',
+            function($scope, $stateParams, $log, $location, Model, TIMES, DAYS, $modal) {
 
     if ($stateParams.student_id) {  // Detail view?
         $scope.refresh_student = function() {
@@ -80,7 +80,7 @@ app.controller(
     }
 
     $scope.refresh = function(query) {
-        students = Student.query(function() {
+        students = Model.query({model: 'student'}, function() {
             $scope.students = students;
             console.log($scope.students);
         });
@@ -196,7 +196,7 @@ app.controller(
     $scope.days = DAYS;
     $scope.student = new Student({'availabilities': []});
 
-    levels = Level.query(function() {
+    levels = Model.query({model: 'level'}, function() {
         $scope.levels = levels.objects;
     });
 

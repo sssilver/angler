@@ -41,6 +41,17 @@ app.factory('TIMES', [function(value) {
 }]);
 
 
+app.constant('DAYS', {
+    0: 'Monday',
+    1: 'Tuesday',
+    2: 'Wednesday',
+    3: 'Thursday',
+    4: 'Friday',
+    5: 'Saturday',
+    6: 'Sunday'
+});
+
+
 app.factory('Model', function($resource, $http) {
     return $resource(SERVICE_ENDPOINT + '/api/:model/:id', {}, {
         get: {
@@ -124,4 +135,16 @@ app.service('Session', function() {
     };
 
     return this;
+});
+
+
+app.factory('AuthHttpInterceptor', function($q, $rootScope) {
+    return {
+        'responseError': function(rejection) {
+            // 401 UNAUTHORIZED
+            console.log(rejection);
+
+            // 403 FORBIDDEN
+        }
+    };
 });
