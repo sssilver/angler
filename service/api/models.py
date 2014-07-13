@@ -2,7 +2,7 @@ from datetime import datetime
 
 from cors import add_cors_headers
 
-from model.staff import Staff
+#from model.staff import Staff
 from model.course import Course
 from model.level import Level
 from model.tariff import Tariff
@@ -10,6 +10,7 @@ from model.student import Student, Availability
 from model.company import Company
 from model.transaction import StudentTransaction
 from model.group import Group
+from model.staff import Staff
 
 from service import app
 

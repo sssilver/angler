@@ -13,7 +13,6 @@ from sqlalchemy.orm import validates, relationship
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.sql import select, func
 
-from staff import Staff
 from level import Level
 from comment import Comment
 from transaction import StudentTransaction

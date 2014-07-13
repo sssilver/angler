@@ -1,4 +1,4 @@
-var SERVICE_ENDPOINT = 'http://localhost:5000';  //'192.168.1.95';
+var SERVICE_ENDPOINT = 'http://localhost:5000/api';  //'192.168.1.95';
 
 
 app.constant('AUTH_EVENTS', {
@@ -53,7 +53,7 @@ app.constant('DAYS', {
 
 
 app.factory('Model', function($resource, $http) {
-    return $resource(SERVICE_ENDPOINT + '/api/:model/:id', {}, {
+    return $resource(SERVICE_ENDPOINT + '/:model/:id', {}, {
         get: {
             method: 'GET',
             isArray: false
@@ -97,25 +97,29 @@ app.factory('Model', function($resource, $http) {
 });
 
 
-app.factory('Auth', function($http, Session) {
+app.factory('Auth', function($http, $rootScope, Session) {
     return {
         login: function(credentials) {
             return $http
-                .post(SERVICE_ENDPOINT + '/login', credentials)
-                .then(function(res) {
-                    Session.create(res.id, res.userid, res.role);
+                .post(SERVICE_ENDPOINT + '/login', credentials, {withCredentials: true})
+                .success(function(data, status, headers, config) {
+                    console.info('loginSuccess');
+                    $rootScope.$broadcast('loginSuccess');
+                }).
+                error(function(data, status, headers, config) {
+                    console.info('loginFailure');
+                    $rootScope.$broadcast('loginFailure');
                 });
         },
 
-        is_authenticated: function () {
-            return !!Session.user_id;
-        },
-
-        is_authorized: function(authorized_roles) {
-            if (!angular.isArray(authorized_roles))
-                authorized_roles = [authorized_roles];
-
-            return (authorized_roles.indexOf('public') !== -1);
+        logout: function() {
+            console.log('Auth.logout');
+            return $http
+                .post(SERVICE_ENDPOINT + '/logout', {}, {withCredentials: true})
+                .success(function(data, status, headers, config) {
+                    console.log('logoutSuccess');
+                    $rootScope.$broadcast('logoutSuccess');
+                });
         }
     };
 });
@@ -141,10 +145,15 @@ app.service('Session', function() {
 app.factory('AuthHttpInterceptor', function($q, $rootScope) {
     return {
         'responseError': function(rejection) {
+            console.error(rejection.data.message);
+
             // 401 UNAUTHORIZED
-            console.log(rejection);
+            if (rejection.status == 401)
+                $rootScope.$broadcast('unauthorized');
 
             // 403 FORBIDDEN
+            if (rejection.status == 403)
+                $rootScope.$broadcast('forbidden');
         }
     };
 });

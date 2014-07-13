@@ -10,8 +10,8 @@ var app = angular.module(
 
 
 app.controller('IndexCtrl',
-    ['$scope', '$rootScope', '$location', '$state', 'AUTH_EVENTS', 'Auth', 'ROLES',
-        function($scope, $rootScope, $location, $state, AUTH_EVENTS, Auth, ROLES) {
+    ['$scope', '$log', '$rootScope', '$location', '$state', 'AUTH_EVENTS', 'Auth', 'ROLES',
+        function($scope, $log, $rootScope, $location, $state, AUTH_EVENTS, Auth, ROLES) {
 
     $scope.current_user = {role: 'public'};
     $scope.is_authorized = Auth.is_authorized;
@@ -22,6 +22,30 @@ app.controller('IndexCtrl',
     };
 
     console.log('IndexCtrl');
+
+    $rootScope.$on('unauthorized', function() {
+        $state.go('public.login');
+    });
+
+    $rootScope.$on('loginFailure', function() {
+        console.error('Login failed');
+    });
+
+    $rootScope.$on('loginSuccess', function() {
+        $state.go('user.home');
+    });
+
+    $rootScope.$on('logoutSuccess', function() {
+        $state.go('public.login');
+    });
+
+
+    $scope.logout = function() {
+        $log.info('Logging out');
+
+        Auth.logout();
+    }
+
 
     /*
     $rootScope.$on('$stateChangeStart',

@@ -3,10 +3,9 @@ import logging
 from flask import Flask, jsonify, request
 
 from flask.ext.restless import APIManager, ProcessingException
-from flask.ext.login import current_user, LoginManager
+from flask.ext.login import current_user
 
 from db.database import db_session
-
 
 
 app = Flask(__name__)
@@ -14,16 +13,6 @@ app.config.from_object('config')
 
 logging.basicConfig()
 logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
-
-
-# Create flask-login's login manager
-login_manager = LoginManager()
-login_manager.setup_app(app)
-
-
-@login_manager.user_loader
-def load_user(userid):
-    return Staff.query.get(userid)
 
 
 def authorize(*args, **kwargs):
@@ -52,10 +41,9 @@ manager = APIManager(
     )
 )
 
+import api.models, api.calls
 
-import service.api.models, service.api.calls
 
-
-blueprints = service.api.models.create_api_blueprints(manager)
+blueprints = api.models.create_api_blueprints(manager)
 for blueprint in blueprints:
     app.register_blueprint(blueprint)
