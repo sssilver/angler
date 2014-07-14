@@ -15,7 +15,7 @@ app.constant('ROLES', {
     public: '*',
     teacher: 'teacher',
     admin: 'admin'
-})
+});
 
 
 app.factory('TIMES', [function (value) {

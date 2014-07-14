@@ -47,7 +47,7 @@ app.controller(
         companies = Model.query({'model': 'company'}, function () {
             $scope.companies = companies;
         });
-    }
+    };
 
     $scope.remove = function (id) {
         if (confirm('Are you sure?')) {
@@ -55,7 +55,7 @@ app.controller(
                 $scope.refresh();
             });
         }
-    }
+    };
 
     $scope.refresh();
 }]);
@@ -71,7 +71,7 @@ app.controller(
 
     $scope.ok = function () {
         $modalInstance.close($scope.company);
-    }
+    };
 
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');

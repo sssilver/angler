@@ -16,7 +16,7 @@ app.controller(
                     console.log(student);
                 }
             );
-        }
+        };
 
         $scope.refresh_student();
     }
@@ -77,20 +77,20 @@ app.controller(
         }, function () {
             $log.info('Modal dismissed at: ' + new Date());
         });
-    }
+    };
 
     $scope.refresh = function (query) {
         students = Model.query({model: 'student'}, function () {
             $scope.students = students;
             console.log($scope.students);
         });
-    }
+    };
 
     $scope.viewStudent = function (studentID) {
         console.log($location);
 
         $location.path('/students/' + studentID);
-    }
+    };
 
     $scope.selectStudent = function (student) {
         var index = $scope.selectedStudents.indexOf(student);
@@ -99,11 +99,11 @@ app.controller(
           $scope.selectedStudents.splice(index, 1);
         else             // Select
           $scope.selectedStudents.push(student);
-    }
+    };
 
     $scope.listAllStudents = function () {
         $scope.refresh();  // no query filter
-    }
+    };
 
     $scope.listPendingStudents = function () {
         //[{"name":"computers__manufacturer","op":"any","val":"Apple"}]
@@ -113,7 +113,7 @@ app.controller(
             'op': 'is_
         }]
         */
-    }
+    };
 
     $scope.remove = function (id) {
         if (confirm('Are you sure?')) {
@@ -121,7 +121,7 @@ app.controller(
                 $scope.refresh();
             });
         }
-    }
+    };
 
     $scope.dlgEditStudent = function (student) {
         // TODO
@@ -129,7 +129,7 @@ app.controller(
             templateUrl: 'template/dlg-student.html',
             controller: 'StudentFormCtrl'
         });
-    }
+    };
 
     $scope.dlgPayment = function (student) {
         var modalInstance = $modal.open({
@@ -154,7 +154,7 @@ app.controller(
         }, function () {
             $log.info('Modal dismissed at: ' + new Date());
         });
-    }
+    };
 
     $scope.dlgRefund = function (student) {
         var modalInstance = $modal.open({
@@ -179,7 +179,7 @@ app.controller(
         }, function () {
             $log.info('Modal dismissed at: ' + new Date());
         });
-    }
+    };
 
     $scope.refresh();
     $scope.selectedStudents = [];
@@ -207,16 +207,16 @@ app.controller(
     $scope.addAvailability = function (day) {
         console.log('Adding availability for day ' + day.toString());
         $scope.student.availabilities[day].push([0, 0]);
-    }
+    };
 
     $scope.removeAvailability = function (day, availability) {
         console.log('Removing availability #' + availability.toString() + ' from day ' + day.toString());
         $scope.student.availabilities[day].splice(availability, 1);
-    }
+    };
 
     $scope.ok = function () {
         $modalInstance.close($scope.student);
-    }
+    };
 
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
@@ -233,11 +233,11 @@ app.controller(
     $scope.student = student;
     $scope.transaction = {
         student_id: student.id
-    }
+    };
 
     $scope.ok = function () {
         $modalInstance.close($scope.transaction);
-    }
+    };
 
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
@@ -254,11 +254,11 @@ app.controller(
     $scope.student = student;
     $scope.transaction = {
         student_id: student.id
-    }
+    };
 
     $scope.ok = function () {
         $modalInstance.close($scope.transaction);
-    }
+    };
 
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
@@ -289,7 +289,7 @@ app.controller(
                 $scope.levels = levels.objects;
             }
         );
-    }
+    };
 
     $scope.populateGroups = function (level, teacher) {
         if (!level || !teacher) {
@@ -308,7 +308,7 @@ app.controller(
                 $scope.groups = groups.objects;
             }
         );
-    }
+    };
 
     $scope.createGroup = function (level, teacher) {
         var title;
@@ -327,11 +327,11 @@ app.controller(
         }, function () {
             $scope.populateGroups(level, teacher);
         });
-    }
+    };
 
     $scope.ok = function () {
         $modalInstance.close($scope.selected_group.data);
-    }
+    };
 
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');

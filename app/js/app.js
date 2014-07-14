@@ -1,3 +1,6 @@
+/* global angular */
+
+
 var app = angular.module(
     'scool',
     [
@@ -12,6 +15,8 @@ var app = angular.module(
 app.controller('IndexCtrl',
     ['$scope', '$log', '$rootScope', '$location', '$state', 'AUTH_EVENTS', 'Auth', 'ROLES',
         function ($scope, $log, $rootScope, $location, $state, AUTH_EVENTS, Auth, ROLES) {
+
+    'use strict';
 
     $scope.current_user = {role: 'public'};
     $scope.is_authorized = Auth.is_authorized;
@@ -44,7 +49,7 @@ app.controller('IndexCtrl',
         $log.info('Logging out');
 
         Auth.logout();
-    }
+    };
 
 
     /*

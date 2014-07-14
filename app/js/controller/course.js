@@ -14,7 +14,7 @@ app.controller(
             },
             scope: $scope
         });
-    }
+    };
 
     $scope.dlgTariffs = function (course) {
         var modalInstance = $modal.open({
@@ -27,7 +27,7 @@ app.controller(
             },
             scope: $scope
         });
-    }
+    };
 
     $scope.dlgCourse = function (course) {
 
@@ -73,7 +73,7 @@ app.controller(
         courses = Model.query({'model': 'course'}, function () {
             $scope.courses = courses;
         });
-    }
+    };
 
     $scope.remove = function (id) {
         if (confirm('Are you sure?')) {
@@ -81,7 +81,7 @@ app.controller(
                 $scope.refresh();
             });
         }
-    }
+    };
 
     $scope.refresh();
 }]);
@@ -96,7 +96,7 @@ app.controller(
 
     $scope.ok = function () {
         $modalInstance.close($scope.course);
-    }
+    };
 
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
@@ -117,7 +117,7 @@ app.controller(
                 $scope.$parent.refresh();
             });
         }
-    }
+    };
 
     $scope.dlgLevel = function (course, level) {
         if (level) {
@@ -141,7 +141,7 @@ app.controller(
         modalInstance.result.then(function (level) {
             // Transform level.teachers
             level.teachers = level.teachers.map(function (teacher) {
-                return {id: teacher}
+                return {id: teacher};
             });
 
             level_service = new Model(level);
@@ -164,11 +164,11 @@ app.controller(
         }, function () {
             $log.info('Modal dismissed at: ' + new Date());
         });
-    }
+    };
 
     $scope.ok = function () {
         $modalInstance.close();
-    }
+    };
 
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
@@ -193,7 +193,7 @@ app.controller(
                 $scope.levels = levels.objects;
             }
         );
-    }
+    };
 
     $scope.refresh();
 }]);
@@ -208,7 +208,7 @@ app.controller(
 
     if (level.teachers) {
         $scope.level.teachers = level.teachers.map(function (teacher) {
-            return teacher.id
+            return teacher.id;
         });
     }
 
@@ -222,7 +222,7 @@ app.controller(
 
     $scope.ok = function () {
         $modalInstance.close($scope.level);
-    }
+    };
 
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
@@ -245,7 +245,7 @@ app.controller(
                 $scope.$parent.refresh();
             });
         }
-    }
+    };
 
     $scope.dlgTariff = function (course, tariff) {
         if (tariff) {
@@ -286,11 +286,11 @@ app.controller(
         }, function () {
             $log.info('Modal dismissed at: ' + new Date());
         });
-    }
+    };
 
     $scope.ok = function () {
         $modalInstance.close();
-    }
+    };
 
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
@@ -312,7 +312,7 @@ app.controller(
                 $scope.tariffs = tariffs.objects;
             }
         );
-    }
+    };
 
     $scope.refresh();
 }]);
@@ -327,7 +327,7 @@ app.controller(
 
     $scope.ok = function () {
         $modalInstance.close($scope.tariff);
-    }
+    };
 
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');

@@ -19,7 +19,7 @@ app.directive('scDatepicker', function () {
 
                 ngModelCtrl.$setViewValue(unix_timestamp);
                 scope.$apply();
-            });;
+            });
         }
     };
 });
