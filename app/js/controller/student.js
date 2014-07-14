@@ -1,17 +1,17 @@
 app.controller(
     'StudentsCtrl',
         ['$scope', '$stateParams', '$log', '$location', 'Model', 'TIMES', 'DAYS', '$modal',
-            function($scope, $stateParams, $log, $location, Model, TIMES, DAYS, $modal) {
+            function ($scope, $stateParams, $log, $location, Model, TIMES, DAYS, $modal) {
 
     if ($stateParams.student_id) {  // Detail view?
-        $scope.refresh_student = function() {
+        $scope.refresh_student = function () {
             // Load the requested student
             student = Model.query(
                 {
                     model: 'student',
                     id: $stateParams.student_id
                 },
-                function() {
+                function () {
                     $scope.student = student;
                     console.log(student);
                 }
@@ -21,33 +21,33 @@ app.controller(
         $scope.refresh_student();
     }
 
-    $scope.dlgAddStudent = function() {
+    $scope.dlgAddStudent = function () {
         var modalInstance = $modal.open({
             templateUrl: 'template/dlg-student.html',
             controller: 'StudentFormCtrl'
         });
 
-        modalInstance.result.then(function(student) {
-            student.$post(function() {
+        modalInstance.result.then(function (student) {
+            student.$post(function () {
                 $scope.refresh();
             });
-        }, function() {
+        }, function () {
             $log.info('Modal dismissed at: ' + new Date());
         });
     };
 
-    $scope.dlgGroups = function(students) {
+    $scope.dlgGroups = function (students) {
         var modalInstance = $modal.open({
             templateUrl: 'template/dlg-groups.html',
             controller: 'GroupsDialogCtrl',
             resolve: {
-                students: function() {
+                students: function () {
                     return students;
                 }
             }
         });
 
-        modalInstance.result.then(function(group) {
+        modalInstance.result.then(function (group) {
             var filters = [];
 
             for (var i = 0; i < students.length; ++i) {
@@ -74,25 +74,25 @@ app.controller(
 
 
 
-        }, function() {
+        }, function () {
             $log.info('Modal dismissed at: ' + new Date());
         });
     }
 
-    $scope.refresh = function(query) {
-        students = Model.query({model: 'student'}, function() {
+    $scope.refresh = function (query) {
+        students = Model.query({model: 'student'}, function () {
             $scope.students = students;
             console.log($scope.students);
         });
     }
 
-    $scope.viewStudent = function(studentID) {
+    $scope.viewStudent = function (studentID) {
         console.log($location);
 
         $location.path('/students/' + studentID);
     }
 
-    $scope.selectStudent = function(student) {
+    $scope.selectStudent = function (student) {
         var index = $scope.selectedStudents.indexOf(student);
 
         if (index > -1)  // Deselect
@@ -101,11 +101,11 @@ app.controller(
           $scope.selectedStudents.push(student);
     }
 
-    $scope.listAllStudents = function() {
+    $scope.listAllStudents = function () {
         $scope.refresh();  // no query filter
     }
 
-    $scope.listPendingStudents = function() {
+    $scope.listPendingStudents = function () {
         //[{"name":"computers__manufacturer","op":"any","val":"Apple"}]
         /*
         var query = [{
@@ -115,15 +115,15 @@ app.controller(
         */
     }
 
-    $scope.remove = function(id) {
+    $scope.remove = function (id) {
         if (confirm('Are you sure?')) {
-            Student.remove({'id': id}, function() {
+            Student.remove({'id': id}, function () {
                 $scope.refresh();
             });
         }
     }
 
-    $scope.dlgEditStudent = function(student) {
+    $scope.dlgEditStudent = function (student) {
         // TODO
         var modalInstance = $modal.open({
             templateUrl: 'template/dlg-student.html',
@@ -131,52 +131,52 @@ app.controller(
         });
     }
 
-    $scope.dlgPayment = function(student) {
+    $scope.dlgPayment = function (student) {
         var modalInstance = $modal.open({
             templateUrl: 'template/dlg-payment.html',
             controller: 'StudentPaymentDialogCtrl',
             resolve: {
-                student: function() {
+                student: function () {
                     return $scope.student;
                 }
             }
         });
 
-        modalInstance.result.then(function(transaction) {
+        modalInstance.result.then(function (transaction) {
             transaction_service = new Model(transaction);
 
             transaction_service.$post(
                 {'model': 'student-transaction'},
-                function() {
+                function () {
                     $scope.refresh_student();
                 }
             );
-        }, function() {
+        }, function () {
             $log.info('Modal dismissed at: ' + new Date());
         });
     }
 
-    $scope.dlgRefund = function(student) {
+    $scope.dlgRefund = function (student) {
         var modalInstance = $modal.open({
             templateUrl: 'template/dlg-refund.html',
             controller: 'StudentRefundDialogCtrl',
             resolve: {
-                student: function() {
+                student: function () {
                     return $scope.student;
                 }
             }
         });
 
-        modalInstance.result.then(function(transaction) {
+        modalInstance.result.then(function (transaction) {
             transaction_service = new Model(transaction);
 
             transaction_service.$post(
                 {'model': 'student-transaction'},
-                function() {
+                function () {
                     $scope.refresh_student();
                 }
             );
-        }, function() {
+        }, function () {
             $log.info('Modal dismissed at: ' + new Date());
         });
     }
@@ -189,14 +189,14 @@ app.controller(
 app.controller(
     'StudentFormCtrl',
         ['$scope', '$modalInstance', 'Student', 'Level', 'TIMES', 'DAYS',
-            function($scope, $modalInstance, Student, Level, TIMES, DAYS) {
+            function ($scope, $modalInstance, Student, Level, TIMES, DAYS) {
 
 
     $scope.times = TIMES;
     $scope.days = DAYS;
     $scope.student = new Student({'availabilities': []});
 
-    levels = Model.query({model: 'level'}, function() {
+    levels = Model.query({model: 'level'}, function () {
         $scope.levels = levels.objects;
     });
 
@@ -204,21 +204,21 @@ app.controller(
     for (var i in DAYS)
         $scope.student.availabilities[i] = [];
 
-    $scope.addAvailability = function(day) {
+    $scope.addAvailability = function (day) {
         console.log('Adding availability for day ' + day.toString());
         $scope.student.availabilities[day].push([0, 0]);
     }
 
-    $scope.removeAvailability = function(day, availability) {
+    $scope.removeAvailability = function (day, availability) {
         console.log('Removing availability #' + availability.toString() + ' from day ' + day.toString());
         $scope.student.availabilities[day].splice(availability, 1);
     }
 
-    $scope.ok = function() {
+    $scope.ok = function () {
         $modalInstance.close($scope.student);
     }
 
-    $scope.cancel = function() {
+    $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
     };
 
@@ -228,18 +228,18 @@ app.controller(
 app.controller(
     'StudentPaymentDialogCtrl',
         ['$scope', '$log', '$modalInstance', '$modal', 'student', 'Model',
-            function($scope, $log, $modalInstance, $modal, student, Model) {
+            function ($scope, $log, $modalInstance, $modal, student, Model) {
 
     $scope.student = student;
     $scope.transaction = {
         student_id: student.id
     }
 
-    $scope.ok = function() {
+    $scope.ok = function () {
         $modalInstance.close($scope.transaction);
     }
 
-    $scope.cancel = function() {
+    $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
     };
 
@@ -249,18 +249,18 @@ app.controller(
 app.controller(
     'StudentRefundDialogCtrl',
         ['$scope', '$log', '$modalInstance', '$modal', 'student', 'Model',
-            function($scope, $log, $modalInstance, $modal, student, Model) {
+            function ($scope, $log, $modalInstance, $modal, student, Model) {
 
     $scope.student = student;
     $scope.transaction = {
         student_id: student.id
     }
 
-    $scope.ok = function() {
+    $scope.ok = function () {
         $modalInstance.close($scope.transaction);
     }
 
-    $scope.cancel = function() {
+    $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
     };
 
@@ -270,28 +270,28 @@ app.controller(
 app.controller(
     'GroupsDialogCtrl',
         ['$scope', '$log', '$modalInstance', '$modal', 'students', 'Model',
-            function($scope, $log, $modalInstance, $modal, students, Model) {
+            function ($scope, $log, $modalInstance, $modal, students, Model) {
 
     $scope.students = students;
     $scope.selected_group = {};
 
-    courses = Model.query({model: 'course'}, function() {
+    courses = Model.query({model: 'course'}, function () {
         $scope.courses = courses.objects;
     });
 
-    $scope.populateLevels = function(course) {
+    $scope.populateLevels = function (course) {
         levels = Model.query(
             {
                 model: 'level',
                 course_id: course.id
             },
-            function() {
+            function () {
                 $scope.levels = levels.objects;
             }
         );
     }
 
-    $scope.populateGroups = function(level, teacher) {
+    $scope.populateGroups = function (level, teacher) {
         if (!level || !teacher) {
             $scope.groups = [];
 
@@ -304,13 +304,13 @@ app.controller(
                 level_id: level.id,
                 teacher_id: teacher.id
             },
-            function() {
+            function () {
                 $scope.groups = groups.objects;
             }
         );
     }
 
-    $scope.createGroup = function(level, teacher) {
+    $scope.createGroup = function (level, teacher) {
         var title;
 
         if (!(title = prompt('Level title')))
@@ -324,16 +324,16 @@ app.controller(
 
         group_service.$post({
             model: 'group'
-        }, function() {
+        }, function () {
             $scope.populateGroups(level, teacher);
         });
     }
 
-    $scope.ok = function() {
+    $scope.ok = function () {
         $modalInstance.close($scope.selected_group.data);
     }
 
-    $scope.cancel = function() {
+    $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
     };
 

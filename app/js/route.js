@@ -1,6 +1,6 @@
 app.config(
     ['$stateProvider', '$httpProvider', '$urlRouterProvider',
-        function($stateProvider, $httpProvider, $urlRouterProvider) {
+        function ($stateProvider, $httpProvider, $urlRouterProvider) {
 
     $stateProvider
         .state('public', {

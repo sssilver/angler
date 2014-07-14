@@ -1,8 +1,8 @@
-app.directive('scDatepicker', function() {
+app.directive('scDatepicker', function () {
     return {
         restrict: 'A',
         require: 'ngModel',
-        link: function(scope, element, attrs, ngModelCtrl) {
+        link: function (scope, element, attrs, ngModelCtrl) {
             var startView = attrs.startView;
 
             if (!startView)
@@ -11,7 +11,7 @@ app.directive('scDatepicker', function() {
             $(element).datetimepicker({
                 'startView': startView,
                 'autoclose': true
-            }).on('changeDate', function(e) {
+            }).on('changeDate', function (e) {
                 var outputDate = +new Date(e.date);
 
                 // Apparently, Javascript timestamps are in milliseconds
@@ -24,10 +24,10 @@ app.directive('scDatepicker', function() {
     };
 });
 
-app.directive('scDatetimepicker', function() {
+app.directive('scDatetimepicker', function () {
     return {
         restrict: 'A',
-        link: function(scope, element, attrs) {
+        link: function (scope, element, attrs) {
             var mode = attrs.scDatepicker;
 
             if (!mode)
@@ -40,12 +40,12 @@ app.directive('scDatetimepicker', function() {
     };
 });
 
-app.directive('scInteger', function() {
+app.directive('scInteger', function () {
     return {
         require: 'ngModel',
-        link: function(scope, element, attrs, ctrl) {
+        link: function (scope, element, attrs, ctrl) {
             var INTEGER_REGEXP = /^\-?\d+$/;
-            ctrl.$parsers.unshift(function(viewValue) {
+            ctrl.$parsers.unshift(function (viewValue) {
                 if (INTEGER_REGEXP.test(viewValue)) {
                     // it is valid
                     ctrl.$setValidity('integer', true);
@@ -60,9 +60,9 @@ app.directive('scInteger', function() {
     };
 });
 
-app.directive('scMultiselect', [function() {
+app.directive('scMultiselect', [function () {
     return {
-        link: function(scope, element, attrs) {
+        link: function (scope, element, attrs) {
             //element = $(element);
             //console.log(element);
 
@@ -71,7 +71,7 @@ app.directive('scMultiselect', [function() {
 
                 // Replicate the native functionality on the elements so
                 // that Angular can handle the changes for us
-                onChange: function(optionElement, checked) {
+                onChange: function (optionElement, checked) {
                     optionElement.prop('selected', false);
 
                     if (checked)
@@ -87,7 +87,7 @@ app.directive('scMultiselect', [function() {
                 element.multiselect('rebuild');
             });
 
-            scope.$watch(attrs.ngModel, function() {
+            scope.$watch(attrs.ngModel, function () {
                 element.multiselect('refresh');
             });
         }

@@ -18,7 +18,7 @@ app.constant('ROLES', {
 })
 
 
-app.factory('TIMES', [function(value) {
+app.factory('TIMES', [function (value) {
     times = [];
 
     for (i = 0; i < 1440; i+=30) {
@@ -52,7 +52,7 @@ app.constant('DAYS', {
 });
 
 
-app.factory('Model', function($resource, $http) {
+app.factory('Model', function ($resource, $http) {
     return $resource(SERVICE_ENDPOINT + '/:model/:id', {}, {
         get: {
             method: 'GET',
@@ -88,7 +88,7 @@ app.factory('Model', function($resource, $http) {
                 id: '@id'
             },
             transformRequest: [
-                function(data, headers_getter) {
+                function (data, headers_getter) {
                     return {is_deleted: true};
                 }
             ].concat($http.defaults.transformRequest)
@@ -97,26 +97,26 @@ app.factory('Model', function($resource, $http) {
 });
 
 
-app.factory('Auth', function($http, $rootScope, Session) {
+app.factory('Auth', function ($http, $rootScope, Session) {
     return {
-        login: function(credentials) {
+        login: function (credentials) {
             return $http
                 .post(SERVICE_ENDPOINT + '/login', credentials, {withCredentials: true})
-                .success(function(data, status, headers, config) {
+                .success(function (data, status, headers, config) {
                     console.info('loginSuccess');
                     $rootScope.$broadcast('loginSuccess');
                 }).
-                error(function(data, status, headers, config) {
+                error(function (data, status, headers, config) {
                     console.info('loginFailure');
                     $rootScope.$broadcast('loginFailure');
                 });
         },
 
-        logout: function() {
+        logout: function () {
             console.log('Auth.logout');
             return $http
                 .post(SERVICE_ENDPOINT + '/logout', {}, {withCredentials: true})
-                .success(function(data, status, headers, config) {
+                .success(function (data, status, headers, config) {
                     console.log('logoutSuccess');
                     $rootScope.$broadcast('logoutSuccess');
                 });
@@ -125,8 +125,8 @@ app.factory('Auth', function($http, $rootScope, Session) {
 });
 
 
-app.service('Session', function() {
-    this.create = function(session_id, user_id, user_role) {
+app.service('Session', function () {
+    this.create = function (session_id, user_id, user_role) {
         this.id = session_id;
         this.user_id = user_id;
         this.user_role = user_role;
@@ -142,9 +142,9 @@ app.service('Session', function() {
 });
 
 
-app.factory('AuthHttpInterceptor', function($q, $rootScope) {
+app.factory('AuthHttpInterceptor', function ($q, $rootScope) {
     return {
-        'responseError': function(rejection) {
+        'responseError': function (rejection) {
             console.error(rejection.data.message);
 
             // 401 UNAUTHORIZED

@@ -1,14 +1,14 @@
 app.controller(
     'CoursesCtrl',
         ['$scope', '$log', '$modal', 'Model', 'TIMES', 'DAYS',
-            function($scope, $log, $modal, Model, TIMES, DAYS) {
+            function ($scope, $log, $modal, Model, TIMES, DAYS) {
 
-    $scope.dlgLevels = function(course) {
+    $scope.dlgLevels = function (course) {
         var modalInstance = $modal.open({
             templateUrl: 'template/levels.html',
             controller: 'LevelsDialogCtrl',
             resolve: {
-                course: function() {
+                course: function () {
                     return course;
                 }
             },
@@ -16,12 +16,12 @@ app.controller(
         });
     }
 
-    $scope.dlgTariffs = function(course) {
+    $scope.dlgTariffs = function (course) {
         var modalInstance = $modal.open({
             templateUrl: 'template/tariffs.html',
             controller: 'TariffsDialogCtrl',
             resolve: {
-                course: function() {
+                course: function () {
                     return course;
                 }
             },
@@ -29,7 +29,7 @@ app.controller(
         });
     }
 
-    $scope.dlgCourse = function(course) {
+    $scope.dlgCourse = function (course) {
 
         if (course)
             $scope.course = course;
@@ -40,44 +40,44 @@ app.controller(
             templateUrl: 'template/dlg-course.html',
             controller: 'CourseDialogCtrl',
             resolve: {
-                course: function() {
+                course: function () {
                     return $scope.course;
                 }
             }
         });
 
-        modalInstance.result.then(function(course) {
+        modalInstance.result.then(function (course) {
             course_service = new Model(course);
 
             if (course.id) {
                 course_service.$save(
                     {'model': 'course', 'id': course.id},
-                    function() {
+                    function () {
                         $scope.refresh();
                     }
                 );
             } else {
                 course_service.$post(
                     {'model': 'course'},
-                    function() {
+                    function () {
                         $scope.refresh();
                     }
                 );
             }
-        }, function() {
+        }, function () {
             $log.info('Modal dismissed at: ' + new Date());
         });
     };
 
-    $scope.refresh = function() {
-        courses = Model.query({'model': 'course'}, function() {
+    $scope.refresh = function () {
+        courses = Model.query({'model': 'course'}, function () {
             $scope.courses = courses;
         });
     }
 
-    $scope.remove = function(id) {
+    $scope.remove = function (id) {
         if (confirm('Are you sure?')) {
-            Model.remove({'model': 'course', 'id': id}, function() {
+            Model.remove({'model': 'course', 'id': id}, function () {
                 $scope.refresh();
             });
         }
@@ -90,15 +90,15 @@ app.controller(
 app.controller(
     'CourseDialogCtrl',
         ['$scope', '$log', '$modalInstance', '$modal', 'course', 'Model',
-            function($scope, $log, $modalInstance, $modal, course, Model) {
+            function ($scope, $log, $modalInstance, $modal, course, Model) {
 
     $scope.course = course;
 
-    $scope.ok = function() {
+    $scope.ok = function () {
         $modalInstance.close($scope.course);
     }
 
-    $scope.cancel = function() {
+    $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
     };
 
@@ -107,19 +107,19 @@ app.controller(
 app.controller(
     'LevelsDialogCtrl',
         ['$scope', '$log', '$modalInstance', '$modal', 'course', 'Model',
-            function($scope, $log, $modalInstance, $modal, course, Model) {
+            function ($scope, $log, $modalInstance, $modal, course, Model) {
 
     $scope.course = course;
 
-    $scope.remove = function(level_id) {
+    $scope.remove = function (level_id) {
         if (confirm('Are you sure?')) {
-            Model.remove({'model': 'level', 'id': level_id}, function() {
+            Model.remove({'model': 'level', 'id': level_id}, function () {
                 $scope.$parent.refresh();
             });
         }
     }
 
-    $scope.dlgLevel = function(course, level) {
+    $scope.dlgLevel = function (course, level) {
         if (level) {
             $scope.level = level;
         } else {
@@ -132,15 +132,15 @@ app.controller(
             templateUrl: 'template/dlg-level.html',
             controller: 'LevelDialogCtrl',
             resolve: {
-                level: function() {
+                level: function () {
                     return $scope.level;
                 }
             }
         });
 
-        modalInstance.result.then(function(level) {
+        modalInstance.result.then(function (level) {
             // Transform level.teachers
-            level.teachers = level.teachers.map(function(teacher) {
+            level.teachers = level.teachers.map(function (teacher) {
                 return {id: teacher}
             });
 
@@ -149,32 +149,32 @@ app.controller(
             if (level.id) {
                 level_service.$save(
                     {'model': 'level', 'id': level.id},
-                    function() {
+                    function () {
                         $scope.refresh();
                     }
                 );
             } else {
                 level_service.$post(
                     {'model': 'level'},
-                    function() {
+                    function () {
                         $scope.refresh();
                     }
                 );
             }
-        }, function() {
+        }, function () {
             $log.info('Modal dismissed at: ' + new Date());
         });
     }
 
-    $scope.ok = function() {
+    $scope.ok = function () {
         $modalInstance.close();
     }
 
-    $scope.cancel = function() {
+    $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
     };
 
-    $scope.refresh = function() {
+    $scope.refresh = function () {
         console.log('querying levels for ');
         console.log(course);
 
@@ -189,7 +189,7 @@ app.controller(
                     }]
                 }
             },
-            function() {
+            function () {
                 $scope.levels = levels.objects;
             }
         );
@@ -202,29 +202,29 @@ app.controller(
 app.controller(
     'LevelDialogCtrl',
         ['$scope', '$modalInstance', 'level', 'Model',
-            function($scope, $modalInstance, level, Model) {
+            function ($scope, $modalInstance, level, Model) {
 
     $scope.level = angular.copy(level);
 
     if (level.teachers) {
-        $scope.level.teachers = level.teachers.map(function(teacher) {
+        $scope.level.teachers = level.teachers.map(function (teacher) {
             return teacher.id
         });
     }
 
     teachers = Model.query(
         {model: 'staff'},
-        function() {
+        function () {
             $scope.teachers = teachers.objects;
             console.log(teachers);
         }
     );
 
-    $scope.ok = function() {
+    $scope.ok = function () {
         $modalInstance.close($scope.level);
     }
 
-    $scope.cancel = function() {
+    $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
     };
 
@@ -235,19 +235,19 @@ app.controller(
 app.controller(
     'TariffsDialogCtrl',
         ['$scope', '$log', '$modalInstance', '$modal', 'course', 'Model',
-            function($scope, $log, $modalInstance, $modal, course, Model) {
+            function ($scope, $log, $modalInstance, $modal, course, Model) {
 
     $scope.course = course;
 
-    $scope.remove = function(tariff_id) {
+    $scope.remove = function (tariff_id) {
         if (confirm('Are you sure?')) {
-            Model.remove({'model': 'tariff', 'id': tariff_id}, function() {
+            Model.remove({'model': 'tariff', 'id': tariff_id}, function () {
                 $scope.$parent.refresh();
             });
         }
     }
 
-    $scope.dlgTariff = function(course, tariff) {
+    $scope.dlgTariff = function (course, tariff) {
         if (tariff) {
             $scope.tariff = tariff;
         } else {
@@ -259,44 +259,44 @@ app.controller(
             templateUrl: 'template/dlg-tariff.html',
             controller: 'TariffDialogCtrl',
             resolve: {
-                tariff: function() {
+                tariff: function () {
                     return $scope.tariff;
                 }
             }
         });
 
-        modalInstance.result.then(function(tariff) {
+        modalInstance.result.then(function (tariff) {
             tariff_service = new Model(tariff);
 
             if (tariff.id) {
                 tariff_service.$save(
                     {'model': 'tariff', 'id': tariff.id},
-                    function() {
+                    function () {
                         $scope.refresh();
                     }
                 );
             } else {
                 tariff_service.$post(
                     {'model': 'tariff'},
-                    function() {
+                    function () {
                         $scope.refresh();
                     }
                 );
             }
-        }, function() {
+        }, function () {
             $log.info('Modal dismissed at: ' + new Date());
         });
     }
 
-    $scope.ok = function() {
+    $scope.ok = function () {
         $modalInstance.close();
     }
 
-    $scope.cancel = function() {
+    $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
     };
 
-    $scope.refresh = function() {
+    $scope.refresh = function () {
         tariffs = Model.query(
             {
                 model: 'tariff',
@@ -308,7 +308,7 @@ app.controller(
                     }]
                 }
             },
-            function() {
+            function () {
                 $scope.tariffs = tariffs.objects;
             }
         );
@@ -321,15 +321,15 @@ app.controller(
 app.controller(
     'TariffDialogCtrl',
         ['$scope', '$modalInstance', 'tariff', 'Model',
-            function($scope, $modalInstance, tariff, Model) {
+            function ($scope, $modalInstance, tariff, Model) {
 
     $scope.tariff = angular.copy(tariff);
 
-    $scope.ok = function() {
+    $scope.ok = function () {
         $modalInstance.close($scope.tariff);
     }
 
-    $scope.cancel = function() {
+    $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
     };
 

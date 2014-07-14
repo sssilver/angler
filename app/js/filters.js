@@ -1,5 +1,5 @@
-app.filter('timeRangeFilter', function() {
-    return function(input, from) {
+app.filter('timeRangeFilter', function () {
+    return function (input, from) {
         output = [];
 
         for (i = 0; i < input.length; ++i) {

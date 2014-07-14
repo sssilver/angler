@@ -11,36 +11,36 @@ var app = angular.module(
 
 app.controller('IndexCtrl',
     ['$scope', '$log', '$rootScope', '$location', '$state', 'AUTH_EVENTS', 'Auth', 'ROLES',
-        function($scope, $log, $rootScope, $location, $state, AUTH_EVENTS, Auth, ROLES) {
+        function ($scope, $log, $rootScope, $location, $state, AUTH_EVENTS, Auth, ROLES) {
 
     $scope.current_user = {role: 'public'};
     $scope.is_authorized = Auth.is_authorized;
 
 
-    $scope.go = function(path) {
+    $scope.go = function (path) {
         $location.path(path);
     };
 
     console.log('IndexCtrl');
 
-    $rootScope.$on('unauthorized', function() {
+    $rootScope.$on('unauthorized', function () {
         $state.go('public.login');
     });
 
-    $rootScope.$on('loginFailure', function() {
+    $rootScope.$on('loginFailure', function () {
         console.error('Login failed');
     });
 
-    $rootScope.$on('loginSuccess', function() {
+    $rootScope.$on('loginSuccess', function () {
         $state.go('user.home');
     });
 
-    $rootScope.$on('logoutSuccess', function() {
+    $rootScope.$on('logoutSuccess', function () {
         $state.go('public.login');
     });
 
 
-    $scope.logout = function() {
+    $scope.logout = function () {
         $log.info('Logging out');
 
         Auth.logout();
@@ -49,7 +49,7 @@ app.controller('IndexCtrl',
 
     /*
     $rootScope.$on('$stateChangeStart',
-        function(event, toState, toParams, fromState, fromParams) {
+        function (event, toState, toParams, fromState, fromParams) {
             console.log(fromState);
             console.log(toState);
             if (toState.data !== undefined && !Auth.is_authorized(toState.data.access)) {
@@ -79,6 +79,6 @@ app.controller('IndexCtrl',
 
 app.controller('ErrorCtrl',
     ['$scope', '$rootScope', '$location', '$state', 'AUTH_EVENTS', 'Auth', 'ROLES',
-        function($scope, $rootScope, $location, $state, AUTH_EVENTS, Auth, ROLES) {
+        function ($scope, $rootScope, $location, $state, AUTH_EVENTS, Auth, ROLES) {
     console.log('error controller');
 }]);
