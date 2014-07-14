@@ -18,7 +18,6 @@
     "angular-ui-router": "*",
     "angular-ui-select2": "*",
     "angular": "*",
-    "bootstrap-datetimepicker": "*",
     "bootstrap": "*",
     "angular-bootstrap": "*",
     "angular-route": "*"
