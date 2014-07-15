@@ -1,93 +1,94 @@
-<div class="page-header">
-  <h1>
-    Students
+<div ui-view>
+  <div class="page-header">
+    <h1>
+      Students
 
-    <div class="pull-right">
-      <!-- Button trigger modal -->
-      <button class="btn btn-primary" ng-click="dlgAddStudent()">
-        Add a new student
-      </button>
-    </div>
-  </h1>
-</div>
+      <div class="pull-right">
+        <!-- Button trigger modal -->
+        <button class="btn btn-primary" ng-click="dlgAddStudent()">
+          Add a new student
+        </button>
+      </div>
+    </h1>
+  </div>
 
-<div class="row">
-  <div class="col-md-3">
-      <tabset vertical="true" type="pills">
-        <tab select="listAllStudents()">
-          <tab-heading>
-            All students
-            <span class="pull-right">{{students.objects.length}}</span>
-          </tab-heading>
-        </tab>
-        <tab heading="Pending" select="listPendingStudents()"></tab>
-      </tabset>
+  <div class="row">
+    <div class="col-md-3">
+        <tabset vertical="true" type="pills">
+          <tab select="listAllStudents()">
+            <tab-heading>
+              All students
+              <span class="pull-right">{{students.objects.length}}</span>
+            </tab-heading>
+          </tab>
+          <tab heading="Pending" select="listPendingStudents()"></tab>
+        </tabset>
 
-    <div class="spaced">
-      <div class="panel panel-info" ng-if="selectedStudents.length">
-        <div class="panel-heading">
-          <span class="panel-title">Marked students</span>
+      <div class="spaced">
+        <div class="panel panel-info" ng-if="selectedStudents.length">
+          <div class="panel-heading">
+            <span class="panel-title">Marked students</span>
+          </div>
+
+          <table class="table">
+            <tr ng-repeat="student in selectedStudents">
+              <td>{{student.name}}</td>
+            </tr>
+            <tr>
+              <td>
+                <button class="btn" ng-click="dlgGroups(selectedStudents)">
+                  Add to a group
+                </button>
+              </td>
+            </tr>
+          </table>
         </div>
-
-        <table class="table">
-          <tr ng-repeat="student in selectedStudents">
-            <td>{{student.name}}</td>
-          </tr>
-          <tr>
-            <td>
-              <button class="btn" ng-click="dlgGroups(selectedStudents)">
-                Add to a group
-              </button>
-            </td>
-          </tr>
-        </table>
       </div>
     </div>
-  </div>
 
-  <div class="col-md-9">
-    <table class="table table-striped table-hover">
-      <tr>
-        <th><!-- checkbox --></th>
-        <th>Student name</th>
-        <th>Phone number</th>
-        <th>Email</th>
-        <th class="col-md-1"></th>
-      </tr>
+    <div class="col-md-9">
+      <table class="table table-striped table-hover">
+        <tr>
+          <th><!-- checkbox --></th>
+          <th>Student name</th>
+          <th>Phone number</th>
+          <th>Email</th>
+          <th class="col-md-1"></th>
+        </tr>
 
-      <tr ng-repeat="student in students.objects"
-          ng-click="viewStudent(student.id)"
-          ng-class="{info: selectedStudents.indexOf(student) > -1}">
-        <td>
-          <button class="btn btn-xs"
-                  ng-click="selectStudent(student); $event.stopPropagation()"
-                  ng-class="{'btn-info': selectedStudents.indexOf(student) > -1}">
-            <span class="glyphicon-white glyphicon"
-                  ng-class="
-                    {
-                      'glyphicon-check': selectedStudents.indexOf(student) > -1,
-                      'glyphicon-unchecked': selectedStudents.indexOf(student) == -1
-                    }
-                  "></span>
-          </button>
-        </td>
-        <td>{{student.name}}</td>
-        <td>{{student.phone}}</td>
-        <td>{{student.email}}</td>
-        <td class="col-md-1">
-          <div class="pull-right hover">
+        <tr ng-repeat="student in students.objects"
+            ng-click="viewStudent(student.id)"
+            ng-class="{info: selectedStudents.indexOf(student) > -1}">
+          <td>
             <button class="btn btn-xs"
-                    ng-click="dlgEditStudent(student.id); $event.stopPropagation()">
-              <span class="glyphicon-white glyphicon glyphicon-pencil"></span>
+                    ng-click="selectStudent(student); $event.stopPropagation()"
+                    ng-class="{'btn-info': selectedStudents.indexOf(student) > -1}">
+              <span class="glyphicon-white glyphicon"
+                    ng-class="
+                      {
+                        'glyphicon-check': selectedStudents.indexOf(student) > -1,
+                        'glyphicon-unchecked': selectedStudents.indexOf(student) == -1
+                      }
+                    "></span>
             </button>
-            <button class="btn btn-danger btn-xs"
-                    ng-click="remove(student.id); $event.stopPropagation()">
-              <span class="glyphicon-white glyphicon glyphicon-remove"></span>
-            </button>
-          </div>
-        </td>
-      </tr>
-    </table>
+          </td>
+          <td>{{student.name}}</td>
+          <td>{{student.phone}}</td>
+          <td>{{student.email}}</td>
+          <td class="col-md-1">
+            <div class="pull-right hover">
+              <button class="btn btn-xs"
+                      ng-click="dlgEditStudent(student.id); $event.stopPropagation()">
+                <span class="glyphicon-white glyphicon glyphicon-pencil"></span>
+              </button>
+              <button class="btn btn-danger btn-xs"
+                      ng-click="remove(student.id); $event.stopPropagation()">
+                <span class="glyphicon-white glyphicon glyphicon-remove"></span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
   </div>
 </div>
-

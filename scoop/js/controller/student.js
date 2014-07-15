@@ -1,7 +1,7 @@
 app.controller(
     'StudentsCtrl',
-        ['$scope', '$q', '$stateParams', '$log', '$location', '$resource', 'Model', 'TIMES', 'DAYS', '$modal',
-            function ($scope, $q, $stateParams, $log, $location, $resource, Model, TIMES, DAYS, $modal) {
+        ['$scope', '$q', '$state', '$stateParams', '$log', '$location', '$resource', 'Model', 'TIMES', 'DAYS', '$modal',
+            function ($scope, $q, $state, $stateParams, $log, $location, $resource, Model, TIMES, DAYS, $modal) {
 
     if ($stateParams.student_id) {  // Detail view?
         $scope.refresh_student = function () {
@@ -84,10 +84,10 @@ app.controller(
         });
     };
 
-    $scope.viewStudent = function (studentID) {
+    $scope.viewStudent = function (student_id) {
         console.log($location);
 
-        $location.path('/students/' + studentID);
+        $state.go('.view', {student_id: student_id});
     };
 
     $scope.selectStudent = function (student) {
