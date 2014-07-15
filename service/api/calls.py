@@ -65,6 +65,28 @@ def logout():
     return '', 200
 
 
+@app.route('/api/studentgroup', methods=['POST', 'OPTIONS'])
+@cross_origin(headers='Content-Type', send_wildcard=False, supports_credentials=True)
+@login_required
+def studentgroup_post():
+    data = request.get_json()
+
+    print data
+
+    return '', 200
+
+
+@app.route('/api/studentgroup', methods=['DELETE', 'OPTIONS'])
+@cross_origin(headers='Content-Type', send_wildcard=False, supports_credentials=True)
+@login_required
+def studentgroup_delete():
+    data = request.get_json()
+
+    print data
+
+    return '', 200
+
+
 # Create flask-login's login manager
 login_manager = LoginManager()
 login_manager.setup_app(app)

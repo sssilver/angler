@@ -6,13 +6,6 @@ from sqlalchemy.schema import Column, ForeignKey, Table
 from sqlalchemy.orm import relationship
 
 
-
-group_student_table = Table('group_student', PersistentBase.metadata,
-    Column('group_id', Integer, ForeignKey('group.id')),
-    Column('student_id', Integer, ForeignKey('student.id'))
-)
-
-
 class Group(PersistentBase):
     __tablename__ = 'group'
 
@@ -36,7 +29,7 @@ class Group(PersistentBase):
     # Students who are a member of this group
     students = relationship(
         'Student',
-        secondary=group_student_table,
+        secondary='student_group',
         join_depth=30  # Up to the level's teachers
     )
 

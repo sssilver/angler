@@ -101,6 +101,19 @@ class Student(PersistentBase):
         return email
 
 
+class StudentGroup(PersistentBase):
+    __tablename__ = 'student_group'
+
+    student_id = Column(Integer, ForeignKey('student.id'), primary_key=True)
+    student = relationship('Student')
+
+    group_id = Column(Integer, ForeignKey('group.id'), primary_key=True)
+    group = relationship('Group')
+
+    # Date when student was added to the group
+    add_date = Column(DateTime, default=datetime.utcnow)
+
+
 class Availability(Base):
     __tablename__ = 'availability'
 

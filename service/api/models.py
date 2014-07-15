@@ -6,7 +6,7 @@ from cors import add_cors_headers
 from model.course import Course
 from model.level import Level
 from model.tariff import Tariff
-from model.student import Student, Availability
+from model.student import Student, StudentGroup, Availability
 from model.company import Company
 from model.transaction import StudentTransaction
 from model.group import Group
@@ -61,6 +61,10 @@ def create_api_blueprints(manager):
             'model': Group,
             'methods': ['GET', 'PUT', 'PATCH', 'POST', 'DELETE']
         },
+        {
+            'model': StudentGroup,
+            'methods': ['GET', 'POST', 'DELETE']
+        }
     ]
 
     # Create the blueprints for each model with their respective options

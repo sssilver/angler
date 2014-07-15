@@ -1,7 +1,7 @@
 app.controller(
     'StudentsCtrl',
-        ['$scope', '$stateParams', '$log', '$location', 'Model', 'TIMES', 'DAYS', '$modal',
-            function ($scope, $stateParams, $log, $location, Model, TIMES, DAYS, $modal) {
+        ['$scope', '$q', '$stateParams', '$log', '$location', '$resource', 'Model', 'TIMES', 'DAYS', '$modal',
+            function ($scope, $q, $stateParams, $log, $location, $resource, Model, TIMES, DAYS, $modal) {
 
     if ($stateParams.student_id) {  // Detail view?
         $scope.refresh_student = function () {
@@ -48,31 +48,29 @@ app.controller(
         });
 
         modalInstance.result.then(function (group) {
-            var filters = [];
+            // Add students
+            // TODO: This currently being done one-by-one, due to a limitation
+            // of flask-restless. Must fix this sometime in the future.
+            var promises = [];
 
             for (var i = 0; i < students.length; ++i) {
-                var student = students[i];
+                var student_group = {
+                    student_id: students[i].id,
+                    group_id: group.id
+                };
 
-                filters.push({
-                    'name': 'id',
-                    'op': '==',
-                    'val': student.id
-                });
+                student_group_service = new Model(student_group);
+
+                promises.push(student_group_service.$post(
+                    {'model': 'student_group'}
+                ));
             }
 
-            students_data = {add_group_id: group.id};
-
-            var student_service = new Model(students_data);
-
-            student_service.$save({
-                model: 'student',
-                q: JSON.stringify({
-                    filters: filters,
-                    disjunction: true
-                })
-            });
-
-
+            $q.all(promises).then(
+                function () {
+                    console.info('added all students to the group');
+                }
+            );
 
         }, function () {
             $log.info('Modal dismissed at: ' + new Date());
