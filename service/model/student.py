@@ -78,6 +78,11 @@ class Student(PersistentBase):
         back_populates='student'
     )
 
+    # Groups this student is a member of
+    groups = relationship(
+        'Group',
+        secondary='student_group'
+    )
 
     @hybrid_property
     def balance(self):

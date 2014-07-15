@@ -32,4 +32,3 @@ class Group(PersistentBase):
         secondary='student_group',
         join_depth=30  # Up to the level's teachers
     )
-
