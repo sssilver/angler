@@ -80,5 +80,6 @@ app.config(
 
     // Add the Authentication interceptor
     $httpProvider.interceptors.push('AuthHttpInterceptor');
+    $httpProvider.defaults.withCredentials = true;
 
 }]);
