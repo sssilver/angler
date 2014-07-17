@@ -97,11 +97,11 @@ class Student(PersistentBase):
 
     @validates('dob', 'reg_date', 'ivw_date')
     def validate_datetime(self, key, date):
-        assert isinstance(date, datetime)
+        assert isinstance(date, datetime) or date is None
         return date
 
     @validates('email')
-    def validate_name(self, key, email):
+    def validate_email(self, key, email):
         assert re.match(r'[^@]+@[^@]+\.[^@]+', email)
         return email
 

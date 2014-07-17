@@ -27,6 +27,8 @@ app.controller(
         else
             $scope.student = {};
 
+        console.log(student);
+
         var modalInstance = $modal.open({
             templateUrl: 'template/dlg-student.html',
             controller: 'StudentFormCtrl',
@@ -144,14 +146,6 @@ app.controller(
                 $scope.refresh();
             });
         }
-    };
-
-    $scope.dlgEditStudent = function (student) {
-        // TODO
-        var modalInstance = $modal.open({
-            templateUrl: 'template/dlg-student.html',
-            controller: 'StudentFormCtrl'
-        });
     };
 
     $scope.dlgPayment = function (student) {
