@@ -21,16 +21,41 @@ app.controller(
         $scope.refresh_student();
     }
 
-    $scope.dlgAddStudent = function () {
+    $scope.dlgStudent = function (student) {
+        if (student)
+            $scope.student = student;
+        else
+            $scope.student = {};
+
         var modalInstance = $modal.open({
             templateUrl: 'template/dlg-student.html',
-            controller: 'StudentFormCtrl'
+            controller: 'StudentFormCtrl',
+            resolve: {
+                student: function () {
+                    return $scope.student;
+                }
+            }
         });
 
         modalInstance.result.then(function (student) {
-            student.$post(function () {
-                $scope.refresh();
-            });
+            student_service = new Model(student);
+
+            if (student.id) {
+                student_service.$save(
+                    {'model': 'student', 'id': student.id},
+                    function () {
+                        $scope.refresh();
+                    }
+                );
+            } else {
+                student_service.$post(
+                    {'model': 'student'},
+                    function () {
+                        $scope.refresh();
+                    }
+                )
+            }
+            console.log(student);
         }, function () {
             $log.info('Modal dismissed at: ' + new Date());
         });
@@ -115,7 +140,7 @@ app.controller(
 
     $scope.remove = function (id) {
         if (confirm('Are you sure?')) {
-            Student.remove({'id': id}, function () {
+            Model.remove({'model': 'student', 'id': id}, function () {
                 $scope.refresh();
             });
         }
@@ -186,19 +211,18 @@ app.controller(
 
 app.controller(
     'StudentFormCtrl',
-        ['$scope', '$modalInstance', 'Student', 'Level', 'TIMES', 'DAYS',
-            function ($scope, $modalInstance, Student, Level, TIMES, DAYS) {
+        ['$scope', '$modalInstance', 'Model', 'student',
+            function ($scope, $modalInstance, Model, student) {
 
-
-    $scope.times = TIMES;
-    $scope.days = DAYS;
-    $scope.student = new Student({'availabilities': []});
+    $scope.student = student;
+    console.log(student);
 
     levels = Model.query({model: 'level'}, function () {
         $scope.levels = levels.objects;
     });
 
 
+    /*
     for (var i in DAYS)
         $scope.student.availabilities[i] = [];
 
@@ -211,6 +235,7 @@ app.controller(
         console.log('Removing availability #' + availability.toString() + ' from day ' + day.toString());
         $scope.student.availabilities[day].splice(availability, 1);
     };
+    */
 
     $scope.ok = function () {
         $modalInstance.close($scope.student);

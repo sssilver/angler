@@ -31,6 +31,12 @@ app.config(
             controller: 'HomeCtrl'
         })
 
+        .state('user.groups', {
+            url: '/groups',
+            templateUrl: 'partial/groups.html',
+            controller: 'GroupsCtrl'
+        })
+
         .state('user.students', {
             url: '/students',
             templateUrl: 'partial/students.html',
@@ -57,6 +63,12 @@ app.config(
             url: '/teachers',
             templateUrl: 'partial/teachers.html',
             controller: 'TeachersCtrl'
+        })
+
+        .state('user.timesheets', {
+            url: '/timesheets',
+            templateUrl: 'partial/timesheets.html',
+            controller: 'TimesheetsCtrl'
         })
 
         .state('user.administration', {

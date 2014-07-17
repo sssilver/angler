@@ -25,7 +25,7 @@
       </div>
       <div class="form-group">
         <label for="input_dob" class="control-label">Date of Birth</label>
-        <input type="text" class="form-control" id="input_dob" placeholder="Date of Birth" sc-datepicker="years" start-view="decade" ng-model="student.dob" />
+        <input type="text" class="form-control" id="input_dob" placeholder="Date of Birth" ng-model="student.dob" />
       </div>
       <div class="form-group">
         <label for="option_male" class="control-label">Gender</label>
@@ -44,7 +44,7 @@
 
       <div class="form-group">
         <label for="student.reg_date" class="control-label">Date of Registration</label>
-        <input type="text" class="form-control" id="student.reg_date" placeholder="Date of Registration" sc-datepicker="minutes" ng-model="student.reg_date" required />
+        <input type="text" class="form-control" id="student.reg_date" placeholder="Date of Registration" ng-model="student.reg_date" required />
       </div>
 
       <div class="form-group">
@@ -60,7 +60,7 @@
       </div>
     </fieldset>
 
-    <fieldset>
+    <!--fieldset>
       <legend>Availability</legend>
 
       <div class="form-group" ng-repeat="(dayIndex, dayName) in days">
@@ -88,7 +88,7 @@
         </div>
 
       </div>
-    </fieldset>
+    </fieldset-->
 
     <fieldset>
       <legend>Interview</legend>
@@ -102,7 +102,7 @@
 
       <div class="form-group">
         <label for="student.ivw_date" class="control-label">Interview Date</label>
-        <input type="text" class="form-control" id="student.ivw_date" placeholder="Date of Interview" sc-datepicker="minutes" ng-model="student.ivw_date" required />
+        <input type="text" class="form-control" id="student.ivw_date" placeholder="Date of Interview" ng-model="student.ivw_date" required />
       </div>
 
       <div class="form-group">

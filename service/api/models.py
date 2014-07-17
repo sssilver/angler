@@ -78,6 +78,7 @@ def create_api_blueprints(manager):
 
 def pre_post_student(data):
     # Pop the availabilities data out of what came via HTTP
+    """
     availabilities_data = data.pop('availabilities')
 
     availability = []
@@ -89,6 +90,9 @@ def pre_post_student(data):
                 'range_from': int(range[0]),
                 'range_to': int(range[1])
             }))
+
+    data['availability'] = availability
+    """
 
     #
     # Format the dates properly
@@ -108,8 +112,6 @@ def pre_post_student(data):
         data['ivw_date'] = datetime.utcfromtimestamp(data['ivw_date'])
     except KeyError:
         pass
-
-    data['availability'] = availability
 
 
 def pre_post_transaction(data):
