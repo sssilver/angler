@@ -40,9 +40,9 @@ def create_api_blueprints(manager):
         {
             'model': Student,
             'methods': ['GET', 'PUT', 'PATCH', 'POST', 'DELETE'],
-            'preprocessors': {
-                'POST': [pre_post_student]
-            },
+            #'preprocessors': {
+            #    'POST': [pre_post_student]
+            #},
             'allow_patch_many': True
         },
         {

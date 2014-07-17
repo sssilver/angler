@@ -40,6 +40,8 @@ app.controller(
         });
 
         modalInstance.result.then(function (student) {
+            delete student.balance;  // Remove the hybrid property
+
             student_service = new Model(student);
 
             if (student.id) {
