@@ -65,10 +65,10 @@ app.config(
             controller: 'TeachersCtrl'
         })
 
-        .state('user.timesheets', {
-            url: '/timesheets',
-            templateUrl: 'partial/timesheets.html',
-            controller: 'TimesheetsCtrl'
+        .state('user.lessons', {
+            url: '/lessons',
+            templateUrl: 'partial/lessons.html',
+            controller: 'LessonsCtrl'
         })
 
         .state('user.administration', {

@@ -1,0 +1,74 @@
+<div class="modal-header">
+  <h3 ng-if="!lesson.id">File a new lesson</h3>
+  <h3 ng-if="lesson.id">Amend an existing lesson</h3>
+</div>
+<div class="modal-body">
+
+
+  <form role="form" class="form-horizontal">
+    <div class="form-group">
+      <label for="lesson_group" class="col-sm-3 control-label">Group</label>
+      <div class="col-sm-9">
+        <select class="form-control"
+                id="lesson_group"
+                ng-options="group.title for group in groups"
+                ng-model="lesson.group"
+                ng-change="populateStudents(lesson.group)"
+                required></select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="lesson_date" class="col-sm-3 control-label">Date</label>
+      <div class="col-sm-9">
+        <input type="date"
+               class="form-control"
+               id="lesson_date"
+               placeholder="Date"
+               ng-model="lesson.date"
+               required />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="lesson_time" class="col-sm-3 control-label">Time</label>
+      <div class="col-sm-9">
+        <input type="time"
+               class="form-control"
+               id="lesson_time"
+               placeholder="Time"
+               ng-model="lesson.time"
+               required />
+      </div>
+    </div>
+
+    <fieldset ng-if="lesson.group">
+      {{group}}
+      <legend>Students Attendance</legend>
+      <div class="form-group" ng-repeat="student in lesson.group.students">
+        <label class="col-sm-3 control-label">{{student.name}}</label>
+        <div class="col-sm-9">
+          <label class="radio-inline">
+            <input type="radio"
+                   id="tariff_type"
+                   ng-model="lesson.attendance[student.id]"
+                   value="0"> Present
+          </label>
+          <label class="radio-inline">
+            <input type="radio"
+                   id="tariff_type"
+                   ng-model="lesson.attendance[student.id]"
+                   value="1"> Absent
+          </label>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+
+</div>
+<div class="modal-footer">
+  {{level}}
+  <button class="btn btn-primary" ng-click="ok()">OK</button>
+  <button class="btn" ng-click="cancel()">Cancel</button>
+</div>
