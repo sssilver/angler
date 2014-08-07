@@ -17,3 +17,9 @@ class Course(PersistentBase):
         primaryjoin='and_(Course.id==Level.course_id)',
         back_populates='course'
     )
+
+    tariffs = relationship(
+        'Tariff',
+        primaryjoin='and_(Course.id==Tariff.course_id)',
+        back_populates='course'
+    )

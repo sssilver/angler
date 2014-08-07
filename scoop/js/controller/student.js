@@ -76,7 +76,7 @@ app.controller(
             }
         });
 
-        modalInstance.result.then(function (group) {
+        modalInstance.result.then(function (result) {
             // Add students
             // TODO: This currently being done one-by-one, due to a limitation
             // of flask-restless. Must fix this sometime in the future.
@@ -85,7 +85,8 @@ app.controller(
             for (var i = 0; i < students.length; ++i) {
                 var student_group = {
                     student_id: students[i].id,
-                    group_id: group.id
+                    group_id: result.group.id,
+                    tariff_id: result.tariff.id
                 };
 
                 student_group_service = new Model(student_group);
@@ -293,6 +294,7 @@ app.controller(
 
     $scope.students = students;
     $scope.selected_group = {};
+    $scope.selected_tariff = {};
 
     courses = Model.query({model: 'course'}, function () {
         $scope.courses = courses.objects;
@@ -349,7 +351,10 @@ app.controller(
     };
 
     $scope.ok = function () {
-        $modalInstance.close($scope.selected_group.data);
+        $modalInstance.close({
+            group: $scope.selected_group.data,
+            tariff: $scope.selected_tariff.data
+        });
     };
 
     $scope.cancel = function () {

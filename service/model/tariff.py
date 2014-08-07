@@ -18,7 +18,8 @@ class Tariff(PersistentBase):
     course_id = Column(Integer, ForeignKey('course.id'))
     course = relationship(
         'Course',
-        primaryjoin='and_(Tariff.course_id==Course.id)'
+        primaryjoin='and_(Tariff.course_id==Course.id)',
+        back_populates='tariffs'
     )
 
     # Price of this payment plan

@@ -115,6 +115,9 @@ class StudentGroup(PersistentBase):
     group_id = Column(Integer, ForeignKey('group.id'), primary_key=True)
     group = relationship('Group')
 
+    tariff_id = Column(Integer, ForeignKey('tariff.id'))
+    tariff = relationship('Tariff')
+
     # Date when student was added to the group
     add_date = Column(DateTime, default=datetime.utcnow)
 

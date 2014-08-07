@@ -73,6 +73,9 @@ def create_api_blueprints(manager):
             'methods': ['GET', 'POST', 'DELETE'],
             'preprocessors': {
                 'POST': [pre_post_lesson]
+            },
+            'postprocessors': {
+                'POST': [post_post_lesson]
             }
         }
     ]
@@ -126,13 +129,11 @@ def pre_post_student(data):
 
 def pre_post_transaction(data):
     data['time'] = str(datetime.utcnow())
-    data['staff_id'] = 1  # TODO: Use the actual logged in staff data
+    data['staff_id'] = current_user.id
 
     # Is this a refund? Then the amount has to be negative
     if data['type'].startswith('refund_'):
         data['amount'] = str(-1 * abs(int(data['amount'])))
-
-        print data
 
 
 def pre_post_lesson(data):
@@ -153,3 +154,19 @@ def pre_post_lesson(data):
 
     # Add logged in Staff data
     data['teacher_id'] = current_user.id  # Comes from flask-login
+
+def post_post_lesson(result=None, **kw):
+    if not result:
+        return
+
+    # Withdraw balance
+    level = Level.query.get(result['group']['level_id'])
+
+    print level
+    '''
+    transaction = Transaction(**{
+        amount: lesson_price
+    })
+    '''
+
+    return result
