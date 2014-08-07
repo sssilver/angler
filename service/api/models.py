@@ -2,15 +2,18 @@ from datetime import datetime
 
 from cors import add_cors_headers
 
+from flask.ext.login import current_user
+
 #from model.staff import Staff
 from model.course import Course
 from model.level import Level
 from model.tariff import Tariff
-from model.student import Student, StudentGroup, Availability
+from model.student import Student, StudentGroup, Availability, Attendance
 from model.company import Company
 from model.transaction import StudentTransaction
 from model.group import Group
 from model.staff import Staff
+from model.lesson import Lesson
 
 from service import app
 
@@ -64,6 +67,13 @@ def create_api_blueprints(manager):
         {
             'model': StudentGroup,
             'methods': ['GET', 'POST', 'DELETE']
+        },
+        {
+            'model': Lesson,
+            'methods': ['GET', 'POST', 'DELETE'],
+            'preprocessors': {
+                'POST': [pre_post_lesson]
+            }
         }
     ]
 
@@ -125,4 +135,21 @@ def pre_post_transaction(data):
         print data
 
 
+def pre_post_lesson(data):
+    # Pop the attendance data out of what came via HTTP
+    attendance_data = data.pop('attendance')
 
+    attendance = []
+
+    for student_id, is_absent in attendance_data.iteritems():
+        attendance.append(Attendance(**{
+            'student_id': student_id,
+            'is_absent': bool(is_absent)
+        }))
+
+    data['attendance'] = attendance
+
+    data['date'] = str(data['date'])  #datetime.utcfromtimestamp(data['date'])
+
+    # Add logged in Staff data
+    data['teacher_id'] = current_user.id  # Comes from flask-login

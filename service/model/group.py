@@ -32,3 +32,10 @@ class Group(PersistentBase):
         secondary='student_group',
         join_depth=30  # Up to the level's teachers
     )
+
+    # Lessons this group held
+    lessons = relationship(
+        'Lesson',
+        primaryjoin='and_(Group.id==Lesson.group_id)',
+        back_populates='group'
+    )

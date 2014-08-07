@@ -9,8 +9,6 @@ from sqlalchemy.schema import Column, ForeignKey
 from sqlalchemy.orm import validates, relationship
 
 
-print 'imported'
-
 class Staff(PersistentBase):
     __tablename__ = 'staff'
     #__table_args__ = {'extend_existing': True}
@@ -29,6 +27,12 @@ class Staff(PersistentBase):
     groups = relationship(
         'Group',
         primaryjoin='and_(Staff.id==Group.teacher_id)',
+        back_populates='teacher'
+    )
+
+    lessons = relationship(
+        'Lesson',
+        primaryjoin='and_(Staff.id==Lesson.teacher_id)',
         back_populates='teacher'
     )
 

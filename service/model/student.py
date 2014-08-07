@@ -119,6 +119,22 @@ class StudentGroup(PersistentBase):
     add_date = Column(DateTime, default=datetime.utcnow)
 
 
+class Attendance(PersistentBase):
+    __tablename__ = 'attendance'
+
+    student_id = Column(Integer, ForeignKey('student.id'), primary_key=True)
+    student = relationship('Student')
+
+    lesson_id = Column(Integer, ForeignKey('lesson.id'), primary_key=True)
+    lesson = relationship('Lesson')
+
+    # Was the student present(False) or absent(True)?
+    is_absent = Column(Boolean)
+
+    # TODO: Maybe add a note for this particular Student on this Lesson?
+    #       Could also include the time at which the student showed up
+
+
 class Availability(Base):
     __tablename__ = 'availability'
 

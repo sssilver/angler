@@ -35,7 +35,7 @@ app.controller(
                 );
             } else {
                 lesson_service.$post(
-                    {'model': 'student'},
+                    {'model': 'lesson'},
                     function () {
                         $scope.refresh();
                     }
@@ -46,6 +46,16 @@ app.controller(
             $log.info('Modal dismissed at: ' + new Date());
         });
     };
+
+
+    $scope.refresh = function () {
+        Model.query({'model': 'lesson'}, function (lessons) {
+            $scope.lessons = lessons.objects;
+        });
+    };
+
+
+    $scope.refresh();
 
 }]);
 
@@ -70,7 +80,23 @@ app.controller(
 
 
     $scope.ok = function () {
-        $modalInstance.close($scope.lesson);
+        var date = $scope.lesson.date.split('-');
+        var time = $scope.lesson.time.split(':');
+
+        var datetime = new Date(date[0], date[1], date[2], time[0], time[1]);
+
+        console.log(datetime);
+
+        var lesson = {
+            group_id: $scope.lesson.group.id,
+            attendance: $scope.lesson.attendance,
+            // TODO: This is the right thing to do, but flask-restless is dumb
+            // date: datetime.getTime() / 1000  // Convert to UNIX timestamp
+            date: datetime.toISOString()
+        }
+
+        console.log(lesson);
+        $modalInstance.close(lesson);
     };
 
     $scope.cancel = function () {
