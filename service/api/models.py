@@ -1,20 +1,22 @@
+import sys
+
 from datetime import datetime
 
 from cors import add_cors_headers
 
 from flask.ext.login import current_user
 
-#from model.staff import Staff
 from model.course import Course
 from model.level import Level
 from model.tariff import Tariff
 from model.student import Student, StudentGroup, Availability, Attendance
 from model.company import Company
-from model.transaction import StudentTransaction
+from model.transaction import StudentTransaction, CompanyTransaction
 from model.group import Group
 from model.staff import Staff
 from model.lesson import Lesson
 
+from db.database import db_session
 from service import app
 
 
@@ -159,14 +161,28 @@ def post_post_lesson(result=None, **kw):
     if not result:
         return
 
-    # Withdraw balance
-    level = Level.query.get(result['group']['level_id'])
+    # Get each of the actual student objects
+    for student_attendance in result['attendance']:
+        student_group = StudentGroup.query.get((
+            student_attendance['student_id'],
+            result['group_id']
+        ))
 
-    print level
-    '''
-    transaction = Transaction(**{
-        amount: lesson_price
-    })
-    '''
+        # Withdraw balance
+        cost = student_group.tariff.price
+
+        # TODO: Deal with CompanyTransaction differently
+        transaction = StudentTransaction(**{
+            'staff_id': current_user.id,
+            'amount': str(student_group.tariff.price),
+            'type': 'lesson',
+            'student_id': student_attendance['student_id']
+        })
+
+        # Add the transaction
+        db_session.add(transaction)
+
+    db_session.commit()
+
 
     return result

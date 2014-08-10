@@ -45,7 +45,7 @@
     <fieldset ng-if="lesson.group">
       <legend>Students Attendance</legend>
       <div class="form-group"
-           ng-repeat="student in students">
+           ng-repeat="student in students | filter: isActive">
         <label class="col-sm-3 control-label">{{student.student.name}}</label>
         <div class="col-sm-9">
           <label class="radio-inline">
@@ -66,7 +66,6 @@
   </form>
 </div>
 <div class="modal-footer">
-  {{level}}
   <button class="btn btn-primary" ng-click="ok()">OK</button>
   <button class="btn" ng-click="cancel()">Cancel</button>
 </div>

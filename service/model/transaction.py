@@ -15,6 +15,7 @@ from sqlalchemy.orm import relationship
 
 class Transaction(PersistentBase):
     __tablename__ = 'transaction'
+    __table_args__ = {'sqlite_autoincrement': True}
 
     id = Column(Integer, primary_key=True)
 
@@ -39,7 +40,7 @@ class Transaction(PersistentBase):
 
     # Type of transaction
     type = Column(Enum(
-        'lesson'
+        'lesson',
 
         'cash',
         'card',

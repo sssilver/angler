@@ -74,9 +74,14 @@ app.controller(
     $scope.$watch('lesson.group.students', function (newValue, oldValue) {
         if (newValue !== oldValue)
             angular.forEach($scope.lesson.group.students, function (student) {
-                $scope.lesson.attendance[student.id] = 0;
-            })
-    })
+                if ($scope.isActive(student))
+                    $scope.lesson.attendance[student.student_id] = 0;
+            });
+    });
+
+    $scope.isActive = function (student) {
+        return student.is_suspended ? false : true;
+    }
 
     $scope.populateStudents = function (group) {
         Model.query(
@@ -88,15 +93,18 @@ app.controller(
                 $scope.students = students.objects;
             }
         );
-    }
-
+    };
 
 
     $scope.ok = function () {
-        var date = $scope.lesson.date.split('-');
-        var time = $scope.lesson.time.split(':');
+        var datetime = new Date();
 
-        var datetime = new Date(date[0], date[1], date[2], time[0], time[1]);
+        if ($scope.lesson.date && $scope.lesson.time) {
+            var date = $scope.lesson.date.split('-');
+            var time = $scope.lesson.time.split(':');
+
+            datetime = new Date(date[0], date[1], date[2], time[0], time[1]);
+        }
 
         console.log(datetime);
 
