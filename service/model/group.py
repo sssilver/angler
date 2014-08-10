@@ -28,9 +28,7 @@ class Group(PersistentBase):
 
     # Students who are a member of this group
     students = relationship(
-        'Student',
-        secondary='student_group',
-        join_depth=30  # Up to the level's teachers
+        'StudentGroup'
     )
 
     # Lessons this group held

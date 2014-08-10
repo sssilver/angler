@@ -121,6 +121,10 @@ class StudentGroup(PersistentBase):
     # Date when student was added to the group
     add_date = Column(DateTime, default=datetime.utcnow)
 
+    # Is the student's membership in this group suspended?
+    # If yes, his balance will not be affected by absenteeism
+    is_suspended = Column(Boolean)
+
 
 class Attendance(PersistentBase):
     __tablename__ = 'attendance'

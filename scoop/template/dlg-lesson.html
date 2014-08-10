@@ -43,29 +43,27 @@
     </div>
 
     <fieldset ng-if="lesson.group">
-      {{group}}
       <legend>Students Attendance</legend>
-      <div class="form-group" ng-repeat="student in lesson.group.students">
-        <label class="col-sm-3 control-label">{{student.name}}</label>
+      <div class="form-group"
+           ng-repeat="student in students">
+        <label class="col-sm-3 control-label">{{student.student.name}}</label>
         <div class="col-sm-9">
           <label class="radio-inline">
             <input type="radio"
                    id="tariff_type"
-                   ng-model="lesson.attendance[student.id]"
+                   ng-model="lesson.attendance[student.student_id]"
                    value="0"> Present
           </label>
           <label class="radio-inline">
             <input type="radio"
                    id="tariff_type"
-                   ng-model="lesson.attendance[student.id]"
+                   ng-model="lesson.attendance[student.student_id]"
                    value="1"> Absent
           </label>
         </div>
       </div>
     </fieldset>
   </form>
-
-
 </div>
 <div class="modal-footer">
   {{level}}

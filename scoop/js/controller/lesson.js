@@ -78,6 +78,19 @@ app.controller(
             })
     })
 
+    $scope.populateStudents = function (group) {
+        Model.query(
+            {
+                model: 'student_group',
+                group_id: group.id
+            },
+            function (students) {
+                $scope.students = students.objects;
+            }
+        );
+    }
+
+
 
     $scope.ok = function () {
         var date = $scope.lesson.date.split('-');
