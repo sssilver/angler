@@ -17,7 +17,7 @@ from model.staff import Staff
 from model.lesson import Lesson
 
 from db.database import db_session
-from service import app
+from rod import app
 
 
 def create_api_blueprints(manager):

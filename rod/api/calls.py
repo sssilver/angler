@@ -5,7 +5,7 @@ from flask.ext.login import LoginManager, login_required
 
 from db.base import init_db
 
-from service import app
+from rod import app
 
 from model.staff import Staff
 

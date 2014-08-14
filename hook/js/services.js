@@ -1,4 +1,4 @@
-var SERVICE_ENDPOINT = 'http://localhost:5000/api';  //'192.168.1.95';
+var SERVICE_ENDPOINT = window.location.protocol + '//' + window.location.hostname + ':8080/api';
 
 
 app.constant('AUTH_EVENTS', {

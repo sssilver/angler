@@ -9,7 +9,7 @@ from db.database import db_session
 
 
 app = Flask(__name__)
-app.config.from_object('config')
+app.config.from_object('rod.config')
 
 logging.basicConfig()
 logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)

@@ -1,0 +1,24 @@
+server {
+    # Only static assets
+    listen 80;
+    server_name angler.hook;
+
+    location / {
+        root /opt/angler/hook;
+        index index.html;
+    }
+}
+
+server {
+    # Service backend
+    listen 8080;
+    server_name angler.rod;
+
+    location / {
+        include uwsgi_params;
+        uwsgi_pass 127.0.0.1:5000;
+
+        proxy_redirect off;
+        proxy_set_header Host $host;
+    }
+}
