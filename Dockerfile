@@ -41,6 +41,6 @@ ADD deploy/supervisor/angler.conf /etc/supervisor/conf.d/angler.conf
 
 EXPOSE 80 8080
 
-RUN export PYTHONPATH=/opt/angler/rod
+ENV PYTHONPATH /opt/angler/rod
 
 CMD ["supervisord", "-n"]
