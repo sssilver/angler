@@ -4,7 +4,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.orm.session import Session
 
 
-db_engine = create_engine('sqlite:///scool.db', convert_unicode=True)
+db_engine = create_engine('sqlite:////opt/data/angler.db', convert_unicode=True)
 
 db_session = scoped_session(
     sessionmaker(
