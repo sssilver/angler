@@ -1,6 +1,0 @@
-syntax: glob
-*.pyc
-*.db
-.idea
-.DS_Store
-bower_components
