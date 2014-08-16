@@ -59,10 +59,10 @@ app.config(
             controller: 'CompaniesCtrl'
         })
 
-        .state('user.teachers', {
-            url: '/teachers',
-            templateUrl: 'partial/teachers.html',
-            controller: 'TeachersCtrl'
+        .state('user.staff', {
+            url: '/staff',
+            templateUrl: 'partial/staff.html',
+            controller: 'StaffCtrl'
         })
 
         .state('user.lessons', {

@@ -1,4 +1,4 @@
-from flask import request, abort, jsonify
+from flask import request, abort, Response
 from flask.ext.cors import cross_origin
 from flask.ext.login import login_user, logout_user, current_user
 from flask.ext.login import LoginManager, login_required
@@ -52,8 +52,7 @@ def login():
         else:
             print 'Login failure'
 
-
-    abort(401)
+    return Response('', 401)
 
 
 @app.route('/api/logout', methods=['POST', 'OPTIONS'])
