@@ -1,13 +1,12 @@
-from database import db_session, db_engine
-
 from sqlalchemy.schema import Column, ForeignKey
 from sqlalchemy.types import Boolean
 from sqlalchemy.ext.declarative import declarative_base
+from rod import app
 
 
 
 Base = declarative_base()
-Base.query = db_session.query_property()
+Base.query = app.db.session.query_property()
 
 
 

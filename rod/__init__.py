@@ -5,11 +5,12 @@ from flask import Flask, jsonify, request
 from flask.ext.restless import APIManager, ProcessingException
 from flask.ext.login import current_user
 
-from db.database import db_session
+from db.database import Database
 
 
 app = Flask(__name__)
 app.config.from_object('rod.config')
+app.db = Database(app.config['SQLALCHEMY_DATABASE_URI'])
 
 logging.basicConfig()
 logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
@@ -30,7 +31,7 @@ def authorize(*args, **kwargs):
 
 manager = APIManager(
     app,
-    session=db_session,
+    session=app.db.session,
     preprocessors=dict(
         POST=[authorize],
         DELETE=[authorize],

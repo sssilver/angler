@@ -16,7 +16,6 @@ from model.group import Group
 from model.staff import Staff
 from model.lesson import Lesson
 
-from db.database import db_session
 from rod import app
 
 
@@ -180,9 +179,9 @@ def post_post_lesson(result=None, **kw):
         })
 
         # Add the transaction
-        db_session.add(transaction)
+        app.db.session.add(transaction)
 
-    db_session.commit()
+    app.db.session.commit()
 
 
     return result

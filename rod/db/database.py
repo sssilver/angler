@@ -4,13 +4,14 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.orm.session import Session
 
 
-db_engine = create_engine('sqlite:////opt/data/angler.db', convert_unicode=True)
+class Database:
+    def __init__(self, data_source):
+        self.engine = create_engine(data_source, convert_unicode=True)
 
-db_session = scoped_session(
-    sessionmaker(
-        autocommit=False,
-        autoflush=False,
-        bind=db_engine,
-        class_=Session
-    )
-)
+        self.session = scoped_session(
+            sessionmaker(
+                autocommit=False,
+                autoflush=False,
+                bind=self.engine
+            )
+        )
