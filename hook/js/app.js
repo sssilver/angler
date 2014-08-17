@@ -49,22 +49,8 @@ app.controller('IndexCtrl', function ($scope, $log, $rootScope, $location, $stat
 
     $scope.current_user = Auth.getCurrentUser();
     if ($scope.current_user === undefined) {
-        var x = $state.go('public.login').then(function () { console.log('good'); }, function (x) {console.log(x)});
+        $state.go('public.login');  // TODO: This fails :(
     }
-
-    console.log($scope.current_user);
-    $rootScope.$on('$stateChangeStart',function(event, toState, toParams, fromState, fromParams){
-        console.log(toState);
-        console.log(toParams);
-
-        console.log('$stateChangeStart to '+toState.to+'- fired when the transition begins. toState,toParams : \n',toState, toParams);
-    });
-     $rootScope.$on('$stateChangeError',
-    function (event, toState, toParams, fromState, fromParams, error) {
-        $log.debug(error);
-        $state.go('login');
-    });
-
 
 });
 
