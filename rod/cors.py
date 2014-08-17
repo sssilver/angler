@@ -3,8 +3,8 @@ from flask import request
 
 allowed_origins = [
     'http://localhost',
-    'http://scool.org',
-    'http://www.scool.org'
+    'http://angler.mission1701.com',
+    'https://angler.mission1701.com'
 ]
 
 def add_cors_headers(response):
