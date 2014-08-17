@@ -9,3 +9,29 @@
         </div>
     </h1>
 </div>
+
+<table class="table table-striped">
+  <tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Phone</th>
+    <th></th>
+  </tr>
+
+  <tr ng-repeat="staff in staffs.objects">
+    <td>
+      <a ng-click="dlgStaff(staff)">{{staff.name}}</a>
+      <span class="label label-info" ng-if="staff.groups.length > 0">{{staff.groups.length}}</span>
+      <span class="label label-warning" ng-if="staff.groups.length == 0">No groups</span>
+    </td>
+    <td>{{staff.email}}</td>
+    <td>{{staff.phone}}</td>
+    <td>
+      <div class="pull-right">
+        <button class="btn btn-danger" ng-click="remove(staff.id)">
+          <span class="glyphicon-white glyphicon glyphicon-remove"></span>
+        </button>
+      </div>
+    </td>
+  </tr>
+</table>

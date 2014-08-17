@@ -23,7 +23,7 @@ app.controller(
         });
 
         modalInstance.result.then(function (staff) {
-            staff_service = new Model(staff);
+            var staff_service = new Model(staff);
 
             if (staff.id) {
                 staff_service.$save(
@@ -45,6 +45,22 @@ app.controller(
             $log.info('Modal dismissed at: ' + new Date());
         });
     }
+
+    $scope.refresh = function () {
+        var staffs = Model.query({'model': 'staff'}, function () {
+            $scope.staffs = staffs;
+        });
+    };
+
+    $scope.remove = function (id) {
+        if (confirm('Are you sure?')) {
+            Model.remove({'model': 'staff', 'id': id}, function () {
+                $scope.refresh();
+            });
+        }
+    };
+
+    $scope.refresh();
 }]);
 
 

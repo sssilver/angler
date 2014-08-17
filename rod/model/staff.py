@@ -18,7 +18,7 @@ class Staff(PersistentBase):
     # Personal Information
     name = Column(String(50))
     phone = Column(String(50))
-    email = Column(String(50))
+    email = Column(String(50), unique=True)
     password = Column(String(50))
     address = Column(String(100))
     dob = Column(Date)
