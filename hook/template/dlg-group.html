@@ -1,0 +1,48 @@
+<div class="modal-header">
+  <h3 ng-if="!group.id">Add a new group</h3>
+  <h3 ng-if="group.id">Edit group</h3>
+</div>
+
+<div class="modal-body">
+  <form role="form" class="form-horizontal">
+    <fieldset>
+      <legend>General</legend>
+      <div class="form-group">
+        <label for="group_title" class="col-sm-3 control-label">Title</label>
+        <div class="col-sm-9">
+          <input type="text"
+                 class="form-control"
+                 id="group_title"
+                 placeholder="Title of the group"
+                 ng-model="group.title"
+                 required />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="group_course" class="col-sm-3 control-label">Course</label>
+        <div class="col-sm-9">
+          <select id="group_course"
+                  class="form-control"
+                  ng-model="selected_course"
+                  ng-options="course as course.title for course in courses">
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="group_level" class="col-sm-3 control-label">Level</label>
+        <div class="col-sm-9">
+          <select id="group_level"
+                  class="form-control"
+                  ng-model="selected_level">
+            <option ng-repeat="level in levels | filter: level.course_id == selected_course.id">{{level.title}}</option>
+          </select>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-primary" ng-click="ok()">OK</button>
+  <button class="btn" ng-click="cancel()">Cancel</button>
+</div>

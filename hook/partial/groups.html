@@ -1,1 +1,35 @@
-Groups
+<div class="page-header">
+  <h1>
+    Groups
+    <div class="pull-right">
+      <!-- Button trigger modal -->
+      <button class="btn btn-primary" ng-click="dlgGroup()">
+        Add a new group
+      </button>
+    </div>
+  </h1>
+</div>
+
+<table class="table table-striped">
+  <tr>
+    <th>Title</th>
+    <th>Level</th>
+    <th>Teacher</th>
+    <th></th>
+  </tr>
+
+  <tr ng-repeat="group in groups.objects">
+    <td>
+      <a ng-click="dlgGroup(group)">{{group.title}}</a>
+    </td>
+    <td>{{group.level.title}}</td>
+    <td>{{group.teacher.name}}</td>
+    <td>
+      <div class="pull-right">
+        <button class="btn btn-danger" ng-click="remove(group.id)">
+          <span class="glyphicon-white glyphicon glyphicon-remove"></span>
+        </button>
+      </div>
+    </td>
+  </tr>
+</table>

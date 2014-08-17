@@ -12,3 +12,6 @@ Stuff that has to be done
 -------------------------
  - Password encryption
  - Confirm password on the Staff dialog
+ - Personal settings page, including changing password
+ - Permission-based UI
+ - Lessons displayed in human-readable form

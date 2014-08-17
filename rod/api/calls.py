@@ -2,6 +2,7 @@ from flask import request, abort, Response
 from flask.ext.cors import cross_origin
 from flask.ext.login import login_user, logout_user, current_user
 from flask.ext.login import LoginManager, login_required
+import json
 
 from db.base import init_db
 
@@ -47,8 +48,12 @@ def login():
     if staff:
         print 'User found. Logging in...'
         if login_user(staff):
+            # TODO: This SA -> dict conversion seems ugly, there must be a better way to do this
             print 'Login successful!'
-            return '', 200
+            staff_dict = staff.__dict__
+            del staff_dict['_sa_instance_state']
+            del staff_dict['password']
+            return Response(json.dumps(staff_dict), 200)
         else:
             print 'Login failure'
 

@@ -97,13 +97,15 @@ app.factory('Model', function ($resource, $http) {
 });
 
 
-app.factory('Auth', function ($http, $rootScope, Session) {
+app.factory('Auth', function ($http, $rootScope, $cookieStore) {
     return {
         login: function (credentials) {
             return $http
                 .post(SERVICE_ENDPOINT + '/login', credentials, {withCredentials: true})
                 .success(function (data, status, headers, config) {
                     console.info('loginSuccess');
+                    this.user = data;
+                    $cookieStore.put('angler-user', data);
                     $rootScope.$broadcast('loginSuccess');
                 }).
                 error(function (data, status, headers, config) {
@@ -120,6 +122,11 @@ app.factory('Auth', function ($http, $rootScope, Session) {
                     console.log('logoutSuccess');
                     $rootScope.$broadcast('logoutSuccess');
                 });
+        },
+
+        getCurrentUser: function () {
+            // Get the currently logged in user from the cookie storage
+            return $cookieStore.get('angler-user');
         }
     };
 });

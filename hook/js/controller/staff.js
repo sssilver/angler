@@ -44,7 +44,7 @@ app.controller(
         }, function () {
             $log.info('Modal dismissed at: ' + new Date());
         });
-    }
+    };
 
     $scope.refresh = function () {
         var staffs = Model.query({'model': 'staff'}, function () {

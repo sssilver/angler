@@ -5,6 +5,7 @@ var app = angular.module(
     'scool',
     [
         'ngResource',
+        'ngCookies',
         'ui.router',
         'ui.bootstrap',
         'ui.select2'
@@ -12,14 +13,9 @@ var app = angular.module(
 );
 
 
-app.controller('IndexCtrl',
-    ['$scope', '$log', '$rootScope', '$location', '$state', 'AUTH_EVENTS', 'Auth', 'ROLES',
-        function ($scope, $log, $rootScope, $location, $state, AUTH_EVENTS, Auth, ROLES) {
-
+app.controller('IndexCtrl', function ($scope, $log, $rootScope, $location, $state, AUTH_EVENTS, Auth) {
     'use strict';
 
-    $scope.current_user = {role: 'public'};
-    $scope.is_authorized = Auth.is_authorized;
 
 
     $scope.go = function (path) {
@@ -51,39 +47,27 @@ app.controller('IndexCtrl',
         Auth.logout();
     };
 
+    $scope.current_user = Auth.getCurrentUser();
+    if ($scope.current_user === undefined) {
+        var x = $state.go('public.login').then(function () { console.log('good'); }, function (x) {console.log(x)});
+    }
 
-    /*
-    $rootScope.$on('$stateChangeStart',
-        function (event, toState, toParams, fromState, fromParams) {
-            console.log(fromState);
-            console.log(toState);
-            if (toState.data !== undefined && !Auth.is_authorized(toState.data.access)) {
-                $rootScope.error = 'Access denied';
-                event.preventDefault();
+    console.log($scope.current_user);
+    $rootScope.$on('$stateChangeStart',function(event, toState, toParams, fromState, fromParams){
+        console.log(toState);
+        console.log(toParams);
 
-                if (fromState.url === '^') {
-                    if (Auth.is_authenticated()) {
-                        console.log('Authenticated. Going home.');
-                        $state.go('user.home');
-                    } else {
-                        console.log('NOT Authenticated. Going to login.');
-                        $rootScope.error = null;
-                        $state.go('public.login');
-                    }
-                }
-            }
-        }
-    );
-
-    console.log('Broadcasting a $stateChangeStart');
-    $rootScope.$broadcast('$stateChangeStart', $state, null, $state, null);
-    */
-
-}]);
+        console.log('$stateChangeStart to '+toState.to+'- fired when the transition begins. toState,toParams : \n',toState, toParams);
+    });
+     $rootScope.$on('$stateChangeError',
+    function (event, toState, toParams, fromState, fromParams, error) {
+        $log.debug(error);
+        $state.go('login');
+    });
 
 
-app.controller('ErrorCtrl',
-    ['$scope', '$rootScope', '$location', '$state', 'AUTH_EVENTS', 'Auth', 'ROLES',
-        function ($scope, $rootScope, $location, $state, AUTH_EVENTS, Auth, ROLES) {
-    console.log('error controller');
-}]);
+});
+
+
+app.controller('ErrorCtrl', function () {
+});

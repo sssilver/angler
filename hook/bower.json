@@ -1,25 +1,26 @@
 {
-  "name": "scool",
-  "version": "0.0.0",
-  "authors": [
-    "sssilver <sssilver@gmail.com>"
-  ],
-  "license": "CC-NC-ND",
-  "private": true,
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ],
-  "dependencies": {
-    "angular-resource": "*",
-    "angular-ui-router": "*",
-    "angular-ui-select2": "*",
-    "angular": "*",
-    "bootstrap": "*",
-    "angular-bootstrap": "*",
-    "angular-route": "*"
-  }
+    "name": "scool",
+    "version": "0.0.0",
+    "authors": [
+        "sssilver <sssilver@gmail.com>"
+    ],
+    "license": "CC-NC-ND",
+    "private": true,
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ],
+    "dependencies": {
+        "angular-resource": "*",
+        "angular-cookies": "*",
+        "angular-ui-router": "*",
+        "angular-ui-select2": "*",
+        "angular": "*",
+        "bootstrap": "*",
+        "angular-bootstrap": "*",
+        "angular-route": "*"
+    }
 }
