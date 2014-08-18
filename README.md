@@ -1,6 +1,9 @@
 Angler
 ======
 
+Angler is a Python/Javascript application I made for [ICLT](http://iclt.am),
+to help them manage the school. It is opensource.
+
 Installation notes
 ------------------
 Angler is meant to be built and shipped using [Docker](http://docker.io/),
