@@ -3,6 +3,7 @@ from flask.ext.cors import cross_origin
 from flask.ext.login import login_user, logout_user, current_user
 from flask.ext.login import LoginManager, login_required
 import json
+import bcrypt
 
 from db.base import init_db
 
@@ -41,23 +42,37 @@ def login():
 
     # Authenticate
     staff = Staff.query.filter_by(
-        email=credentials['email'].lower(),
-        password=credentials['password']
+        email=credentials['email'].lower()
     ).first()
 
-    if staff:
-        print 'User found. Logging in...'
+    if not staff:
+        return Response('', 401)
+
+    print 'User found. Logging in...'
+
+    try:
+        hashed_password = bcrypt.hashpw(
+            credentials['password'], staff.password
+        )
+
+        if hashed_password != staff.password:
+            return Response('', 401)
+
         if login_user(staff):
             # TODO: This SA -> dict conversion seems ugly, there must be a better way to do this
             print 'Login successful!'
             staff_dict = staff.__dict__
             del staff_dict['_sa_instance_state']
             del staff_dict['password']
-            return Response(json.dumps(staff_dict), 200)
+
         else:
             print 'Login failure'
+            return Response('Login failure', 500)
 
-    return Response('', 401)
+        return Response(json.dumps(staff_dict), 200)
+
+    except ValueError:
+        return Response('', 401)
 
 
 @app.route('/api/logout', methods=['POST', 'OPTIONS'])

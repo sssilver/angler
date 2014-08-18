@@ -5,6 +5,7 @@ from datetime import datetime
 from cors import add_cors_headers
 
 from flask.ext.login import current_user
+import bcrypt
 
 from model.course import Course
 from model.level import Level
@@ -27,7 +28,16 @@ def create_api_blueprints(manager):
     models = [
         {
             'model': Staff,
-            'methods': ['GET', 'PUT', 'PATCH', 'POST', 'DELETE']
+            'methods': ['GET', 'PUT', 'PATCH', 'POST', 'DELETE'],
+            'preprocessors': {
+                'POST': [pre_post_staff],
+                'PATCH_SINGLE': [pre_patch_staff]
+            },
+            'postprocessors': {
+                'GET_SINGLE': [post_get_single_staff],
+                'GET_MANY': [post_get_many_staff]
+            },
+            'allow_patch_many': False
         },
         {
             'model': Course,
@@ -88,6 +98,24 @@ def create_api_blueprints(manager):
         blueprints.append(blueprint)
 
     return blueprints
+
+
+def pre_post_staff(data):
+    # Secure the password
+    data['password'] = bcrypt.hashpw(data['password'], bcrypt.gensalt())
+
+
+def pre_patch_staff(instance_id=None, data=None, **kw):
+    data['password'] = bcrypt.hashpw(data['password'], bcrypt.gensalt())
+
+
+def post_get_single_staff(result=None, **kw):
+    del result['password']
+
+
+def post_get_many_staff(result=None, search_params=None, **kw):
+    for staff in result['objects']:
+        del staff['password']
 
 
 def pre_post_student(data):
