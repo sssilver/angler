@@ -1,6 +1,8 @@
 app.config(
     ['$stateProvider', '$httpProvider', '$urlRouterProvider',
-        function ($stateProvider, $httpProvider, $urlRouterProvider) {
+        function ($stateProvider, $http) {
+
+    $http.defaults.withCredentials = true;
 
     $stateProvider
         .state('public', {
@@ -88,10 +90,4 @@ app.config(
             templateUrl: 'partial/new-course.html',
             controller: 'CoursesCtrl'
         });
-
-
-    // Add the Authentication interceptor
-    $httpProvider.interceptors.push('AuthHttpInterceptor');
-    $httpProvider.defaults.withCredentials = true;
-
 }]);

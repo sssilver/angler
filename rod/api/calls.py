@@ -84,6 +84,14 @@ def logout():
     return '', 200
 
 
+@app.route('/api/verify', methods=['GET', 'OPTIONS'])
+@cross_origin(headers='Content-Type', send_wildcard=False, supports_credentials=True)
+@login_required
+def verify():
+    # This function is only use to verify that the user is logged in
+    return '', 200
+
+
 @app.route('/api/studentgroup', methods=['POST', 'OPTIONS'])
 @cross_origin(headers='Content-Type', send_wildcard=False, supports_credentials=True)
 @login_required

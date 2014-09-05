@@ -1,7 +1,8 @@
 app.controller('LoginCtrl', function ($scope, $log, $rootScope, $modal, Model, Auth) {
-    $scope.login = function (email, password) {
-        $log.info('Logging in ' + email);
+    $scope.login = function () {
+        $log.info('Logging in ' + $scope.email);
 
-        Auth.login({email: email, password: password});
+        console.log($scope.email);
+        Auth.login({email: $scope.email, password: $scope.password});
     };
 });

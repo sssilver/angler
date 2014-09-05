@@ -19,14 +19,14 @@ app.constant('ROLES', {
 
 
 app.factory('TIMES', [function (value) {
-    times = [];
+    var times = [];
 
-    for (i = 0; i < 1440; i+=30) {
-        hour = Math.floor(i / 60);
-        minute = i % 60;
+    for (var i = 0; i < 1440; i+=30) {
+        var hour = Math.floor(i / 60);
+        var minute = i % 60;
 
-        str_hour = ('0' + String(hour)).slice(-2);
-        str_minute = ('0' + String(minute)).slice(-2);
+        var str_hour = ('0' + String(hour)).slice(-2);
+        var str_minute = ('0' + String(minute)).slice(-2);
 
         if (hour < 10 || hour > 19)
             continue;
@@ -88,7 +88,7 @@ app.factory('Model', function ($resource, $http) {
                 id: '@id'
             },
             transformRequest: [
-                function (data, headers_getter) {
+                function () {
                     return {is_deleted: true};
                 }
             ].concat($http.defaults.transformRequest)
@@ -118,49 +118,23 @@ app.factory('Auth', function ($http, $rootScope, $cookieStore) {
             console.log('Auth.logout');
             return $http
                 .post(SERVICE_ENDPOINT + '/logout', {}, {withCredentials: true})
-                .success(function (data, status, headers, config) {
+                .success(function () {
                     console.log('logoutSuccess');
                     $rootScope.$broadcast('logoutSuccess');
+                });
+        },
+
+        verify: function () {
+            return $http
+                .get(SERVICE_ENDPOINT + '/verify', {withCredentials: true})
+                .error(function () {
+                    $rootScope.$broadcast('unauthorized');
                 });
         },
 
         getCurrentUser: function () {
             // Get the currently logged in user from the cookie storage
             return $cookieStore.get('angler-user');
-        }
-    };
-});
-
-
-app.service('Session', function () {
-    this.create = function (session_id, user_id, user_role) {
-        this.id = session_id;
-        this.user_id = user_id;
-        this.user_role = user_role;
-    };
-
-    this.destroy = function () {
-        this.id = null;
-        this.user_id = null;
-        this.user_role = null;
-    };
-
-    return this;
-});
-
-
-app.factory('AuthHttpInterceptor', function ($q, $rootScope) {
-    return {
-        'responseError': function (rejection) {
-            console.error(rejection.data.message);
-
-            // 401 UNAUTHORIZED
-            if (rejection.status == 401)
-                $rootScope.$broadcast('unauthorized');
-
-            // 403 FORBIDDEN
-            if (rejection.status == 403)
-                $rootScope.$broadcast('forbidden');
         }
     };
 });

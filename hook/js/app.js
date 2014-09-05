@@ -16,20 +16,22 @@ var app = angular.module(
 app.controller('IndexCtrl', function ($scope, $log, $rootScope, $location, $state, AUTH_EVENTS, Auth) {
     'use strict';
 
-
+    $scope.loginFailure = false;
 
     $scope.go = function (path) {
         $location.path(path);
     };
 
-    console.log('IndexCtrl');
+    $scope.closeLoginFailure = function () {
+        $scope.loginFailure = false;
+    };
 
     $rootScope.$on('unauthorized', function () {
         $state.go('public.login');
     });
 
     $rootScope.$on('loginFailure', function () {
-        console.error('Login failed');
+        $scope.loginFailure = true;
     });
 
     $rootScope.$on('loginSuccess', function () {
@@ -48,10 +50,16 @@ app.controller('IndexCtrl', function ($scope, $log, $rootScope, $location, $stat
     };
 
     $scope.current_user = Auth.getCurrentUser();
+    Auth.verify();  // Verify that the user is actually logged in
+
     if ($scope.current_user === undefined) {
         $state.go('public.login');  // TODO: This fails :(
     }
 
+    $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+        if (toState.data.access.indexOf('public') == -1)
+            Auth.verify();
+    });
 });
 
 
