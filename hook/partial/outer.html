@@ -1,14 +1,15 @@
-<div class="jumbotron">
-  <h1>Hello, world!</h1>
-  <p>Welcome to Scool.</p>
+<div class="jumbotron fishing">
+  <h1>This is Angler</h1>
 </div>
 
-<div class="alert alert-danger alert-dismissible" ng-show="loginFailure">
-  <button type="button" class="close" ng-click="closeLoginFailure()">
-    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-  </button>
+<div class="container">
+  <div class="alert alert-danger alert-dismissible" ng-show="loginFailure">
+    <button type="button" class="close" ng-click="closeLoginFailure()">
+      <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+    </button>
 
-  <strong>Warning!</strong> Better check yourself, you're not looking too good.
+    <strong>Warning!</strong> Better check yourself, you're not looking too good.
+  </div>
+
+  <div ui-view></div>
 </div>
-
-<div ui-view></div>

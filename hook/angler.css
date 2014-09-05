@@ -1,0 +1,33 @@
+.nav, .pagination, .carousel a {
+    cursor: pointer;
+}
+
+a {
+    cursor: pointer;
+}
+
+.spaced {
+    margin-top: 20px;
+}
+
+.hover {
+    display: none;
+}
+
+tr:hover .hover {
+    display: block;
+}
+
+.fishing {
+    background: url(img/fish.jpg) repeat-x center center;
+    color: white
+}
+
+.fishing h1 {
+    width: 400px;
+    padding: 5px;
+    text-align: center;
+    margin: 0 auto;
+    background-color: rgb(122, 114, 147);
+    font-size: 36px;
+}
