@@ -133,3 +133,7 @@ div.alert {
         margin-left: 100%;
     }
 }
+
+.invisible {
+    visibility: hidden;
+}
