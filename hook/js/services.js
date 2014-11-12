@@ -147,6 +147,7 @@ app.factory('RodInterceptor', function ($q, $rootScope) {
     return {
         'request': function(config) {
             $rootScope.isLoading += 1;
+            $rootScope.alerts = [];  // Empty the alerts queue
             return config || $q.when(config);
         },
 
