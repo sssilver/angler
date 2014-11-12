@@ -106,7 +106,10 @@ def pre_post_staff(data):
 
 
 def pre_patch_staff(instance_id=None, data=None, **kw):
-    data['password'] = bcrypt.hashpw(data['password'], bcrypt.gensalt())
+    try:
+        data['password'] = bcrypt.hashpw(data['password'], bcrypt.gensalt())
+    except KeyError:
+        pass
 
 
 def post_get_single_staff(result=None, **kw):
