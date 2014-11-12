@@ -3,13 +3,9 @@
 </div>
 
 <div class="container">
-  <div class="alert alert-danger alert-dismissible" ng-show="loginFailure">
-    <button type="button" class="close" ng-click="closeLoginFailure()">
-      <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-    </button>
-
-    <strong>Warning!</strong> Better check yourself, you're not looking too good.
-  </div>
+  <alert ng-repeat="alert in alerts"
+         type="{{alert.type}}"
+         close="closeAlert($index)">{{alert.msg}}</alert>
 
   <div ui-view></div>
 </div>

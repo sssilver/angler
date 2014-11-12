@@ -1,11 +1,8 @@
-from db.base import PersistentBase
+from rod.db.base import PersistentBase
 
 from sqlalchemy.types import Integer, String
-
 from sqlalchemy.schema import Column, ForeignKey, Table
 from sqlalchemy.orm import relationship
-
-from course import Course
 
 
 level_staff_table = Table('level_staff', PersistentBase.metadata,

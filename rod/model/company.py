@@ -1,4 +1,4 @@
-from db.base import PersistentBase
+from rod.db.base import PersistentBase
 
 from sqlalchemy.schema import Column
 from sqlalchemy.types import Integer, Text

@@ -1,8 +1,9 @@
-app.config(
-    ['$stateProvider', '$httpProvider', '$urlRouterProvider',
-        function ($stateProvider, $http) {
+app.config(function ($stateProvider, $httpProvider) {
 
-    $http.defaults.withCredentials = true;
+    $httpProvider.defaults.withCredentials = true;
+
+    $httpProvider.interceptors.push('RodInterceptor');
+
 
     $stateProvider
         .state('public', {
@@ -90,4 +91,4 @@ app.config(
             templateUrl: 'partial/new-course.html',
             controller: 'CoursesCtrl'
         });
-}]);
+});

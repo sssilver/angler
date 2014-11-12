@@ -60,6 +60,11 @@ app.controller('IndexCtrl', function ($scope, $log, $rootScope, $location, $stat
         if (toState.data.access.indexOf('public') == -1)
             Auth.verify();
     });
+
+    $rootScope.closeAlert = function (index) {
+        $rootScope.alerts.splice(index, 1);
+    };
+
 });
 
 

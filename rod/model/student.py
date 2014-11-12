@@ -1,21 +1,18 @@
 from datetime import datetime
 import re
-
-from db.base import PersistentBase, Base
-
 from sqlalchemy.types import String, Text
 from sqlalchemy.types import Integer, SmallInteger
 from sqlalchemy.types import Date, DateTime
 from sqlalchemy.types import Boolean
-
 from sqlalchemy.schema import Column, ForeignKey
 from sqlalchemy.orm import validates, relationship
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.sql import select, func
 
-from level import Level
-from comment import Comment
-from transaction import StudentTransaction
+from rod.db.base import PersistentBase, Base
+from rod.model.transaction import StudentTransaction
+from rod.model.level import Level
+from rod.model.comment import Comment
 
 
 class Student(PersistentBase):

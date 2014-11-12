@@ -31,3 +31,105 @@ tr:hover .hover {
     background-color: rgb(122, 114, 147);
     font-size: 36px;
 }
+
+
+div.alert {
+    margin: 10px;
+}
+
+
+/* PROGRESS BAR, fuck this */
+
+#loadingProgressG{
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    margin-top: 1px;
+    height:3px;
+    overflow:hidden;
+    background-color:#624C84;
+    -moz-border-radius:2px;
+    -webkit-border-radius:2px;
+    -ms-border-radius:2px;
+    -o-border-radius:2px;
+    border-radius:2px;
+}
+
+.loadingProgressG{
+    background-color:#f8f8f8;
+    margin-top:0;
+    margin-left:-38px;
+    -moz-animation-name:bounce_loadingProgressG;
+    -moz-animation-duration:1.3s;
+    -moz-animation-iteration-count:infinite;
+    -moz-animation-timing-function:linear;
+    -webkit-animation-name:bounce_loadingProgressG;
+    -webkit-animation-duration:1.3s;
+    -webkit-animation-iteration-count:infinite;
+    -webkit-animation-timing-function:linear;
+    -ms-animation-name:bounce_loadingProgressG;
+    -ms-animation-duration:1.3s;
+    -ms-animation-iteration-count:infinite;
+    -ms-animation-timing-function:linear;
+    -o-animation-name:bounce_loadingProgressG;
+    -o-animation-duration:1.3s;
+    -o-animation-iteration-count:infinite;
+    -o-animation-timing-function:linear;
+    animation-name:bounce_loadingProgressG;
+    animation-duration:1.3s;
+    animation-iteration-count:infinite;
+    animation-timing-function:linear;
+    width:75%;
+    height:3px;
+}
+
+@-moz-keyframes bounce_loadingProgressG{
+    0% {
+        margin-left: -100%;
+    }
+
+    100% {
+        margin-left: 100%;
+    }
+}
+
+@-webkit-keyframes bounce_loadingProgressG{
+    0% {
+        margin-left: -100%;
+    }
+
+    100% {
+        margin-left: 100%;
+    }
+}
+
+@-ms-keyframes bounce_loadingProgressG{
+    0% {
+        margin-left: -100%;
+    }
+
+    100% {
+        margin-left: 100%;
+    }
+}
+
+@-o-keyframes bounce_loadingProgressG{
+    0% {
+        margin-left: -100%;
+    }
+
+    100% {
+        margin-left: 100%;
+    }
+}
+
+@keyframes bounce_loadingProgressG{
+    0% {
+        margin-left: -100%;
+    }
+
+    100% {
+        margin-left: 100%;
+    }
+}

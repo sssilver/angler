@@ -1,11 +1,8 @@
-from db.base import PersistentBase
+from rod.db.base import PersistentBase
 
 from sqlalchemy.types import Integer, String, Enum
-
 from sqlalchemy.schema import Column, ForeignKey
 from sqlalchemy.orm import relationship
-
-from course import Course
 
 
 class Tariff(PersistentBase):

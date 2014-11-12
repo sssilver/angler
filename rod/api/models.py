@@ -7,15 +7,15 @@ from cors import add_cors_headers
 from flask.ext.login import current_user
 import bcrypt
 
-from model.course import Course
-from model.level import Level
-from model.tariff import Tariff
-from model.student import Student, StudentGroup, Availability, Attendance
-from model.company import Company
-from model.transaction import StudentTransaction, CompanyTransaction
-from model.group import Group
-from model.staff import Staff
-from model.lesson import Lesson
+from rod.model.course import Course
+from rod.model.level import Level
+from rod.model.tariff import Tariff
+from rod.model.student import Student, StudentGroup, Availability, Attendance
+from rod.model.company import Company
+from rod.model.transaction import StudentTransaction, CompanyTransaction
+from rod.model.group import Group
+from rod.model.staff import Staff
+from rod.model.lesson import Lesson
 
 from rod import app
 

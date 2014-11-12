@@ -1,16 +1,12 @@
-from db.base import PersistentBase
 from datetime import datetime
-
-from sqlalchemy import UniqueConstraint
-
 from sqlalchemy.types import Integer
 from sqlalchemy.types import String
 from sqlalchemy.types import Enum
 from sqlalchemy.types import DateTime
-
 from sqlalchemy.schema import Column, ForeignKey
 from sqlalchemy.orm import relationship
 
+from rod.db.base import PersistentBase
 
 
 class Transaction(PersistentBase):

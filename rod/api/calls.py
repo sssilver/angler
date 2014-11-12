@@ -5,11 +5,11 @@ from flask.ext.login import LoginManager, login_required
 import json
 import bcrypt
 
-from db.base import init_db
+from rod.db.base import init_db
 
 from rod import app
 
-from model.staff import Staff
+from rod.model.staff import Staff
 
 
 @app.route('/init', methods=['GET'])
@@ -38,15 +38,16 @@ def login():
 
     print 'logging in %s...' % credentials
 
-    from model.staff import Staff
-
     # Authenticate
+    if 'email' not in credentials or 'password' not in credentials:
+        return unauthorized()
+
     staff = Staff.query.filter_by(
         email=credentials['email'].lower()
     ).first()
 
     if not staff:
-        return Response('', 401)
+        return unauthorized()
 
     print 'User found. Logging in...'
 
@@ -125,6 +126,4 @@ def load_user(userid):
 
 @login_manager.unauthorized_handler
 def unauthorized():
-    # do stuff
-    print 'unauthorized!!!!'
-    return '', 401
+    return json.dumps({'message': 'Unauthorized, please login'}), 401

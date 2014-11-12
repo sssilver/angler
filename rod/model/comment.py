@@ -1,4 +1,4 @@
-from db.base import PersistentBase
+from rod.db.base import PersistentBase
 
 from sqlalchemy.types import Text
 from sqlalchemy.types import DateTime

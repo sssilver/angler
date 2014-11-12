@@ -42,7 +42,8 @@ manager = APIManager(
     )
 )
 
-import api.models, api.calls
+import api.models
+import api.calls
 
 
 blueprints = api.models.create_api_blueprints(manager)

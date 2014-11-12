@@ -26,7 +26,14 @@
         <li><a ng-click="logout()">Logout</a></li>
       </ul>
     </div>
+
+    <alert ng-repeat="alert in alerts"
+           type="{{alert.type}}"
+           close="closeAlert($index)">{{alert.msg}}</alert>
+    <div id="loadingProgressG" ng-show="isLoading"><div id="loadingProgressG_1" class="loadingProgressG"></div></div>
+
   </nav>
+
 </div>
 
 <div class="container">

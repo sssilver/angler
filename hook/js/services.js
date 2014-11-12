@@ -138,3 +138,33 @@ app.factory('Auth', function ($http, $rootScope, $cookieStore) {
         }
     };
 });
+
+
+app.factory('RodInterceptor', function ($q, $rootScope) {
+    $rootScope.isLoading = 0;
+    $rootScope.alerts = [];
+
+    return {
+        'request': function(config) {
+            $rootScope.isLoading += 1;
+            return config || $q.when(config);
+        },
+
+        'response': function(response) {
+            $rootScope.isLoading -= 1;
+            return response || $q.when(response);
+        },
+
+        'responseError': function(rejection) {
+            $rootScope.isLoading -= 1;
+            console.log(rejection);
+
+            $rootScope.alerts.push({
+                'msg': rejection.data.message,
+                'type': 'danger'
+            });
+
+            return $q.reject(rejection);
+        }
+    };
+});
