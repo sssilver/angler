@@ -57,7 +57,7 @@ def login():
         )
 
         if hashed_password != staff.password:
-            return Response('', 401)
+            return unauthorized()
 
         if login_user(staff):
             # TODO: This SA -> dict conversion seems ugly, there must be a better way to do this
