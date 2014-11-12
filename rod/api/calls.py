@@ -44,12 +44,12 @@ def login():
 
     staff = Staff.query.filter_by(
         email=credentials['email'].lower()
-    ).first()
+    ).one()
 
     if not staff:
         return unauthorized()
 
-    print 'User found. Logging in...'
+    print 'User found. Validating password...'
 
     try:
         hashed_password = bcrypt.hashpw(

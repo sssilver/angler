@@ -4,18 +4,10 @@ from sqlalchemy.ext.declarative import declarative_base
 from rod import app
 
 
-
-Base = declarative_base()
-Base.query = app.db.session.query_property()
-
-
-
-class PersistentBase(Base):
-    __abstract__ = True
-
-    # This is set to 1 when an instance of a model
+class PersistentBase(object):
+    # This is set to True when an instance of a model
     # derived from this class is deleted
-    is_deleted = Column(Boolean, default=0)
+    is_deleted = Column(Boolean, default=False)
 
 
 def init_db():
@@ -24,3 +16,8 @@ def init_db():
 
     # Create their schemas in the database
     PersistentBase.metadata.create_all(bind=db_engine)
+
+
+Base = declarative_base(cls=PersistentBase)
+Base.query = app.db.session.query_property()
+
