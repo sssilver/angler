@@ -1,5 +1,3 @@
-from rod.db.base import PersistentBase
-
 from sqlalchemy.types import String
 from sqlalchemy.types import Integer, SmallInteger
 from sqlalchemy.types import Date, DateTime
@@ -7,8 +5,10 @@ from sqlalchemy.types import Boolean
 from sqlalchemy.schema import Column, ForeignKey
 from sqlalchemy.orm import validates, relationship
 
+from rod.db.base import PersistentMixin, Base
 
-class Staff(PersistentBase):
+
+class Staff(PersistentMixin, Base):
     __tablename__ = 'staff'
     #__table_args__ = {'extend_existing': True}
 

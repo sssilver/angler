@@ -9,13 +9,14 @@ from sqlalchemy.orm import validates, relationship
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.sql import select, func
 
-from rod.db.base import PersistentBase, Base
+from rod.db.base import PersistentMixin, Base
 from rod.model.transaction import StudentTransaction
 from rod.model.level import Level
 from rod.model.comment import Comment
+from rod.model.tariff import Tariff
 
 
-class Student(PersistentBase):
+class Student(PersistentMixin, Base):
     __tablename__ = 'student'
 
     id = Column(Integer, primary_key=True)
@@ -103,7 +104,7 @@ class Student(PersistentBase):
         return email
 
 
-class StudentGroup(PersistentBase):
+class StudentGroup(PersistentMixin, Base):
     __tablename__ = 'student_group'
 
     student_id = Column(Integer, ForeignKey('student.id'), primary_key=True)
@@ -123,7 +124,7 @@ class StudentGroup(PersistentBase):
     is_suspended = Column(Boolean)
 
 
-class Attendance(PersistentBase):
+class Attendance(PersistentMixin, Base):
     __tablename__ = 'attendance'
 
     student_id = Column(Integer, ForeignKey('student.id'), primary_key=True)

@@ -6,10 +6,8 @@ import json
 import bcrypt
 
 from rod.db.base import init_db
-
-from rod import app
-
 from rod.model.staff import Staff
+from rod import app
 
 
 @app.route('/init', methods=['GET'])

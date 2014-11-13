@@ -6,10 +6,10 @@ from sqlalchemy.types import DateTime
 from sqlalchemy.schema import Column, ForeignKey
 from sqlalchemy.orm import relationship
 
-from rod.db.base import PersistentBase
+from rod.db.base import PersistentMixin, Base
 
 
-class Transaction(PersistentBase):
+class Transaction(PersistentMixin, Base):
     __tablename__ = 'transaction'
     __table_args__ = {'sqlite_autoincrement': True}
 

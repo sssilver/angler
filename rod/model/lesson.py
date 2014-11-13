@@ -1,12 +1,11 @@
-from rod.db.base import PersistentBase
-
 from sqlalchemy.types import Integer, String, DateTime
-
 from sqlalchemy.schema import Column, ForeignKey, Table
 from sqlalchemy.orm import relationship
 
+from rod.db.base import PersistentMixin, Base
 
-class Lesson(PersistentBase):
+
+class Lesson(PersistentMixin, Base):
     __tablename__ = 'lesson'
 
     id = Column(Integer, primary_key=True)

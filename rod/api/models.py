@@ -1,9 +1,6 @@
 import sys
-
 from datetime import datetime
-
 from cors import add_cors_headers
-
 from flask.ext.login import current_user
 import bcrypt
 
@@ -16,7 +13,6 @@ from rod.model.transaction import StudentTransaction, CompanyTransaction
 from rod.model.group import Group
 from rod.model.staff import Staff
 from rod.model.lesson import Lesson
-
 from rod import app
 
 

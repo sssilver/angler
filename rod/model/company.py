@@ -1,10 +1,10 @@
-from rod.db.base import PersistentBase
-
 from sqlalchemy.schema import Column
 from sqlalchemy.types import Integer, Text
 
+from rod.db.base import PersistentMixin, Base
 
-class Company(PersistentBase):
+
+class Company(PersistentMixin, Base):
     __tablename__ = 'company'
 
     id = Column(Integer, primary_key=True)

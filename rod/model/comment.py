@@ -1,14 +1,13 @@
-from rod.db.base import PersistentBase
-
 from sqlalchemy.types import Text
 from sqlalchemy.types import DateTime
 from sqlalchemy.types import Integer
-
 from sqlalchemy.schema import Column, ForeignKey
 from sqlalchemy.orm import relationship
 
+from rod.db.base import PersistentMixin, Base
 
-class Comment(PersistentBase):
+
+class Comment(PersistentMixin, Base):
     __tablename__ = 'comment'
 
     id = Column(Integer, primary_key=True)

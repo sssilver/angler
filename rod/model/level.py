@@ -1,17 +1,17 @@
-from rod.db.base import PersistentBase
-
 from sqlalchemy.types import Integer, String
 from sqlalchemy.schema import Column, ForeignKey, Table
 from sqlalchemy.orm import relationship
 
+from rod.db.base import PersistentMixin, Base
 
-level_staff_table = Table('level_staff', PersistentBase.metadata,
+
+level_staff_table = Table('level_staff', Base.metadata,
     Column('level_id', Integer, ForeignKey('level.id')),
     Column('staff_id', Integer, ForeignKey('staff.id'))
 )
 
 
-class Level(PersistentBase):
+class Level(PersistentMixin, Base):
     __tablename__ = 'level'
 
     id = Column(Integer, primary_key=True)

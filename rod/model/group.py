@@ -1,12 +1,11 @@
-from rod.db.base import PersistentBase
-
 from sqlalchemy.types import Integer, String
-
 from sqlalchemy.schema import Column, ForeignKey, Table
 from sqlalchemy.orm import relationship
 
+from rod.db.base import PersistentMixin, Base
 
-class Group(PersistentBase):
+
+class Group(PersistentMixin, Base):
     __tablename__ = 'group'
 
     id = Column(Integer, primary_key=True)
