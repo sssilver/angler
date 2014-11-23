@@ -82,16 +82,11 @@ app.factory('Model', function ($resource, $http) {
         },
 
         remove: {
-            method: 'PUT',
+            method: 'DELETE',
             params: {
                 model: '@model',
                 id: '@id'
-            },
-            transformRequest: [
-                function () {
-                    return {is_deleted: true};
-                }
-            ].concat($http.defaults.transformRequest)
+            }
         }
     });
 });
@@ -159,6 +154,11 @@ app.factory('RodInterceptor', function ($q, $rootScope) {
         'responseError': function(rejection) {
             $rootScope.isLoading -= 1;
             console.log(rejection);
+
+            if (rejection.status == 0)
+                rejection.data = {
+                    message: 'Server unreachable'
+                }
 
             $rootScope.alerts.push({
                 'msg': rejection.data.message,

@@ -6,7 +6,7 @@ from rod import app
 
 
 Base = declarative_base()
-Base.query = app.db.session.query_property()
+Base.query = app.db.session_class.query_property()
 
 
 class PersistentMixin(object):
