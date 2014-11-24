@@ -50,7 +50,9 @@ class Transaction(PersistentMixin, Base):
         'refund_transfer',
         'refund_online_arca',
         'refund_online_idram',
-        'refund_online_other'
+        'refund_online_other',
+
+        name='transaction_type'
     ))
 
 

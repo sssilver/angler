@@ -25,5 +25,7 @@ class Tariff(PersistentMixin, Base):
     # What type of a plan is this?
     type = Column(Enum(
         'student',
-        'company'
+        'company',
+
+        name='tariff_type'
     ))

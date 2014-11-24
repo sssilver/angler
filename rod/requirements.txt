@@ -3,3 +3,4 @@ Flask-Restless
 Flask-Login
 SQLAlchemy
 py-bcrypt
+psycopg2

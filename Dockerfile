@@ -30,6 +30,7 @@ ADD rod /opt/angler/rod
 WORKDIR /opt/angler/hook
 RUN bower install --allow-root
 WORKDIR /opt/angler
+RUN apt-get install -y libpq-dev
 RUN pip install -r rod/requirements.txt
 
 # Setup nginx site

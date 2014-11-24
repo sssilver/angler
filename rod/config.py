@@ -6,7 +6,7 @@ DEBUG = True
 ADMINS = frozenset(['sssilver@gmail.com'])
 SECRET_KEY = 'SecretKeyForSessionSigning'
 
-SQLALCHEMY_DATABASE_URI = 'sqlite:////opt/data/angler.db'
+SQLALCHEMY_DATABASE_URI = 'postgresql://angler:4ng13r@localhost/angler'
 DATABASE_CONNECT_OPTIONS = {}
 
 THREADS_PER_PAGE = 8
