@@ -7,6 +7,7 @@ import logging
 
 import rod.db
 import rod.handler.student
+import rod.handler.staff
 import rod.handler.login
 import rod.handler.verify
 
@@ -25,6 +26,9 @@ class Rod(tornado.web.Application):
         handlers = [(
             r'{}/student/?(\w+)?'.format(prefix),
             rod.handler.student.StudentHandler
+        ), (
+            r'{}/staff/?(\w+)?'.format(prefix),
+            rod.handler.staff.StaffHandler
         ), (
             r'{}/login'.format(prefix),
             rod.handler.login.LoginHandler

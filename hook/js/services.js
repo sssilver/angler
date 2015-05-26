@@ -52,7 +52,7 @@ app.constant('DAYS', {
 });
 
 
-app.factory('Model', function ($resource, $http) {
+app.factory('Model', function ($resource) {
     return $resource(SERVICE_ENDPOINT + '/:model/:id', {}, {
         get: {
             method: 'GET',
@@ -61,16 +61,7 @@ app.factory('Model', function ($resource, $http) {
 
         query: {
             method: 'GET',
-            isArray: false,
-            params: {
-                q: {
-                    filters: [{
-                        name: 'is_deleted',
-                        op: 'eq',
-                        val: false
-                    }]
-                }
-            }
+            isArray: true
         },
 
         post: {

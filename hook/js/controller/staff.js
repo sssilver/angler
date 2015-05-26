@@ -9,9 +9,6 @@ app.controller(
         else
             $scope.staff = {};
 
-        console.log(staff);
-
-
         var modalInstance = $modal.open({
             templateUrl: 'template/dlg-staff.html',
             controller: 'StaffDialogCtrl',
@@ -70,7 +67,6 @@ app.controller(
         function ($scope, $log, $modalInstance, $modal, staff ) {
 
     $scope.staff = staff;
-    console.log(staff);
 
     $scope.ok = function () {
         $modalInstance.close($scope.staff);

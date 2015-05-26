@@ -1,5 +1,8 @@
 import tornado.web
 import functools
+import simplejson
+
+import rod.serialize
 
 
 class CorsHandler(tornado.web.RequestHandler):
@@ -15,7 +18,7 @@ class CorsHandler(tornado.web.RequestHandler):
 
         super(CorsHandler, self).set_default_headers()
 
-    def options(self):
+    def options(self, *args, **kwargs):
         pass
 
 
@@ -34,6 +37,9 @@ class BaseHandler(CorsHandler):
 
     def get_login_url(self):
         return ''
+
+    def write(self, chunk):
+        super(BaseHandler, self).write(simplejson.dumps(chunk, cls=rod.serialize.JSONEncoder))
 
 
 def auth(method):

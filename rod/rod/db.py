@@ -6,7 +6,7 @@ import sqlalchemy.schema
 import sqlalchemy.types
 
 
-Base = sqlalchemy.ext.declarative.declarative_base()
+declarative_base = lambda cls: sqlalchemy.ext.declarative.declarative_base(cls=cls)
 
 
 class Database(object):
@@ -25,6 +25,23 @@ class Database(object):
         self.session = self.session_class
 
         Base.query = self.session.query_property()
+
+
+@declarative_base
+class Base(object):
+    @property
+    def columns(self):
+        return [c.name for c in self.__table__.columns]
+
+    @property
+    def columnitems(self):
+        return dict([(c, getattr(self, c)) for c in self.columns])
+
+    def __repr__(self):
+        return '{}({})'.format(self.__class__.__name__, self.columnitems)
+
+    def __json__(self):
+        return self.columnitems
 
 
 class NoDeleteSession(sqlalchemy.orm.session.Session):

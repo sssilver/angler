@@ -8,3 +8,7 @@ class StudentHandler(rod.handler.base.BaseHandler):
     @rod.handler.base.auth
     def get(self, student_id=None):
         self.write({'student_id': str(student_id)})
+
+    @rod.handler.base.auth
+    def post(self):
+        pass

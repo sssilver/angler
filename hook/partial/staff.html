@@ -18,7 +18,7 @@
     <th></th>
   </tr>
 
-  <tr ng-repeat="staff in staffs.objects">
+  <tr ng-repeat="staff in staffs">
     <td>
       <a ng-click="dlgStaff(staff)">{{staff.name}}</a>
       <span class="label label-info" ng-if="staff.groups.length > 0">{{staff.groups.length}}</span>
