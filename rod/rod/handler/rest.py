@@ -8,7 +8,7 @@ class Get(tornado.web.RequestHandler):
     @rod.handler.base.auth
     def get(self, resource_id=None):
         if resource_id is None:
-            response = self.resource.query.all()
+            response = self.resource.query.filter_by(is_deleted=False).all()
 
         else:
             response = self.resource.query.get(int(resource_id))
