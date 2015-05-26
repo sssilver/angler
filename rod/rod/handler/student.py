@@ -1,10 +1,10 @@
-import flask.ext.restful
-import flask.ext.restful.reqparse
+import rod.handler.base
 
 
-class Student(flask.ext.restful.Resource):
+class StudentHandler(rod.handler.base.BaseHandler):
+    def initialize(self):
+        super(StudentHandler, self).initialize()
+
+    @rod.handler.base.auth
     def get(self, student_id=None):
-
-        return {'student_id': str(student_id)}
-
-
+        self.write({'student_id': str(student_id)})

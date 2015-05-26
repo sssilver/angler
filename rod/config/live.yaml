@@ -1,2 +1,4 @@
 flask:
   DEBUG: false
+  SECRET_KEY: Rocket in the sky
+  SQLALCHEMY_DATABASE_URI: postgresql://angler:4ng13r@localhost/angler

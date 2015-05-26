@@ -1,2 +1,12 @@
-flask:
-  DEBUG: true
+general:
+  locale: en_US.UTF-8
+
+network:
+  port: 5000
+
+db:
+  uri: postgresql://aharutyunyan:@localhost/angler
+
+tornado:
+  debug: true
+  cookie_secret: Rocket in the sky

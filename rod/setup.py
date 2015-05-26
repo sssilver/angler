@@ -12,8 +12,11 @@ distutils.core.setup(
     author_email='sssilver@gmail.com',
 
     install_requires=[
-        'flask',
-        'flask-restful',
-        'pyyaml'
+        'tornado',
+        'tornado_cors',
+        'psycopg2',
+        'pyyaml',
+        'simplejson',
+        'sqlalchemy'
     ]
 )

@@ -1,4 +1,4 @@
-var SERVICE_ENDPOINT = window.location.protocol + '//' + window.location.hostname + ':8080/api';
+var SERVICE_ENDPOINT = window.location.protocol + '//' + window.location.hostname + ':5000/api/v2';
 
 
 app.constant('AUTH_EVENTS', {
