@@ -21,3 +21,6 @@ class LoginHandler(rod.handler.base.BaseHandler):
         self.set_secure_cookie('user', str(registered_user.id))
 
         self.write({'email': registered_user.email})
+
+    def delete(self):
+        self.clear_cookie('user')

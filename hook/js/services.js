@@ -103,7 +103,7 @@ app.factory('Auth', function ($http, $rootScope, $cookieStore) {
         logout: function () {
             console.log('Auth.logout');
             return $http
-                .post(SERVICE_ENDPOINT + '/logout', {}, {withCredentials: true})
+                .delete(SERVICE_ENDPOINT + '/login', {}, {withCredentials: true})
                 .success(function () {
                     console.log('logoutSuccess');
                     $rootScope.$broadcast('logoutSuccess');
