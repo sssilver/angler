@@ -25,9 +25,14 @@ class Put(tornado.web.RequestHandler):
         for field, value in data.iteritems():
             setattr(resource, field, value)
 
-        self.db.session.commit()
+        try:
+            self.db.session.commit()
 
-        self.write(resource)
+            self.write(resource)
+        except Exception, e:
+            self.db.session.rollback()
+
+            self.send_error(400, message=e.message)
 
 
 class Post(tornado.web.RequestHandler):
@@ -39,12 +44,18 @@ class Post(tornado.web.RequestHandler):
         for field, value in data.iteritems():
             setattr(resource, field, value)
 
-        self.db.session.add(resource)
-        self.db.session.flush()
+        try:
+            self.db.session.add(resource)
+            self.db.session.flush()
 
-        self.db.session.commit()
+            self.db.session.commit()
 
-        self.write(resource)
+            self.write(resource)
+        except Exception, e:
+            self.db.session.rollback()
+
+            self.send_error(400, message=e.message)
+
 
 
 class Delete(tornado.web.RequestHandler):

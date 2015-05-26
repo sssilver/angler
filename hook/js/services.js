@@ -149,7 +149,7 @@ app.factory('RodInterceptor', function ($q, $rootScope) {
             if (rejection.status == 0)
                 rejection.data = {
                     message: 'Server unreachable'
-                }
+                };
 
             $rootScope.alerts.push({
                 'msg': rejection.data.message,

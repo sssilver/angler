@@ -41,6 +41,12 @@ class BaseHandler(CorsHandler):
     def write(self, chunk):
         super(BaseHandler, self).write(simplejson.dumps(chunk, cls=rod.serialize.JSONEncoder))
 
+    def write_error(self, status_code, **kwargs):
+        if 'message' not in kwargs:
+            kwargs['message'] = 'Unknown error'
+
+        self.write(kwargs)
+
 
 def auth(method):
     @functools.wraps(method)
