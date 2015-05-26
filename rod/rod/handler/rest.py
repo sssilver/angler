@@ -19,9 +19,11 @@ class Get(tornado.web.RequestHandler):
 class Put(tornado.web.RequestHandler):
     @rod.handler.base.auth
     def put(self, resource_id):
-        resource = self.resource.query.filter(self.resource.id == int(resource_id))
+        data = simplejson.loads(self.request.body)
+        resource = self.resource.query.get(int(resource_id))
 
-        resource.update(simplejson.loads(self.request.body))
+        for field, value in data.iteritems():
+            setattr(resource, field, value)
 
         self.db.session.commit()
 
@@ -31,9 +33,8 @@ class Put(tornado.web.RequestHandler):
 class Post(tornado.web.RequestHandler):
     @rod.handler.base.auth
     def post(self, resource_id):
-        resource = self.resource()
-
         data = simplejson.loads(self.request.body)
+        resource = self.resource()
 
         for field, value in data.iteritems():
             setattr(resource, field, value)
@@ -44,3 +45,12 @@ class Post(tornado.web.RequestHandler):
         self.db.session.commit()
 
         self.write(resource)
+
+
+class Delete(tornado.web.RequestHandler):
+    @rod.handler.base.auth
+    def delete(self, resource_id=None):
+        if resource_id:
+            resource = self.resource.query.get(int(resource_id))
+
+            self.db.session.delete(resource)
