@@ -6,13 +6,10 @@ import rod.db
 
 class StaffHandler(rod.handler.base.BaseHandler,
                    rod.handler.rest.Get,
-                   rod.handler.rest.Put):
+                   rod.handler.rest.Put,
+                   rod.handler.rest.Post):
 
     def initialize(self):
         self.resource = rod.model.staff.Staff
 
         super(StaffHandler, self).initialize()
-
-    @rod.handler.base.auth
-    def post(self):
-        pass
