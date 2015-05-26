@@ -25,6 +25,8 @@ class Put(tornado.web.RequestHandler):
 
         self.db.session.commit()
 
+        self.write(resource)
+
 
 class Post(tornado.web.RequestHandler):
     @rod.handler.base.auth
@@ -37,5 +39,8 @@ class Post(tornado.web.RequestHandler):
             setattr(resource, field, value)
 
         self.db.session.add(resource)
+        self.db.session.flush()
 
         self.db.session.commit()
+
+        self.write(resource)
