@@ -1,7 +1,10 @@
 import sqlalchemy.schema
 import sqlalchemy.types
+import sqlalchemy.orm
 
 import rod.db
+import rod.model.group
+import rod.model.lesson
 
 
 
@@ -10,6 +13,7 @@ class Staff(rod.db.Base, rod.db.PersistentMixin):
 
     id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, primary_key=True)
 
+    # Personal Information
     name = sqlalchemy.schema.Column(sqlalchemy.types.String)
     phone = sqlalchemy.schema.Column(sqlalchemy.types.String)
     email = sqlalchemy.schema.Column(sqlalchemy.types.String, unique=True)
@@ -19,6 +23,18 @@ class Staff(rod.db.Base, rod.db.PersistentMixin):
     gender = sqlalchemy.schema.Column(sqlalchemy.types.Boolean)
 
     authenticated = sqlalchemy.schema.Column(sqlalchemy.types.Boolean, default=False)
+
+    groups = sqlalchemy.orm.relationship(
+        'Group',
+        primaryjoin='and_(Staff.id==Group.teacher_id)',
+        back_populates='teacher'
+    )
+
+    lessons = sqlalchemy.orm.relationship(
+        'Lesson',
+        primaryjoin='and_(Staff.id==Lesson.teacher_id)',
+        back_populates='teacher'
+    )
 
     def is_authenticated(self):
         return True

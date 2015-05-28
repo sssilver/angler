@@ -1,13 +1,14 @@
 import rod.handler.base
+import rod.handler.rest
+import rod.model.student
 
 
-class StudentHandler(rod.handler.base.BaseHandler):
+class StudentHandler(rod.handler.base.BaseHandler,
+                     rod.handler.rest.Get):
     def initialize(self):
-        super(StudentHandler, self).initialize()
+        self.resource = rod.model.student.Student
 
-    @rod.handler.base.auth
-    def get(self, student_id=None):
-        self.write({'student_id': str(student_id)})
+        super(StudentHandler, self).initialize()
 
     @rod.handler.base.auth
     def post(self):

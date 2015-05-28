@@ -7,7 +7,10 @@ import logging
 
 import rod.db
 import rod.handler.student
+import rod.handler.course
 import rod.handler.staff
+import rod.handler.company
+import rod.handler.comment
 import rod.handler.login
 import rod.handler.verify
 
@@ -26,6 +29,9 @@ class Rod(tornado.web.Application):
         handlers = [(
             r'{}/student/?(\w+)?'.format(prefix),
             rod.handler.student.StudentHandler
+        ), (
+            r'{}/course/?(\w+)?'.format(prefix),
+            rod.handler.course.CourseHandler
         ), (
             r'{}/staff/?(\w+)?'.format(prefix),
             rod.handler.staff.StaffHandler
@@ -48,14 +54,14 @@ def main():
     try:
         env = os.environ.get('ENV', 'live')
 
+        with open('config/{}.yaml'.format(env)) as config_file:
+            config = yaml.load(config_file)
+
         log.info('Starting Angler.Rod/{env} on {host}:{port}'.format(
             env=env,
             host='localhost',
-            port=5000
+            port=config['network']['port']
         ))
-
-        with open('config/{}.yaml'.format(env)) as config_file:
-            config = yaml.load(config_file)
 
         # Setup locale
         locale.setlocale(locale.LC_ALL, config['general']['locale'])

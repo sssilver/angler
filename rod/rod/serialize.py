@@ -10,4 +10,7 @@ class JSONEncoder(simplejson.JSONEncoder):
         try:
             return obj.__json__()
         except AttributeError:
-            return simplejson.JSONEncoder.default(self, obj)
+            try:
+                return simplejson.JSONEncoder.default(self, obj)
+            except TypeError:
+                return str(obj)
