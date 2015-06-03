@@ -26,6 +26,20 @@ class Database(object):
 
         Base.query = self.session.query_property()
 
+    def create_tables(self):
+        import rod.model.comment
+        import rod.model.company
+        import rod.model.course
+        import rod.model.group
+        import rod.model.lesson
+        import rod.model.level
+        import rod.model.staff
+        import rod.model.student
+        import rod.model.tariff
+        import rod.model.transaction
+
+        Base.metadata.create_all(bind=self.engine)
+
 
 @declarative_base
 class Base(object):
