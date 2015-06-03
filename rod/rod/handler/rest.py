@@ -7,11 +7,19 @@ import rod.handler.base
 class Get(tornado.web.RequestHandler):
     @rod.handler.base.auth
     def get(self, resource_id=None):
-        if resource_id is None:
-            response = self.resource.query.filter_by(is_deleted=False).all()
+        try:
+            if resource_id is None:
+                response = self.resource.query.filter_by(is_deleted=False).all()
 
-        else:
-            response = self.resource.query.get(int(resource_id))
+            else:
+                response = self.resource.query.get(int(resource_id))
+
+            self.db.session.commit()
+
+        except Exception, e:
+            self.db.session.rollback()
+
+            self.send_error(500, message=e.message)
 
         self.write(response)
 
@@ -62,6 +70,15 @@ class Delete(tornado.web.RequestHandler):
     @rod.handler.base.auth
     def delete(self, resource_id=None):
         if resource_id:
-            resource = self.resource.query.get(int(resource_id))
+            try:
+                resource = self.resource.query.get(int(resource_id))
 
-            self.db.session.delete(resource)
+                self.db.session.delete(resource)
+
+                self.db.session.commit()
+
+            except Exception, e:
+                self.db.session.rollback()
+
+                self.send_error(500, message=e.message)
+
