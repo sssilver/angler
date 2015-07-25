@@ -17,22 +17,6 @@
                required />
       </div>
     </div>
-
-    <div class="form-group">
-      <label for="level_teachers" class="col-sm-2 control-label">Teachers</label>
-      <div class="col-sm-10">
-        <select id="level_teachers"
-                style="width:100%"
-                multiple="multiple"
-                data-placeholder="Who can teach this?"
-                ng-model="level.teachers"
-                ui-select2>
-          <option ng-repeat="teacher in teachers" value="{{teacher.id}}">
-            {{teacher.name}}
-          </option>
-        </select>
-      </div>
-    </div>
   </form>
 
 

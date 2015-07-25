@@ -24,7 +24,7 @@ app.controller(
 
             if (staff.id) {
                 staff_service.$save(
-                    {'model': 'staff', 'id': staff.id},
+                    {'model': 'staff', 'resource_id': staff.id},
                     function () {
                         $scope.refresh();
                     }
@@ -51,7 +51,7 @@ app.controller(
 
     $scope.remove = function (id) {
         if (confirm('Are you sure?')) {
-            Model.remove({'model': 'staff', 'id': id}, function () {
+            Model.remove({'model': 'staff', 'resource_id': id}, function () {
                 $scope.refresh();
             });
         }
@@ -64,7 +64,7 @@ app.controller(
 app.controller(
     'StaffDialogCtrl',
     ['$scope', '$log', '$modalInstance', '$modal', 'staff',
-        function ($scope, $log, $modalInstance, $modal, staff ) {
+        function ($scope, $log, $modalInstance, $modal, staff) {
 
     $scope.staff = staff;
 

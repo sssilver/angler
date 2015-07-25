@@ -26,15 +26,15 @@
     <th></th>
   </tr>
 
-  <tr ng-repeat="company in companies.objects">
+  <tr ng-repeat="company in companies">
     <td><a ng-click="dlgCompany(company)">{{company.title}}</a></td>
     <td>{{company.contact_name}}</td>
     <td>{{company.contact_phone}}</td>
     <td>
       <div class="pull-right">
-        <a class="btn btn-default" ng-href="#/companies/{{company.id}}">
+        <!--a class="btn btn-default" ng-href="#/companies/{{company.id}}">
           View company
-        </a>
+        </a-->
         <button class="btn btn-danger" ng-click="remove(company.id)">
           <span class="glyphicon-white glyphicon glyphicon-remove"></span>
         </button>

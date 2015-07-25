@@ -6,13 +6,18 @@ import rod.handler.base
 
 class Get(tornado.web.RequestHandler):
     @rod.handler.base.auth
-    def get(self, resource_id=None):
+    def get(self, resource_id=None, field=None):
         try:
             if resource_id is None:
                 response = self.resource.query.filter_by(is_deleted=False).all()
 
             else:
-                response = self.resource.query.get(int(resource_id))
+                record = self.resource.query.get(int(resource_id))
+
+                if field is None:
+                    response = record
+                else:
+                    response = {field: getattr(record, field)}
 
             self.db.session.commit()
 
@@ -26,7 +31,7 @@ class Get(tornado.web.RequestHandler):
 
 class Put(tornado.web.RequestHandler):
     @rod.handler.base.auth
-    def put(self, resource_id):
+    def put(self, resource_id, field=None):
         data = simplejson.loads(self.request.body)
         resource = self.resource.query.get(int(resource_id))
 
@@ -45,12 +50,16 @@ class Put(tornado.web.RequestHandler):
 
 class Post(tornado.web.RequestHandler):
     @rod.handler.base.auth
-    def post(self, resource_id):
+    def post(self, resource_id=None, field=None):
         data = simplejson.loads(self.request.body)
         resource = self.resource()
 
         for field, value in data.iteritems():
-            setattr(resource, field, value)
+            if isinstance(value, dict):
+                for subkey, subvalue in value.iteritems():
+                    setattr(resource, '{}_{}'.format(field, subkey), subvalue)
+            else:
+                setattr(resource, field, value)
 
         try:
             self.db.session.add(resource)
@@ -68,7 +77,7 @@ class Post(tornado.web.RequestHandler):
 
 class Delete(tornado.web.RequestHandler):
     @rod.handler.base.auth
-    def delete(self, resource_id=None):
+    def delete(self, resource_id=None, field=None):
         if resource_id:
             try:
                 resource = self.resource.query.get(int(resource_id))

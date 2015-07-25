@@ -4,7 +4,7 @@ app.controller(
             function ($scope, $log, $modal, Model, TIMES, DAYS) {
 
     $scope.dlgLevels = function (course) {
-        var modalInstance = $modal.open({
+        $modal.open({
             templateUrl: 'template/levels.html',
             controller: 'LevelsDialogCtrl',
             resolve: {
@@ -17,7 +17,7 @@ app.controller(
     };
 
     $scope.dlgTariffs = function (course) {
-        var modalInstance = $modal.open({
+        $modal.open({
             templateUrl: 'template/tariffs.html',
             controller: 'TariffsDialogCtrl',
             resolve: {
@@ -51,7 +51,7 @@ app.controller(
 
             if (course.id) {
                 course_service.$save(
-                    {'model': 'course', 'id': course.id},
+                    {model: 'course', resource_id: course.id},
                     function () {
                         $scope.refresh();
                     }
@@ -77,7 +77,7 @@ app.controller(
 
     $scope.remove = function (id) {
         if (confirm('Are you sure?')) {
-            Model.remove({'model': 'course', 'id': id}, function () {
+            Model.remove({'model': 'course', 'resource_id': id}, function () {
                 $scope.refresh();
             });
         }
@@ -113,7 +113,7 @@ app.controller(
 
     $scope.remove = function (level_id) {
         if (confirm('Are you sure?')) {
-            Model.remove({'model': 'level', 'id': level_id}, function () {
+            Model.remove({'model': 'level', 'resource_id': level_id}, function () {
                 $scope.$parent.refresh();
             });
         }
@@ -139,23 +139,18 @@ app.controller(
         });
 
         modalInstance.result.then(function (level) {
-            // Transform level.teachers
-            level.teachers = level.teachers.map(function (teacher) {
-                return {id: teacher};
-            });
-
-            level_service = new Model(level);
+            var level_service = new Model(level);
 
             if (level.id) {
                 level_service.$save(
-                    {'model': 'level', 'id': level.id},
+                    {model: 'level', resource_id: level.id},
                     function () {
                         $scope.refresh();
                     }
                 );
             } else {
                 level_service.$post(
-                    {'model': 'level'},
+                    {model: 'level'},
                     function () {
                         $scope.refresh();
                     }
@@ -175,22 +170,14 @@ app.controller(
     };
 
     $scope.refresh = function () {
-        console.log('querying levels for ');
-        console.log(course);
-
-        levels = Model.query(
+        var levels = Model.get(
             {
-                model: 'level',
-                q: {
-                    filters: [{
-                        name: 'course_id',
-                        op: 'eq',
-                        val: course.id
-                    }]
-                }
+                model: 'course',
+                resource_id: course.id.toString(),
+                field: 'levels'
             },
             function () {
-                $scope.levels = levels.objects;
+                $scope.levels = levels.levels;
             }
         );
     };
@@ -205,20 +192,6 @@ app.controller(
             function ($scope, $modalInstance, level, Model) {
 
     $scope.level = angular.copy(level);
-
-    if (level.teachers) {
-        $scope.level.teachers = level.teachers.map(function (teacher) {
-            return teacher.id;
-        });
-    }
-
-    teachers = Model.query(
-        {model: 'staff'},
-        function () {
-            $scope.teachers = teachers.objects;
-            console.log(teachers);
-        }
-    );
 
     $scope.ok = function () {
         $modalInstance.close($scope.level);
@@ -241,7 +214,7 @@ app.controller(
 
     $scope.remove = function (tariff_id) {
         if (confirm('Are you sure?')) {
-            Model.remove({'model': 'tariff', 'id': tariff_id}, function () {
+            Model.remove({'model': 'tariff', 'resource_id': tariff_id}, function () {
                 $scope.$parent.refresh();
             });
         }
@@ -270,7 +243,7 @@ app.controller(
 
             if (tariff.id) {
                 tariff_service.$save(
-                    {'model': 'tariff', 'id': tariff.id},
+                    {'model': 'tariff', 'resource_id': tariff.id},
                     function () {
                         $scope.refresh();
                     }
@@ -297,19 +270,14 @@ app.controller(
     };
 
     $scope.refresh = function () {
-        tariffs = Model.query(
+        var data = Model.query(
             {
-                model: 'tariff',
-                q: {
-                    filters: [{
-                        name: 'course_id',
-                        op: 'eq',
-                        val: course.id
-                    }]
-                }
+                model: 'course',
+                resource_id: course.id,
+                field: 'tariffs'
             },
             function () {
-                $scope.tariffs = tariffs.objects;
+                $scope.tariffs = data.tariffs;
             }
         );
     };

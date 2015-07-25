@@ -8,6 +8,8 @@ import logging
 import rod.db
 import rod.handler.student
 import rod.handler.course
+import rod.handler.level
+import rod.handler.tariff
 import rod.handler.staff
 import rod.handler.company
 import rod.handler.comment
@@ -27,13 +29,22 @@ class Rod(tornado.web.Application):
         prefix = '/api/v2'
 
         handlers = [(
-            r'{}/student/?(\w+)?'.format(prefix),
+            r'{}/student/?(\w+)?/?(\w+)?'.format(prefix),
             rod.handler.student.StudentHandler
         ), (
-            r'{}/course/?(\w+)?'.format(prefix),
+            r'{}/company/?(\w+)?/?(\w+)?'.format(prefix),
+            rod.handler.company.CompanyHandler
+        ), (
+            r'{}/course/?(\w+)?/?(\w+)?'.format(prefix),
             rod.handler.course.CourseHandler
         ), (
-            r'{}/staff/?(\w+)?'.format(prefix),
+            r'{}/tariff/?(\w+)?/?(\w+)?'.format(prefix),
+            rod.handler.tariff.TariffHandler
+        ), (
+            r'{}/level/?(\w+)?/?(\w+)?'.format(prefix),
+            rod.handler.level.LevelHandler
+        ), (
+            r'{}/staff/?(\w+)?/?(\w+)?'.format(prefix),
             rod.handler.staff.StaffHandler
         ), (
             r'{}/login'.format(prefix),

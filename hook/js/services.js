@@ -53,7 +53,7 @@ app.constant('DAYS', {
 
 
 app.factory('Model', function ($resource) {
-    return $resource(SERVICE_ENDPOINT + '/:model/:id', {}, {
+    return $resource(SERVICE_ENDPOINT + '/:model/:resource_id/:field', {}, {
         get: {
             method: 'GET',
             isArray: false
@@ -73,11 +73,7 @@ app.factory('Model', function ($resource) {
         },
 
         remove: {
-            method: 'DELETE',
-            params: {
-                model: '@model',
-                id: '@id'
-            }
+            method: 'DELETE'
         }
     });
 });

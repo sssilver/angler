@@ -8,6 +8,8 @@ import rod.serialize
 class CorsHandler(tornado.web.RequestHandler):
 
     def set_default_headers(self):
+        super(CorsHandler, self).set_default_headers()
+
         self.set_header('Access-Control-Allow-Origin', self.request.headers.get('Origin', '*'))
         self.set_header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS')
         self.set_header('Access-Control-Allow-Credentials', 'true')
@@ -16,7 +18,7 @@ class CorsHandler(tornado.web.RequestHandler):
             ['Content-Type']
         ))
 
-        super(CorsHandler, self).set_default_headers()
+        self.set_header('Content-type', 'application/json')
 
     def options(self, *args, **kwargs):
         pass

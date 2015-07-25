@@ -107,8 +107,8 @@ app.controller(
         });
     };
 
-    $scope.refresh = function (query) {
-        students = Model.query({model: 'student'}, function () {
+    $scope.refresh = function () {
+        var students = Model.query({model: 'student'}, function () {
             $scope.students = students;
             console.log($scope.students);
         });

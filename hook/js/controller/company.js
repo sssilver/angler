@@ -21,11 +21,11 @@ app.controller(
         });
 
         modalInstance.result.then(function (company) {
-            company_service = new Model(company);
+            var company_service = new Model(company);
 
             if (company.id) {
                 company_service.$save(
-                    {'model': 'company', 'id': company.id},
+                    {'model': 'company', 'resource_id': company.id},
                     function () {
                         $scope.refresh();
                     }
@@ -44,14 +44,14 @@ app.controller(
     };
 
     $scope.refresh = function () {
-        companies = Model.query({'model': 'company'}, function () {
+        var companies = Model.query({'model': 'company'}, function () {
             $scope.companies = companies;
         });
     };
 
     $scope.remove = function (id) {
         if (confirm('Are you sure?')) {
-            Model.remove({'model': 'company', 'id': id}, function () {
+            Model.remove({'model': 'company', 'resource_id': id}, function () {
                 $scope.refresh();
             });
         }
