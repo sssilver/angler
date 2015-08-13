@@ -1,91 +1,69 @@
-import tornado.web
-import tornado.ioloop
+import flask
 import os
 import yaml
 import locale
 import logging
+import importlib
 
-import rod.db
-import rod.handler.student
-import rod.handler.course
-import rod.handler.level
-import rod.handler.tariff
-import rod.handler.staff
-import rod.handler.company
-import rod.handler.comment
-import rod.handler.login
-import rod.handler.verify
+import rod.request
 
 
-logging.basicConfig(level=logging.DEBUG)
-log = logging.getLogger('rod')
 
+'''
+class Rod(object):
 
-class Rod(tornado.web.Application):
     def __init__(self, config):
-        self.config = config
-        self.db = rod.db.Database(self.config['db']['uri'])
+        pass  # self.redis = redis.Redis(config['redis_host'], config['redis_port'])
 
-        prefix = '/api/v2'
+    def dispatch_request(self, request):
+        path = [
+            node
+            for node in request.environ['PATH_INFO'].split('/')[1:]
+            if node != ''
+        ]
 
-        handlers = [(
-            r'{}/student/?(\w+)?/?(\w+)?'.format(prefix),
-            rod.handler.student.StudentHandler
-        ), (
-            r'{}/company/?(\w+)?/?(\w+)?'.format(prefix),
-            rod.handler.company.CompanyHandler
-        ), (
-            r'{}/course/?(\w+)?/?(\w+)?'.format(prefix),
-            rod.handler.course.CourseHandler
-        ), (
-            r'{}/tariff/?(\w+)?/?(\w+)?'.format(prefix),
-            rod.handler.tariff.TariffHandler
-        ), (
-            r'{}/level/?(\w+)?/?(\w+)?'.format(prefix),
-            rod.handler.level.LevelHandler
-        ), (
-            r'{}/staff/?(\w+)?/?(\w+)?'.format(prefix),
-            rod.handler.staff.StaffHandler
-        ), (
-            r'{}/login'.format(prefix),
-            rod.handler.login.LoginHandler
-        ), (
-            r'{}/verify'.format(prefix),
-            rod.handler.verify.VerifyHandler
-        )]
+        if len(path) != 2:  # We always expect /module/method
+            raise werkzeug.exceptions.BadRequest()
 
-        super(Rod, self).__init__(
-            handlers,
-            **self.config.get('tornado', {})
-        )
+        module = path[0]
+        method = path[1]
 
+        try:  # Import the requested module
+            module_obj = importlib.import_module('rod.handler.{}'.format(module))
+        except ImportError:
+            raise werkzeug.exceptions.BadRequest('Module {} not found'.format(module))
 
-def main():
-    # Parse the config
-    try:
-        env = os.environ.get('ENV', 'live')
+        try:  # Load the requested function from the module
+            method_obj = getattr(module_obj, method)
+        except AttributeError:
+            raise werkzeug.exceptions.BadRequest('Method {} not found'.format(method))
 
-        with open('config/{}.yaml'.format(env)) as config_file:
-            config = yaml.load(config_file)
+        response_body = None
+        if request.method != 'OPTIONS':
+            response_body = {
+                'status': 0,
+                'data': method_obj(request, **request.json)
+            }
 
-        log.info('Starting Angler.Rod/{env} on {host}:{port}'.format(
-            env=env,
-            host='localhost',
-            port=config['network']['port']
-        ))
+        # Invoke the function with the passed arguments
+        try:
+            return rod.request.JSONResponse(response_body, {
+                'Access-Control-Allow-Origin': request.headers.get('Origin', '*'),
+                'Access-Control-Allow-Methods': 'POST, OPTIONS',
+                'Access-Control-Allow-Credentials': 'true',
+                'Access-Control-Allow-Headers': ','.join(
+                    request.headers.get('Access-Control-Request-Headers', '').split(',') +
+                    ['Content-Type']
+                )
+            })
+        except Exception, e:
+            raise werkzeug.exceptions.InternalServerError(str(e), str(e))
 
-        # Setup locale
-        locale.setlocale(locale.LC_ALL, config['general']['locale'])
+    def wsgi_app(self, environ, start_response):
+        request = rod.request.JSONRequest(environ)
+        response = self.dispatch_request(request)
+        return response(environ, start_response)
 
-        # Instantiate the app class
-        Rod(config).listen(config['network']['port'])
-
-        # Kick off Tornado
-        tornado.ioloop.IOLoop.current().start()
-
-    except KeyError, e:
-        log.error('Requested configuration key does not exist: {}'.format(e))
-
-
-if __name__ == '__main__':
-    main()
+    def __call__(self, environ, start_response):
+        return self.wsgi_app(environ, start_response)
+'''

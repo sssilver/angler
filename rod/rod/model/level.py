@@ -2,12 +2,13 @@ import sqlalchemy.types
 import sqlalchemy.schema
 import sqlalchemy.orm
 
-import rod.db
+import rod.model
 import rod.model.group
+import rod.model.course
 
 
 
-class Level(rod.db.Base, rod.db.PersistentMixin):
+class Level(rod.model.Base, rod.model.PersistentMixin):
     __tablename__ = 'level'
 
     id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, primary_key=True)

@@ -1,4 +1,5 @@
 import datetime
+import dateutil.parser
 import re
 import sqlalchemy.types
 import sqlalchemy.schema
@@ -6,11 +7,12 @@ import sqlalchemy.orm
 import sqlalchemy.ext.hybrid
 import sqlalchemy.sql
 
-import rod.db
+import rod.model
 import rod.model.transaction
+import rod.model.comment
 
 
-class Student(rod.db.Base, rod.db.PersistentMixin):
+class Student(rod.model.Base, rod.model.PersistentMixin):
     __tablename__ = 'student'
 
     id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, primary_key=True)
@@ -89,16 +91,25 @@ class Student(rod.db.Base, rod.db.PersistentMixin):
 
     @sqlalchemy.orm.validates('dob', 'reg_date', 'ivw_date')
     def validate_datetime(self, key, date):
-        assert isinstance(date, datetime.datetime) or date is None
-        return date
+        if date is None:
+            return None
+
+        converted_date = dateutil.parser.parse(date).replace(tzinfo=None)
+
+        assert isinstance(converted_date, datetime.datetime)
+
+        return converted_date
 
     @sqlalchemy.orm.validates('email')
     def validate_email(self, key, email):
+        if email is None:
+            return None
+
         assert re.match(r'[^@]+@[^@]+\.[^@]+', email)
         return email
 
 
-class StudentGroup(rod.db.Base, rod.db.PersistentMixin):
+class StudentGroup(rod.model.Base, rod.model.PersistentMixin):
     __tablename__ = 'student_group'
 
     student_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('student.id'), primary_key=True)
@@ -118,7 +129,7 @@ class StudentGroup(rod.db.Base, rod.db.PersistentMixin):
     is_suspended = sqlalchemy.schema.Column(sqlalchemy.types.Boolean)
 
 
-class Attendance(rod.db.Base, rod.db.PersistentMixin):
+class Attendance(rod.model.Base, rod.model.PersistentMixin):
     __tablename__ = 'attendance'
 
     student_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('student.id'), primary_key=True)
@@ -134,7 +145,7 @@ class Attendance(rod.db.Base, rod.db.PersistentMixin):
     #       Could also include the time at which the student showed up
 
 
-class Availability(rod.db.Base):
+class Availability(rod.model.Base):
     __tablename__ = 'availability'
 
     id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, primary_key=True)

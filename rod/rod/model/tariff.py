@@ -2,10 +2,10 @@ import sqlalchemy.types
 import sqlalchemy.schema
 import sqlalchemy.orm
 
-import rod.db
+import rod.model
 
 
-class Tariff(rod.db.Base, rod.db.PersistentMixin):
+class Tariff(rod.model.Base, rod.model.PersistentMixin):
     __tablename__ = 'tariff'
 
     id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, primary_key=True)

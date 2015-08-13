@@ -2,10 +2,12 @@ import sqlalchemy.types
 import sqlalchemy.schema
 import sqlalchemy.orm
 
-import rod.db
+import rod.model
+import rod.model.level
+import rod.model.student
 
 
-class Group(rod.db.Base, rod.db.PersistentMixin):
+class Group(rod.model.Base, rod.model.PersistentMixin):
     __tablename__ = 'group'
 
     id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, primary_key=True)

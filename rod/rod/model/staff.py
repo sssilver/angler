@@ -2,13 +2,13 @@ import sqlalchemy.schema
 import sqlalchemy.types
 import sqlalchemy.orm
 
-import rod.db
+import rod.model
+import rod.model
 import rod.model.group
 import rod.model.lesson
 
 
-
-class Staff(rod.db.Base, rod.db.PersistentMixin):
+class Staff(rod.model.Base, rod.model.PersistentMixin):
     __tablename__ = 'staff'
 
     id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, primary_key=True)
@@ -48,3 +48,10 @@ class Staff(rod.db.Base, rod.db.PersistentMixin):
 
     def get_id(self):
         return unicode(self.id)
+
+
+class StaffSchema(rod.model.BaseSchema):
+
+    # Inherit BaseSchema's options
+    class Meta(rod.model.BaseSchema.Meta):
+        model = Staff

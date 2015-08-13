@@ -2,12 +2,12 @@ import sqlalchemy.types
 import sqlalchemy.schema
 import sqlalchemy.orm
 
-import rod.db
+import rod.model
 import rod.model.level
 import rod.model.tariff
 
 
-class Course(rod.db.Base, rod.db.PersistentMixin):
+class Course(rod.model.Base, rod.model.PersistentMixin):
     __tablename__ = 'course'
 
     id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, primary_key=True)

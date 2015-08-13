@@ -17,6 +17,7 @@ distutils.core.setup(
         'psycopg2',
         'pyyaml',
         'simplejson',
-        'sqlalchemy'
+        'sqlalchemy',
+        'python-dateutil'
     ]
 )

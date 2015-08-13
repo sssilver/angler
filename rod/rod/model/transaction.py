@@ -3,10 +3,12 @@ import sqlalchemy.types
 import sqlalchemy.schema
 import sqlalchemy.orm
 
-import rod.db
+import rod.model
+import rod.model.company
 
 
-class Transaction(rod.db.Base, rod.db.PersistentMixin):
+
+class Transaction(rod.model.Base, rod.model.PersistentMixin):
     __tablename__ = 'transaction'
     __table_args__ = {'sqlite_autoincrement': True}
 
