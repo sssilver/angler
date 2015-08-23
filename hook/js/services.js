@@ -1,4 +1,4 @@
-var SERVICE_ENDPOINT = window.location.protocol + '//' + window.location.hostname + ':5000/api/v2';
+var SERVICE_ENDPOINT = window.location.protocol + '//' + window.location.hostname + ':5000';
 
 
 app.constant('AUTH_EVENTS', {
@@ -83,7 +83,7 @@ app.factory('Auth', function ($http, $rootScope, $cookieStore) {
     return {
         login: function (credentials) {
             return $http
-                .post(SERVICE_ENDPOINT + '/login', credentials, {withCredentials: true})
+                .post(SERVICE_ENDPOINT + '/auth', credentials)
                 .success(function (data, status, headers, config) {
                     console.info('loginSuccess');
                     this.user = data;
@@ -99,7 +99,7 @@ app.factory('Auth', function ($http, $rootScope, $cookieStore) {
         logout: function () {
             console.log('Auth.logout');
             return $http
-                .delete(SERVICE_ENDPOINT + '/login', {}, {withCredentials: true})
+                .delete(SERVICE_ENDPOINT + '/auth')
                 .success(function () {
                     console.log('logoutSuccess');
                     $rootScope.$broadcast('logoutSuccess');
@@ -108,7 +108,7 @@ app.factory('Auth', function ($http, $rootScope, $cookieStore) {
 
         verify: function () {
             return $http
-                .get(SERVICE_ENDPOINT + '/verify', {withCredentials: true})
+                .get(SERVICE_ENDPOINT + '/auth')
                 .error(function () {
                     $rootScope.$broadcast('unauthorized');
                 });
@@ -156,3 +156,32 @@ app.factory('RodInterceptor', function ($q, $rootScope) {
         }
     };
 });
+
+
+function convertDateStringsToDates(input) {
+    // Ignore things that aren't objects.
+    if (typeof input !== 'object')
+        return input;
+
+    var regexIso8601 = /^(\d{4}|\+\d{6})(?:-(\d{2})(?:-(\d{2})(?:T(\d{2}):(\d{2}):(\d{2})\.(\d{1,})(Z|([\-+])(\d{2}):(\d{2}))?)?)?)?$/;
+
+    for (var key in input) {
+        if (!input.hasOwnProperty(key))
+            continue;
+
+        var value = input[key];
+        var match;
+
+        // Check for string properties which look like dates.
+        if (typeof value === 'string' && (match = value.match(regexIso8601))) {
+            var milliseconds = Date.parse(match[0]);
+
+            if (!isNaN(milliseconds)) {
+                input[key] = new Date(milliseconds);
+            }
+        } else if (typeof value === 'object') {
+            // Recurse into object
+            convertDateStringsToDates(value);
+        }
+    }
+}

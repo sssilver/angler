@@ -18,7 +18,7 @@
           <tab select="listAllStudents()">
             <tab-heading>
               All students
-              <span class="pull-right">{{students.objects.length}}</span>
+              <span class="pull-right">{{students.length}}</span>
             </tab-heading>
           </tab>
           <tab heading="Pending" select="listPendingStudents()"></tab>
@@ -56,7 +56,7 @@
           <th class="col-md-1"></th>
         </tr>
 
-        <tr ng-repeat="student in students.objects"
+        <tr ng-repeat="student in students"
             ng-click="viewStudent(student.id)"
             ng-class="{info: selectedStudents.indexOf(student) > -1}">
           <td>

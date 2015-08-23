@@ -12,7 +12,7 @@ import rod.model.transaction
 import rod.model.comment
 
 
-class Student(rod.model.Base, rod.model.PersistentMixin):
+class Student(rod.model.db, rod.model.PersistentMixin):
     __tablename__ = 'student'
 
     id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, primary_key=True)

@@ -6,10 +6,10 @@ app.controller(
     if ($stateParams.student_id) {  // Detail view?
         $scope.refresh_student = function () {
             // Load the requested student
-            student = Model.query(
+            var student = Model.query(
                 {
                     model: 'student',
-                    id: $stateParams.student_id
+                    resource_id: $stateParams.student_id
                 },
                 function () {
                     $scope.student = student;
@@ -42,18 +42,18 @@ app.controller(
         modalInstance.result.then(function (student) {
             delete student.balance;  // Remove the hybrid property
 
-            student_service = new Model(student);
+            var student_service = new Model(student);
 
             if (student.id) {
                 student_service.$save(
-                    {'model': 'student', 'id': student.id},
+                    {model: 'student', resource_id: student.id},
                     function () {
                         $scope.refresh();
                     }
                 );
             } else {
                 student_service.$post(
-                    {'model': 'student'},
+                    {model: 'student'},
                     function () {
                         $scope.refresh();
                     }
@@ -145,7 +145,7 @@ app.controller(
 
     $scope.remove = function (id) {
         if (confirm('Are you sure?')) {
-            Model.remove({'model': 'student', 'id': id}, function () {
+            Model.remove({model: 'student', resource_id: id}, function () {
                 $scope.refresh();
             });
         }
@@ -163,10 +163,10 @@ app.controller(
         });
 
         modalInstance.result.then(function (transaction) {
-            transaction_service = new Model(transaction);
+            var transaction_service = new Model(transaction);
 
             transaction_service.$post(
-                {'model': 'student-transaction'},
+                {model: 'student-transaction'},
                 function () {
                     $scope.refresh_student();
                 }
@@ -214,7 +214,7 @@ app.controller(
     $scope.student = student;
     console.log(student);
 
-    levels = Model.query({model: 'level'}, function () {
+    var levels = Model.query({model: 'level'}, function () {
         $scope.levels = levels.objects;
     });
 

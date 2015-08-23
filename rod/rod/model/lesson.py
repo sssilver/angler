@@ -5,7 +5,7 @@ import sqlalchemy.orm
 import rod.model
 
 
-class Lesson(rod.model.Base, rod.model.PersistentMixin):
+class Lesson(rod.model.db, rod.model.PersistentMixin):
     __tablename__ = 'lesson'
 
     id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, primary_key=True)

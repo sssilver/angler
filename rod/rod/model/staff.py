@@ -8,7 +8,7 @@ import rod.model.group
 import rod.model.lesson
 
 
-class Staff(rod.model.Base, rod.model.PersistentMixin):
+class Staff(rod.model.db, rod.model.PersistentMixin):
     __tablename__ = 'staff'
 
     id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, primary_key=True)

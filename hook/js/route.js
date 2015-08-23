@@ -4,6 +4,11 @@ app.config(function ($stateProvider, $httpProvider) {
 
     $httpProvider.interceptors.push('RodInterceptor');
 
+    $httpProvider.defaults.transformResponse.push(function (responseData) {
+        convertDateStringsToDates(responseData);
+
+        return responseData;
+    });
 
     $stateProvider
         .state('public', {

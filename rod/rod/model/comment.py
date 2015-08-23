@@ -5,7 +5,7 @@ import sqlalchemy.orm
 import rod.model
 
 
-class Comment(rod.model.Base, rod.model.PersistentMixin):
+class Comment(rod.model.db, rod.model.PersistentMixin):
     __tablename__ = 'comment'
 
     id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, primary_key=True)

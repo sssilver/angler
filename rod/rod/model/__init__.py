@@ -57,23 +57,6 @@ class RodSQLAlchemy(flask.ext.sqlalchemy.SQLAlchemy):
         self.create_all()
 
 
-@declarative_base
-class Base(object):
-    @property
-    def columns(self):
-        return [c.name for c in self.__table__.columns]
-
-    @property
-    def columnitems(self):
-        return dict([(c, getattr(self, c)) for c in self.columns])
-
-    def __repr__(self):
-        return '{}({})'.format(self.__class__.__name__, self.columnitems)
-
-    def __json__(self):
-        return self.columnitems
-
-
 class NoDeleteSession(sqlalchemy.orm.session.Session):
     def __init__(self, bind=None, autoflush=True, expire_on_commit=True,
                  _enable_transaction_accounting=True,

@@ -4,7 +4,7 @@ import sqlalchemy.types
 import rod.model
 
 
-class Company(rod.model.Base, rod.model.PersistentMixin):
+class Company(rod.model.db, rod.model.PersistentMixin):
     __tablename__ = 'company'
 
     id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, primary_key=True)

@@ -7,7 +7,7 @@ import rod.model.level
 import rod.model.tariff
 
 
-class Course(rod.model.Base, rod.model.PersistentMixin):
+class Course(rod.model.db, rod.model.PersistentMixin):
     __tablename__ = 'course'
 
     id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, primary_key=True)
