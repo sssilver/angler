@@ -12,7 +12,7 @@ import rod.model.transaction
 import rod.model.comment
 
 
-class Student(rod.model.db, rod.model.PersistentMixin):
+class Student(rod.model.db.Model, rod.model.PersistentMixin):
     __tablename__ = 'student'
 
     id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, primary_key=True)
@@ -109,7 +109,7 @@ class Student(rod.model.db, rod.model.PersistentMixin):
         return email
 
 
-class StudentGroup(rod.model.Base, rod.model.PersistentMixin):
+class StudentGroup(rod.model.db.Model, rod.model.PersistentMixin):
     __tablename__ = 'student_group'
 
     student_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('student.id'), primary_key=True)
@@ -129,7 +129,7 @@ class StudentGroup(rod.model.Base, rod.model.PersistentMixin):
     is_suspended = sqlalchemy.schema.Column(sqlalchemy.types.Boolean)
 
 
-class Attendance(rod.model.Base, rod.model.PersistentMixin):
+class Attendance(rod.model.db.Model, rod.model.PersistentMixin):
     __tablename__ = 'attendance'
 
     student_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('student.id'), primary_key=True)
@@ -145,7 +145,7 @@ class Attendance(rod.model.Base, rod.model.PersistentMixin):
     #       Could also include the time at which the student showed up
 
 
-class Availability(rod.model.Base):
+class Availability(rod.model.db.Model):
     __tablename__ = 'availability'
 
     id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, primary_key=True)

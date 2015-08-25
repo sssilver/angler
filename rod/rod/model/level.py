@@ -8,7 +8,7 @@ import rod.model.course
 
 
 
-class Level(rod.model.db, rod.model.PersistentMixin):
+class Level(rod.model.db.Model, rod.model.PersistentMixin):
     __tablename__ = 'level'
 
     id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, primary_key=True)

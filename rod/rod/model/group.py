@@ -7,7 +7,7 @@ import rod.model.level
 import rod.model.student
 
 
-class Group(rod.model.db, rod.model.PersistentMixin):
+class Group(rod.model.db.Model, rod.model.PersistentMixin):
     __tablename__ = 'group'
 
     id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, primary_key=True)

@@ -15,14 +15,22 @@ def login():
         email=flask.request.json['email']
     ).first()
 
+    if staff is None:
+        # User doesn't exist
+        # Instantiate a fake user to cycle through the whole authentication process
+        staff = rod.model.staff.Staff()
+        staff.password = flask.ext.bcrypt.generate_password_hash('any pass')  # Whatever
+        # Authentication will fail even if the typed password matches the one above,
+        # due to staff check
+
     bcrypt = flask.ext.bcrypt.Bcrypt(flask.current_app)
 
-    is_authenticated = bcrypt.check_password_hash(
+    is_password_correct = bcrypt.check_password_hash(
         staff.password,
         flask.request.json['password']
     )
 
-    if staff and is_authenticated:
+    if staff and is_password_correct:
         flask.ext.login.login_user(staff)
 
         staff_schema = rod.model.staff.StaffSchema()
