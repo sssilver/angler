@@ -63,6 +63,7 @@ def createdb():
 
     rod.model.db.init_schema()
 
+
 @manager.command
 def createuser():
     import rod.model.staff
@@ -78,6 +79,9 @@ def createuser():
         rod.model.db.session.commit()
     except sqlalchemy.exc.IntegrityError:
         log.error('User {} already exists'.format(staff.email))
+
+    log.info('User {} successfully created.'.format(staff.email))
+    log.info('Profile details can be entered using the web interface.')
 
 
 if __name__ == '__main__':
