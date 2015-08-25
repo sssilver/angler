@@ -4,6 +4,7 @@ import locale
 import logging
 import flask.ext.script
 import flask.ext.script.commands
+import sqlalchemy.exc
 
 import rod
 import rod.model
@@ -61,6 +62,22 @@ def createdb():
     import rod.model.transaction
 
     rod.model.db.init_schema()
+
+@manager.command
+def createuser():
+    import rod.model.staff
+
+    # Create a user with only the basic credentials
+    staff = rod.model.staff.Staff()
+
+    staff.email = flask.ext.script.prompt('User email')
+    staff.set_password(flask.ext.script.prompt_pass('User password'))
+
+    try:
+        rod.model.db.session.add(staff)
+        rod.model.db.session.commit()
+    except sqlalchemy.exc.IntegrityError:
+        log.error('User {} already exists'.format(staff.email))
 
 
 if __name__ == '__main__':

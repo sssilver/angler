@@ -1,6 +1,7 @@
 import sqlalchemy.schema
 import sqlalchemy.types
 import sqlalchemy.orm
+import flask.ext.bcrypt
 
 import rod.model
 import rod.model
@@ -35,6 +36,9 @@ class Staff(rod.model.db.Model, rod.model.PersistentMixin):
         primaryjoin='and_(Staff.id==Lesson.teacher_id)',
         back_populates='teacher'
     )
+
+    def set_password(self, password):
+        self.password = flask.ext.bcrypt.generate_password_hash(password)
 
     def is_authenticated(self):
         return True
