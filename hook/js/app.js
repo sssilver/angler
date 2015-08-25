@@ -53,7 +53,7 @@ app.controller('IndexCtrl', function ($scope, $log, $rootScope, $location, $stat
     Auth.verify();  // Verify that the user is actually logged in
 
     if ($scope.current_user === undefined) {
-        $state.go('public.login');  // TODO: This fails :(
+        $state.go('public.login');
     }
 
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {

@@ -42,9 +42,15 @@ def login():
 
 @auth.route('/auth', methods=['DELETE'])
 def logout():
-    return flask.request.method
+    flask.ext.login.logout_user()
+
+    return ''
 
 
 @auth.route('/auth', methods=['GET'])
 def verify():
-    return flask.request.method
+    staff = flask.ext.login.current_user
+
+    if staff.is_authenticated():
+        return flask.jsonify(rod.model.staff.StaffSchema().dump(staff).data)
+
