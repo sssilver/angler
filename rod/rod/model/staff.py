@@ -24,13 +24,11 @@ class Staff(rod.model.db.Model, rod.model.PersistentMixin):
 
     groups = sqlalchemy.orm.relationship(
         'Group',
-        primaryjoin='and_(Staff.id==Group.teacher_id)',
         back_populates='teacher'
     )
 
     lessons = sqlalchemy.orm.relationship(
         'Lesson',
-        primaryjoin='and_(Staff.id==Lesson.teacher_id)',
         back_populates='teacher'
     )
 

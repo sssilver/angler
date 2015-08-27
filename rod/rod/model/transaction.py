@@ -24,8 +24,7 @@ class Transaction(rod.model.db.Model, rod.model.PersistentMixin):
     # Who administered it?
     staff_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('staff.id'))
     staff = sqlalchemy.orm.relationship(
-        'Staff',
-        primaryjoin='and_(Transaction.staff_id==Staff.id)'
+        'Staff'
     )
 
     # How much? (includes the decimal part)
@@ -58,8 +57,7 @@ class CompanyTransaction(Transaction):
 
     company_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('company.id'))
     company = sqlalchemy.orm.relationship(
-        'Company',
-        primaryjoin='and_(CompanyTransaction.company_id==Company.id)'
+        'Company'
     )
 
 
@@ -68,6 +66,5 @@ class StudentTransaction(Transaction):
 
     student_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('student.id'))
     student = sqlalchemy.orm.relationship(
-        'Student',
-        primaryjoin='and_(StudentTransaction.student_id==Student.id)'
+        'Student'
     )

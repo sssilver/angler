@@ -13,13 +13,11 @@ class Course(rod.model.db.Model, rod.model.PersistentMixin):
 
     levels = sqlalchemy.orm.relationship(
         'Level',
-        primaryjoin='and_(Course.id==Level.course_id)',
         back_populates='course'
     )
 
     tariffs = sqlalchemy.orm.relationship(
         'Tariff',
-        primaryjoin='and_(Course.id==Tariff.course_id)',
         back_populates='course'
     )
 

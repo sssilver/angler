@@ -14,14 +14,12 @@ class Group(rod.model.db.Model, rod.model.PersistentMixin):
     level_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('level.id'))
     level = sqlalchemy.orm.relationship(
         'Level',
-        primaryjoin='and_(Level.id==Group.level_id)',
         back_populates='groups'
     )
 
     teacher_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('staff.id'))
     teacher = sqlalchemy.orm.relationship(
         'Staff',
-        primaryjoin='and_(Staff.id==Group.teacher_id)',
         back_populates='groups'
     )
 
@@ -33,6 +31,5 @@ class Group(rod.model.db.Model, rod.model.PersistentMixin):
     # Lessons this group held
     lessons = sqlalchemy.orm.relationship(
         'Lesson',
-        primaryjoin='and_(Group.id==Lesson.group_id)',
         back_populates='group'
     )

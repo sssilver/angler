@@ -15,7 +15,6 @@ class Tariff(rod.model.db.Model, rod.model.PersistentMixin):
     course_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('course.id'))
     course = sqlalchemy.orm.relationship(
         'Course',
-        primaryjoin='and_(Tariff.course_id==Course.id)',
         back_populates='tariffs'
     )
 

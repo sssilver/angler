@@ -14,12 +14,10 @@ class Level(rod.model.db.Model, rod.model.PersistentMixin):
     # Course this level belongs to
     course_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('course.id'))
     course = sqlalchemy.orm.relationship(
-        'Course',
-        primaryjoin='and_(Level.course_id==Course.id)'
+        'Course'
     )
 
     groups = sqlalchemy.orm.relationship(
         'Group',
-        primaryjoin='and_(Level.id==Group.level_id)',
         back_populates='level'
     )

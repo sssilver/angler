@@ -31,7 +31,6 @@ class Student(rod.model.db.Model, rod.model.PersistentMixin):
     # Availability
     availability = sqlalchemy.orm.relationship(
         'Availability',
-        primaryjoin='and_(Student.id==Availability.student_id)',
         back_populates='student'
     )
 
@@ -39,14 +38,12 @@ class Student(rod.model.db.Model, rod.model.PersistentMixin):
     ivw_date = sqlalchemy.schema.Column(sqlalchemy.types.DateTime)
     ivw_teacher_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('staff.id'))
     ivw_teacher = sqlalchemy.orm.relationship(
-        'Staff',
-        primaryjoin='and_(Student.ivw_teacher_id==Staff.id)'
+        'Staff'
     )
 
     ivw_level_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('level.id'))
     ivw_level = sqlalchemy.orm.relationship(
-        'Level',
-        primaryjoin='and_(Student.ivw_level_id==Level.id)'
+        'Level'
     )
 
     ivw_notes = sqlalchemy.schema.Column(sqlalchemy.types.Text())
@@ -56,7 +53,6 @@ class Student(rod.model.db.Model, rod.model.PersistentMixin):
 
     comments = sqlalchemy.orm.relationship(
         'Comment',
-        primaryjoin='and_(Student.id==Comment.student_id)',
         back_populates='student'
     )
 
@@ -66,7 +62,6 @@ class Student(rod.model.db.Model, rod.model.PersistentMixin):
 
     transactions = sqlalchemy.orm.relationship(
         'StudentTransaction',
-        primaryjoin='and_(Student.id==StudentTransaction.student_id)',
         back_populates='student'
     )
 

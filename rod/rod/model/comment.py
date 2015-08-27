@@ -13,15 +13,13 @@ class Comment(rod.model.db.Model, rod.model.PersistentMixin):
     # Staff the comment is posted by
     staff_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('staff.id'))
     staff = sqlalchemy.orm.relationship(
-        'Staff',
-        primaryjoin='and_(Comment.staff_id==Staff.id)'
+        'Staff'
     )
 
     # Student the comment refers to
     student_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('student.id'))
     student = sqlalchemy.orm.relationship(
-        'Student',
-        primaryjoin='and_(Comment.student_id==Student.id)'
+        'Student'
     )
 
     # Body of the comment
