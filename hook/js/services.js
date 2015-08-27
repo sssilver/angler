@@ -61,7 +61,7 @@ app.factory('Model', function ($resource) {
 
         query: {
             method: 'GET',
-            isArray: true
+            isArray: false
         },
 
         post: {

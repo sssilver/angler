@@ -45,7 +45,7 @@ app.controller(
 
     $scope.refresh = function () {
         var staffs = Model.query({'model': 'staff'}, function () {
-            $scope.staffs = staffs;
+            $scope.staffs = staffs.items;
         });
     };
 
