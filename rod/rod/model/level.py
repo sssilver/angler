@@ -3,9 +3,6 @@ import sqlalchemy.schema
 import sqlalchemy.orm
 
 import rod.model
-import rod.model.group
-import rod.model.course
-
 
 
 class Level(rod.model.db.Model, rod.model.PersistentMixin):

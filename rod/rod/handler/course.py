@@ -1,16 +1,16 @@
-import rod.handler.base
-import rod.handler.rest
+import flask
+import rod
 import rod.model.course
-import rod.db
 
 
-class CourseHandler(rod.handler.base.BaseHandler,
-                    rod.handler.rest.Get,
-                    rod.handler.rest.Put,
-                    rod.handler.rest.Post,
-                    rod.handler.rest.Delete):
+course = flask.Blueprint('course', __name__)
 
-    def initialize(self):
-        self.resource = rod.model.course.Course
 
-        super(CourseHandler, self).initialize()
+@course.route('/course', methods=['GET'])
+def list_course():
+    all_courses = rod.model.course.Course.query.filter_by(is_deleted=False).all()
+
+    return flask.jsonify({
+        'items': rod.model.course.CourseSchema(many=True).dump(all_courses).data,
+        'count': len(all_courses)
+    })

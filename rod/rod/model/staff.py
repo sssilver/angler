@@ -4,9 +4,6 @@ import sqlalchemy.orm
 import flask.ext.bcrypt
 
 import rod.model
-import rod.model
-import rod.model.group
-import rod.model.lesson
 
 
 class Staff(rod.model.db.Model, rod.model.PersistentMixin):

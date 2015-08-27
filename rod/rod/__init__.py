@@ -2,15 +2,16 @@ import flask
 import flask.ext.login
 import flask.ext.cors
 
-import rod.extensions
-import rod.model
-
 # Models
 import rod.model.staff
+
+import rod.extensions
+import rod.model
 
 # Handlers
 import rod.handler.auth
 import rod.handler.staff
+import rod.handler.course
 
 
 def create_app(config):
@@ -38,7 +39,8 @@ def create_app(config):
     # Register blueprints
     blueprints = {
         rod.handler.auth.auth,
-        rod.handler.staff.staff
+        rod.handler.staff.staff,
+        # rod.handler.course.course
     }
 
     for blueprint in blueprints:

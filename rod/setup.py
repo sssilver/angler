@@ -11,7 +11,7 @@ distutils.core.setup(
     author='Silver',
     author_email='sssilver@gmail.com',
 
-    install_requires=[
+    install_requires={
         'tornado',
         'tornado_cors',
         'psycopg2',
@@ -19,5 +19,5 @@ distutils.core.setup(
         'simplejson',
         'sqlalchemy',
         'python-dateutil'
-    ]
+    }
 )

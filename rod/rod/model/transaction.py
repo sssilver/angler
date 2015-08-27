@@ -4,7 +4,6 @@ import sqlalchemy.schema
 import sqlalchemy.orm
 
 import rod.model
-import rod.model.company
 
 
 class Transaction(rod.model.db.Model, rod.model.PersistentMixin):

@@ -3,8 +3,6 @@ import sqlalchemy.schema
 import sqlalchemy.orm
 
 import rod.model
-import rod.model.level
-import rod.model.tariff
 
 
 class Course(rod.model.db.Model, rod.model.PersistentMixin):
@@ -24,3 +22,9 @@ class Course(rod.model.db.Model, rod.model.PersistentMixin):
         primaryjoin='and_(Course.id==Tariff.course_id)',
         back_populates='course'
     )
+
+
+class CourseSchema(rod.model.BaseSchema):
+
+    class Meta(rod.model.BaseSchema.Meta):
+        model = Course

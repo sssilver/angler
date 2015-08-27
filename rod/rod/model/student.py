@@ -8,8 +8,6 @@ import sqlalchemy.ext.hybrid
 import sqlalchemy.sql
 
 import rod.model
-import rod.model.transaction
-import rod.model.comment
 
 
 class Student(rod.model.db.Model, rod.model.PersistentMixin):
