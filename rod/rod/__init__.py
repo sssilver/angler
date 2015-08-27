@@ -10,6 +10,7 @@ import rod.model.staff
 
 # Handlers
 import rod.handler.auth
+import rod.handler.staff
 
 
 def create_app(config):
@@ -17,6 +18,7 @@ def create_app(config):
 
     # Basic app config
     app.config['SECRET_KEY'] = config['general']['secret_key']
+    app.config['DEBUG'] = config['general']['debug']
 
     # Initialize the login extension
     rod.extensions.login_manager.init_app(app)
@@ -34,7 +36,13 @@ def create_app(config):
     rod.model.db.init_app(app)
 
     # Register blueprints
-    app.register_blueprint(rod.handler.auth.auth)
+    blueprints = {
+        rod.handler.auth.auth,
+        rod.handler.staff.staff
+    }
+
+    for blueprint in blueprints:
+        app.register_blueprint(blueprint)
 
     @app.errorhandler(APIError)
     def handle_api_error(error):

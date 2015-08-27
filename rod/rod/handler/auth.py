@@ -9,6 +9,14 @@ import rod.model.staff
 auth = flask.Blueprint('auth', __name__)
 
 
+@auth.route('/auth', methods=['GET'])
+def verify():
+    staff = flask.ext.login.current_user
+
+    if staff.is_authenticated():
+        return flask.jsonify(rod.model.staff.StaffSchema().dump(staff).data)
+
+
 @auth.route('/auth', methods=['POST'])
 def login():
     staff = rod.model.db.session.query(rod.model.staff.Staff).filter_by(
@@ -45,12 +53,3 @@ def logout():
     flask.ext.login.logout_user()
 
     return ''
-
-
-@auth.route('/auth', methods=['GET'])
-def verify():
-    staff = flask.ext.login.current_user
-
-    if staff.is_authenticated():
-        return flask.jsonify(rod.model.staff.StaffSchema().dump(staff).data)
-
