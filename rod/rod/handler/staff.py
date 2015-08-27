@@ -21,7 +21,11 @@ def list_staff():
 
 @staff.route('/staff', methods=['POST'])
 def add_staff():
-    pass
+    staff_obj = rod.model.staff.StaffSchema().load(flask.request.json).data
+    rod.model.db.session.add(staff_obj)
+    rod.model.db.session.commit()
+
+    return flask.jsonify(rod.model.staff.StaffSchema().dump(staff_obj).data)
 
 
 @staff.route('/staff/<int:staff_id>', methods=['PUT'])
@@ -31,7 +35,7 @@ def save_staff(staff_id=None):
     rod.model.db.session.merge(staff_obj)
     rod.model.db.session.commit()
 
-    return flask.jsonify(rod.model.staff.StaffSchema().dump(rod.model.staff.Staff.query.get(staff_id)).data)
+    return flask.jsonify(rod.model.staff.StaffSchema().dump(staff_obj).data)
 
 
 @staff.route('/staff/<int:staff_id>', methods=['DELETE'])
