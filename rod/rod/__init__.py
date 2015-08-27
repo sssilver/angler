@@ -3,7 +3,6 @@ import flask.ext.login
 import flask.ext.cors
 
 # Models
-import rod.model.comment
 import rod.model.company
 import rod.model.course
 import rod.model.group
@@ -11,8 +10,11 @@ import rod.model.lesson
 import rod.model.level
 import rod.model.staff
 import rod.model.student
+import rod.model.comment
 import rod.model.tariff
 import rod.model.transaction
+
+import rod.model.schemas
 
 import rod.extensions
 import rod.model

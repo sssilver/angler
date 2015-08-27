@@ -20,9 +20,3 @@ class Course(rod.model.db.Model, rod.model.PersistentMixin):
         'Tariff',
         back_populates='course'
     )
-
-
-class CourseSchema(rod.model.BaseSchema):
-
-    class Meta(rod.model.BaseSchema.Meta):
-        model = Course

@@ -47,10 +47,3 @@ class Staff(rod.model.db.Model, rod.model.PersistentMixin):
 
     def get_id(self):
         return unicode(self.id)
-
-
-class StaffSchema(rod.model.BaseSchema):
-
-    # Inherit BaseSchema's options
-    class Meta(rod.model.BaseSchema.Meta):
-        model = Staff
