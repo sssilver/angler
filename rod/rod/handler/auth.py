@@ -4,6 +4,7 @@ import flask.ext.bcrypt
 
 import rod
 import rod.model.staff
+import rod.model.schemas
 
 
 auth = flask.Blueprint('auth', __name__)
@@ -14,7 +15,7 @@ def verify():
     staff = flask.ext.login.current_user
 
     if staff.is_authenticated():
-        return flask.jsonify(rod.model.staff.StaffSchema().dump(staff).data)
+        return flask.jsonify(rod.model.schemas.StaffSchema().dump(staff).data)
 
 
 @auth.route('/auth', methods=['POST'])
@@ -41,7 +42,7 @@ def login():
     if staff and is_password_correct:
         flask.ext.login.login_user(staff)
 
-        staff_schema = rod.model.staff.StaffSchema()
+        staff_schema = rod.model.schemas.StaffSchema()
 
         return flask.jsonify(staff_schema.dump(staff).data)
 
