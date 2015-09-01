@@ -23,6 +23,7 @@ import rod.model
 import rod.handler.auth
 import rod.handler.staff
 import rod.handler.course
+import rod.handler.tariff
 
 
 def create_app(config):
@@ -51,7 +52,8 @@ def create_app(config):
     blueprints = {
         rod.handler.auth.auth,
         rod.handler.staff.staff,
-        # rod.handler.course.course
+        rod.handler.course.course,
+        rod.handler.tariff.tariff
     }
 
     for blueprint in blueprints:

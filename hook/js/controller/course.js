@@ -47,7 +47,7 @@ app.controller(
         });
 
         modalInstance.result.then(function (course) {
-            course_service = new Model(course);
+            var course_service = new Model(course);
 
             if (course.id) {
                 course_service.$save(
@@ -70,8 +70,8 @@ app.controller(
     };
 
     $scope.refresh = function () {
-        courses = Model.query({'model': 'course'}, function () {
-            $scope.courses = courses;
+        var courses = Model.query({model: 'course'}, function () {
+            $scope.courses = courses.items;
         });
     };
 
@@ -215,7 +215,7 @@ app.controller(
     $scope.remove = function (tariff_id) {
         if (confirm('Are you sure?')) {
             Model.remove({'model': 'tariff', 'resource_id': tariff_id}, function () {
-                $scope.$parent.refresh();
+                $scope.refresh();
             });
         }
     };
@@ -224,8 +224,7 @@ app.controller(
         if (tariff) {
             $scope.tariff = tariff;
         } else {
-            $scope.tariff = {};
-            $scope.tariff.course = {id: course.id};
+            $scope.tariff = {course: course.id};
         }
 
         var modalInstance = $modal.open({
@@ -239,7 +238,7 @@ app.controller(
         });
 
         modalInstance.result.then(function (tariff) {
-            tariff_service = new Model(tariff);
+            var tariff_service = new Model(tariff);
 
             if (tariff.id) {
                 tariff_service.$save(
@@ -270,16 +269,9 @@ app.controller(
     };
 
     $scope.refresh = function () {
-        var data = Model.query(
-            {
-                model: 'course',
-                resource_id: course.id,
-                field: 'tariffs'
-            },
-            function () {
-                $scope.tariffs = data.tariffs;
-            }
-        );
+        var tariffs = Model.query({model: 'tariff'}, function () {
+            $scope.tariffs = tariffs.items;
+        })
     };
 
     $scope.refresh();
