@@ -10,11 +10,18 @@ tariff = flask.Blueprint('tariff', __name__)
 
 @tariff.route('/tariff', methods=['GET'])
 def list_tariff():
-    all_tariffs = rod.model.tariff.Tariff.query.filter_by(is_deleted=False).all()
+    course_id = flask.request.args.get('course_id')
+
+    query = rod.model.tariff.Tariff.query.filter_by(is_deleted=False)
+
+    if course_id:
+        tariffs = query.filter_by(course_id=course_id).all()
+    else:
+        tariffs = query.all()
 
     return flask.jsonify({
-        'items': rod.model.schemas.TariffSchema(many=True).dump(all_tariffs).data,
-        'count': len(all_tariffs)
+        'items': rod.model.schemas.TariffSchema(many=True).dump(tariffs).data,
+        'count': len(tariffs)
     })
 
 

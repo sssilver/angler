@@ -24,6 +24,7 @@ import rod.handler.auth
 import rod.handler.staff
 import rod.handler.course
 import rod.handler.tariff
+import rod.handler.level
 
 
 def create_app(config):
@@ -53,7 +54,8 @@ def create_app(config):
         rod.handler.auth.auth,
         rod.handler.staff.staff,
         rod.handler.course.course,
-        rod.handler.tariff.tariff
+        rod.handler.tariff.tariff,
+        rod.handler.level.level
     }
 
     for blueprint in blueprints:

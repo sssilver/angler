@@ -114,7 +114,7 @@ app.controller(
     $scope.remove = function (level_id) {
         if (confirm('Are you sure?')) {
             Model.remove({'model': 'level', 'resource_id': level_id}, function () {
-                $scope.$parent.refresh();
+                $scope.refresh();
             });
         }
     };
@@ -123,9 +123,7 @@ app.controller(
         if (level) {
             $scope.level = level;
         } else {
-            console.log('new level dialog');
-            $scope.level = {};
-            $scope.level.course = {id: course.id};
+            $scope.level = {course: course.id};
         }
 
         var modalInstance = $modal.open({
@@ -170,16 +168,9 @@ app.controller(
     };
 
     $scope.refresh = function () {
-        var levels = Model.get(
-            {
-                model: 'course',
-                resource_id: course.id.toString(),
-                field: 'levels'
-            },
-            function () {
-                $scope.levels = levels.levels;
-            }
-        );
+        var levels = Model.query({model: 'level', course_id: course.id}, function () {
+            $scope.levels = levels.items;
+        });
     };
 
     $scope.refresh();
@@ -269,7 +260,7 @@ app.controller(
     };
 
     $scope.refresh = function () {
-        var tariffs = Model.query({model: 'tariff'}, function () {
+        var tariffs = Model.query({model: 'tariff', course_id: course.id}, function () {
             $scope.tariffs = tariffs.items;
         })
     };
