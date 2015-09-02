@@ -43,3 +43,13 @@ def save_course(course_id):
     rod.model.db.session.commit()
 
     return flask.jsonify(rod.model.schemas.CourseSchema().dump(course_obj).data)
+
+
+@course.route('/course/<int:course_id>', methods=['DELETE'])
+def delete_course(course_id):
+    course_obj = rod.model.course.Course.query.get(course_id)
+
+    rod.model.db.session.delete(course_obj)
+    rod.model.db.session.commit()
+
+    return flask.jsonify(rod.model.schemas.StaffSchema().dump(course_obj).data)
