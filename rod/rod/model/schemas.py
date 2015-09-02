@@ -3,6 +3,8 @@ import rod.model.course
 import rod.model.staff
 import rod.model.tariff
 import rod.model.level
+import rod.model.student
+import rod.model.group
 
 
 class CourseSchema(rod.model.BaseSchema):
@@ -23,3 +25,13 @@ class TariffSchema(rod.model.BaseSchema):
 class LevelSchema(rod.model.BaseSchema):
     class Meta(rod.model.BaseSchema.Meta):
         model = rod.model.level.Level
+
+
+class StudentSchema(rod.model.BaseSchema):
+    class Meta(rod.model.BaseSchema.Meta):
+        model = rod.model.student.Student
+
+
+class GroupSchema(rod.model.BaseSchema):
+    class Meta(rod.model.BaseSchema.Meta):
+        model = rod.model.group.Group

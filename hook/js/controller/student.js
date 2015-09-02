@@ -89,7 +89,7 @@ app.controller(
                     tariff_id: result.tariff.id
                 };
 
-                student_group_service = new Model(student_group);
+                var student_group_service = new Model(student_group);
 
                 promises.push(student_group_service.$post(
                     {'model': 'student_group'}
@@ -109,8 +109,7 @@ app.controller(
 
     $scope.refresh = function () {
         var students = Model.query({model: 'student'}, function () {
-            $scope.students = students;
-            console.log($scope.students);
+            $scope.students = students.items;
         });
     };
 
@@ -188,7 +187,7 @@ app.controller(
         });
 
         modalInstance.result.then(function (transaction) {
-            transaction_service = new Model(transaction);
+            var transaction_service = new Model(transaction);
 
             transaction_service.$post(
                 {'model': 'student-transaction'},
@@ -212,12 +211,10 @@ app.controller(
             function ($scope, $modalInstance, Model, student) {
 
     $scope.student = student;
-    console.log(student);
 
-    var levels = Model.query({model: 'level'}, function () {
-        $scope.levels = levels.objects;
+    var teachers = Model.query({model: 'staff'}, function () {
+        $scope.teachers = teachers.items;
     });
-
 
     /*
     for (var i in DAYS)
@@ -296,37 +293,52 @@ app.controller(
     $scope.selected_group = {};
     $scope.selected_tariff = {};
 
-    courses = Model.query({model: 'course'}, function () {
-        $scope.courses = courses.objects;
+    var courses = Model.query({model: 'course'}, function () {
+        $scope.courses = courses.items;
     });
 
+    var teachers = Model.query({model: 'staff'}, function () {
+        $scope.teachers = teachers.items;
+    });
+
+    $scope.populateTariffs = function (course) {
+        var tariffs = Model.query(
+            {
+                model: 'tariff',
+                course_id: course.id
+            },
+            function () {
+                $scope.tariffs = tariffs.items;
+            }
+        );
+    };
+
     $scope.populateLevels = function (course) {
-        levels = Model.query(
+        var levels = Model.query(
             {
                 model: 'level',
                 course_id: course.id
             },
             function () {
-                $scope.levels = levels.objects;
+                $scope.levels = levels.items;
             }
         );
     };
 
-    $scope.populateGroups = function (level, teacher) {
-        if (!level || !teacher) {
+    $scope.populateGroups = function (teacher) {
+        if (!teacher) {
             $scope.groups = [];
 
             return;
         }
 
-        groups = Model.query(
+        var groups = Model.query(
             {
                 model: 'group',
-                level_id: level.id,
                 teacher_id: teacher.id
             },
             function () {
-                $scope.groups = groups.objects;
+                $scope.groups = groups.items;
             }
         );
     };
@@ -334,13 +346,13 @@ app.controller(
     $scope.createGroup = function (level, teacher) {
         var title;
 
-        if (!(title = prompt('Level title')))
+        if (!(title = prompt('Group title')))
             return;
 
-        group_service = new Model({
+        var group_service = new Model({
             title: title,
-            level_id: level.id,
-            teacher_id: teacher.id
+            level: level.id,
+            teacher: teacher.id
         });
 
         group_service.$post({

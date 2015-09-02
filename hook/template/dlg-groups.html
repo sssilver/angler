@@ -14,7 +14,7 @@
         <select class="form-control"
                 ng-options="course.title for course in courses"
                 ng-model="selected_course"
-                ng-change="populateLevels(selected_course)"></select>
+                ng-change="populateTariffs(selected_course); populateLevels(selected_course);"></select>
       </div>
     </div>
 
@@ -22,8 +22,8 @@
       <label class="col-sm-3 control-label">Payment plan</label>
       <div class="col-sm-9">
         <select class="form-control"
-                ng-options="tariff.title for tariff in selected_course.tariffs"
-                ng-model="selected_tariff.data"
+                ng-options="tariff.title for tariff in tariffs"
+                ng-model="selected_tariff"
                 ng-disabled="!selected_course"></select>
       </div>
     </div>
@@ -43,10 +43,10 @@
       <label class="col-sm-3 control-label">Teacher</label>
       <div class="col-sm-9">
         <select class="form-control"
-                ng-options="teacher.name for teacher in selected_level.teachers"
+                ng-options="teacher.name for teacher in teachers"
                 ng-model="selected_teacher"
-                ng-change="populateGroups(selected_level, selected_teacher)"
-                ng-disabled="!selected_level.teachers.length"></select>
+                ng-change="populateGroups(selected_teacher)"
+                ng-disabled="!teachers.length"></select>
       </div>
     </div>
 
