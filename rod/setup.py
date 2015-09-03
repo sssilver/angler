@@ -12,12 +12,16 @@ distutils.core.setup(
     author_email='sssilver@gmail.com',
 
     install_requires={
-        'tornado',
-        'tornado_cors',
-        'psycopg2',
+        'flask'
+        'flask-login',
+        'flask-script',
+        'flask-cors',
+        'flask-sqlalchemy',
+        'flask-bcrypt',
         'pyyaml',
-        'simplejson',
+        'psycopg2',
         'sqlalchemy',
+        'marshmallow-sqlalchemy',
         'python-dateutil'
     }
 )
