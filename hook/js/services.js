@@ -79,6 +79,15 @@ app.factory('Model', function ($resource) {
 });
 
 
+app.factory('Credit', function ($resource) {
+    return $resource(SERVICE_ENDPOINT + '/credit/:type/:entity_id', {}, {
+        post: {
+            method: 'POST'
+        }
+    });
+});
+
+
 app.factory('Auth', function ($http, $rootScope, $cookieStore) {
     return {
         login: function (credentials) {

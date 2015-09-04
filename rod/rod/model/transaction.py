@@ -23,17 +23,22 @@ class Transaction(rod.model.db.Model, rod.model.PersistentMixin):
 
     # Who administered it?
     staff_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('staff.id'))
-    staff = sqlalchemy.orm.relationship(
-        'Staff'
-    )
+    staff = sqlalchemy.orm.relationship('Staff')
 
-    # How much? (includes the decimal part)
-    amount = sqlalchemy.schema.Column(sqlalchemy.types.Integer)  # Negative for refunds and lessons
+    # How much?
+    amount = sqlalchemy.schema.Column(sqlalchemy.types.Numeric(scale=2))
 
     # Type of transaction
     type = sqlalchemy.schema.Column(sqlalchemy.types.Enum(
-        'lesson',
+        'credit',  # Can be negative, for typo/adjustment reasons
+        'payment',  # Happens every time the student's group files a lesson
+        'refund',  # Taken off company balance
 
+        name='transaction_type'
+    ))
+
+    # Method of payment
+    method = sqlalchemy.schema.Column(sqlalchemy.types.Enum(
         'cash',
         'card',
         'transfer',
@@ -41,14 +46,7 @@ class Transaction(rod.model.db.Model, rod.model.PersistentMixin):
         'online_idram',
         'online_other',
 
-        'refund_cash',
-        'refund_card',
-        'refund_transfer',
-        'refund_online_arca',
-        'refund_online_idram',
-        'refund_online_other',
-
-        name='transaction_type'
+        name='transaction_method'
     ))
 
 

@@ -1,7 +1,7 @@
 app.controller(
     'StudentsCtrl',
-        ['$scope', '$q', '$state', '$stateParams', '$log', '$location', '$resource', 'Model', 'TIMES', 'DAYS', '$modal',
-            function ($scope, $q, $state, $stateParams, $log, $location, $resource, Model, TIMES, DAYS, $modal) {
+        ['$scope', '$q', '$state', '$stateParams', '$log', '$location', '$resource', 'Model', 'TIMES', 'DAYS', '$modal', 'Credit',
+            function ($scope, $q, $state, $stateParams, $log, $location, $resource, Model, TIMES, DAYS, $modal, Credit) {
 
     if ($stateParams.student_id) {  // Detail view?
         $scope.refresh_student = function () {
@@ -150,10 +150,10 @@ app.controller(
         }
     };
 
-    $scope.dlgPayment = function (student) {
+    $scope.dlgCredit = function (student) {
         var modalInstance = $modal.open({
-            templateUrl: 'template/dlg-payment.html',
-            controller: 'StudentPaymentDialogCtrl',
+            templateUrl: 'template/dlg-credit.html',
+            controller: 'StudentCreditDialogCtrl',
             resolve: {
                 student: function () {
                     return $scope.student;
@@ -162,10 +162,13 @@ app.controller(
         });
 
         modalInstance.result.then(function (transaction) {
-            var transaction_service = new Model(transaction);
+            var creditService = new Credit(transaction);
 
-            transaction_service.$post(
-                {model: 'student-transaction'},
+            creditService.$post(
+                {
+                    type: 'student',
+                    entity_id: $scope.student.id
+                },
                 function () {
                     $scope.refresh_student();
                 }
@@ -243,7 +246,7 @@ app.controller(
 
 
 app.controller(
-    'StudentPaymentDialogCtrl',
+    'StudentCreditDialogCtrl',
         ['$scope', '$log', '$modalInstance', '$modal', 'student', 'Model',
             function ($scope, $log, $modalInstance, $modal, student, Model) {
 

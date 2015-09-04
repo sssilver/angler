@@ -27,6 +27,7 @@ import rod.handler.tariff
 import rod.handler.level
 import rod.handler.student
 import rod.handler.group
+import rod.handler.credit
 
 
 def create_app(config):
@@ -59,7 +60,8 @@ def create_app(config):
         rod.handler.tariff.tariff,
         rod.handler.level.level,
         rod.handler.student.student,
-        rod.handler.group.group
+        rod.handler.group.group,
+        rod.handler.credit.credit
     }
 
     for blueprint in blueprints:

@@ -71,6 +71,10 @@ class Student(rod.model.db.Model, rod.model.PersistentMixin):
         secondary='student_group'
     )
 
+    # Student balance
+    balance = sqlalchemy.schema.Column(sqlalchemy.types.Numeric(scale=2))
+
+    '''
     @sqlalchemy.ext.hybrid.hybrid_property
     def balance(self):
         return sum([transaction.amount for transaction in self.transactions])
@@ -80,7 +84,7 @@ class Student(rod.model.db.Model, rod.model.PersistentMixin):
         return sqlalchemy.sql.select([
             sqlalchemy.sql.func.sum(StudentTransaction.amount)
         ]).where(StudentTransaction.student_id==cls.id).as_scalar()
-
+    '''
 
     @sqlalchemy.orm.validates('dob', 'reg_date', 'ivw_date')
     def validate_datetime(self, key, date):

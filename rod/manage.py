@@ -33,13 +33,14 @@ try:
 
     app = rod.create_app(config)
 
-    manager = flask.ext.script.Manager(app)
-    manager.add_command('server', flask.ext.script.Server())
-    manager.add_command('show-urls', flask.ext.script.commands.ShowUrls())
-    manager.add_command('clean', flask.ext.script.commands.Clean())
-
 except KeyError, e:
-    log.error('Requested configuration key does not exist: {}'.format(e))
+    raise SystemExit('Requested configuration key does not exist: {}'.format(e))
+
+
+manager = flask.ext.script.Manager(app)
+manager.add_command('server', flask.ext.script.Server())
+manager.add_command('show-urls', flask.ext.script.commands.ShowUrls())
+manager.add_command('clean', flask.ext.script.commands.Clean())
 
 
 @manager.shell

@@ -28,20 +28,20 @@
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="form-group">
-          <label for="payment_type" class="col-sm-3 control-label">Payment type</label>
+          <label for="transaction_method" class="col-sm-3 control-label">Payment method</label>
           <div class="col-sm-9">
-            <select id="payment_type"
+            <select id="transaction_method"
                     class="form-control"
-                    ng-model="transaction.type">
+                    ng-model="transaction.method">
               <option value="cash">Cash</option>
             </select>
           </div>
         </div>
 
-        <input id="payment_amount"
+        <input id="credit_amount"
                type="number"
                class="form-control text-center input-lg"
-               placeholder="Payment amount"
+               placeholder="Credit amount"
                ng-model="transaction.amount"
                required>
       </div>
