@@ -4,7 +4,7 @@ app.controller(
             function ($scope, $q, $state, $stateParams, $log, $location, $resource, Model, TIMES, DAYS, $modal, Credit) {
 
     if ($stateParams.student_id) {  // Detail view?
-        $scope.refresh_student = function () {
+        $scope.refreshStudent = function () {
             // Load the requested student
             var student = Model.query(
                 {
@@ -18,7 +18,7 @@ app.controller(
             );
         };
 
-        $scope.refresh_student();
+        $scope.refreshStudent();
     }
 
     $scope.dlgStudent = function (student) {
@@ -77,31 +77,21 @@ app.controller(
         });
 
         modalInstance.result.then(function (result) {
-            // Add students
-            // TODO: This currently being done one-by-one, due to a limitation
-            // of flask-restless. Must fix this sometime in the future.
-            var promises = [];
+            // Add students to the group
+            var members = [];
 
             for (var i = 0; i < students.length; ++i) {
-                var student_group = {
+                members.push({
                     student_id: students[i].id,
-                    group_id: result.group.id,
                     tariff_id: result.tariff.id
-                };
-
-                var student_group_service = new Model(student_group);
-
-                promises.push(student_group_service.$post(
-                    {'model': 'student_group'}
-                ));
+                });
             }
 
-            $q.all(promises).then(
-                function () {
-                    console.info('added all students to the group');
-                }
-            );
+            var group_service = new Model({members: members});
 
+            group_service.$post({model: 'group', resource_id: result.group.id}, function () {
+                $scope.refresh();
+            });
         }, function () {
             $log.info('Modal dismissed at: ' + new Date());
         });
@@ -170,7 +160,7 @@ app.controller(
                     entity_id: $scope.student.id
                 },
                 function () {
-                    $scope.refresh_student();
+                    $scope.refreshStudent();
                 }
             );
         }, function () {
@@ -195,7 +185,7 @@ app.controller(
             transaction_service.$post(
                 {'model': 'student-transaction'},
                 function () {
-                    $scope.refresh_student();
+                    $scope.refreshStudent();
                 }
             );
         }, function () {
@@ -328,26 +318,26 @@ app.controller(
         );
     };
 
-    $scope.populateGroups = function (teacher) {
-        if (!teacher) {
+    $scope.populateGroups = function (level, teacher) {
+        if (!level || !teacher) {
             $scope.groups = [];
-
             return;
         }
 
-        var groups = Model.query(
-            {
-                model: 'group',
-                teacher_id: teacher.id
-            },
-            function () {
-                $scope.groups = groups.items;
-            }
-        );
+        var groups = Model.query({
+            model: 'group',
+            teacher_id: teacher.id,
+            level_id: level.id
+        }, function () {
+            $scope.groups = groups.items;
+
+            console.log(groups);
+        });
     };
 
     $scope.createGroup = function (level, teacher) {
         var title;
+        $scope.selection = {};
 
         if (!(title = prompt('Group title')))
             return;
@@ -360,16 +350,16 @@ app.controller(
 
         group_service.$post({
             model: 'group'
-        }, function () {
+        }).then(function (response) {
             $scope.populateGroups(level, teacher);
+            console.log(response);
+            console.log($scope.selection.group);
+            $scope.selection.group = response.data;
         });
     };
 
     $scope.ok = function () {
-        $modalInstance.close({
-            group: $scope.selected_group.data,
-            tariff: $scope.selected_tariff.data
-        });
+        $modalInstance.close($scope.selection);
     };
 
     $scope.cancel = function () {

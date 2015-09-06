@@ -13,8 +13,8 @@
       <div class="col-sm-9">
         <select class="form-control"
                 ng-options="course.title for course in courses"
-                ng-model="selected_course"
-                ng-change="populateTariffs(selected_course); populateLevels(selected_course);"></select>
+                ng-model="selection.course"
+                ng-change="populateTariffs(selection.course); populateLevels(selection.course);"></select>
       </div>
     </div>
 
@@ -23,8 +23,8 @@
       <div class="col-sm-9">
         <select class="form-control"
                 ng-options="tariff.title for tariff in tariffs"
-                ng-model="selected_tariff"
-                ng-disabled="!selected_course"></select>
+                ng-model="selection.tariff"
+                ng-disabled="!selection.course"></select>
       </div>
     </div>
 
@@ -33,8 +33,8 @@
       <div class="col-sm-9">
         <select class="form-control"
                 ng-options="level.title for level in levels"
-                ng-model="selected_level"
-                ng-change="populateGroups(selected_level)"
+                ng-model="selection.level"
+                ng-change="populateGroups(selection.level, selection.teacher)"
                 ng-disabled="!levels.length"></select>
       </div>
     </div>
@@ -44,8 +44,8 @@
       <div class="col-sm-9">
         <select class="form-control"
                 ng-options="teacher.name for teacher in teachers"
-                ng-model="selected_teacher"
-                ng-change="populateGroups(selected_teacher)"
+                ng-model="selection.teacher"
+                ng-change="populateGroups(selection.level, selection.teacher)"
                 ng-disabled="!teachers.length"></select>
       </div>
     </div>
@@ -55,12 +55,12 @@
       <div class="col-sm-6">
         <select class="form-control"
                 ng-options="group.title for group in groups"
-                ng-model="selected_group.data"
+                ng-model="selection.group"
                 ng-disabled="!groups.length"></select>
       </div>
       <button class="btn btn-sm col-sm-2"
-              ng-click="createGroup(selected_level, selected_teacher)"
-              ng-disabled="!selected_teacher">
+              ng-click="createGroup(selection.level, selection.teacher)"
+              ng-disabled="!selection.teacher">
         New group
       </button>
     </div>

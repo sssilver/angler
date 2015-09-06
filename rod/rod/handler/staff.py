@@ -7,10 +7,10 @@ import rod.model.staff
 import rod.model.schemas
 
 
-staff = flask.Blueprint('staff', __name__)
+staff_handler = flask.Blueprint('staff', __name__)
 
 
-@staff.route('/staff', methods=['GET'])
+@staff_handler.route('/staff', methods=['GET'])
 def list_staff():
     all_staff = rod.model.staff.Staff.query.filter_by(is_deleted=False).all()
 
@@ -20,7 +20,7 @@ def list_staff():
     })
 
 
-@staff.route('/staff', methods=['POST'])
+@staff_handler.route('/staff', methods=['POST'])
 def add_staff():
     staff_obj = rod.model.schemas.StaffSchema().load(flask.request.json).data
     rod.model.db.session.add(staff_obj)
@@ -29,7 +29,7 @@ def add_staff():
     return flask.jsonify(rod.model.schemas.StaffSchema().dump(staff_obj).data)
 
 
-@staff.route('/staff/<int:staff_id>', methods=['PUT'])
+@staff_handler.route('/staff/<int:staff_id>', methods=['PUT'])
 def save_staff(staff_id=None):
     staff_obj = rod.model.schemas.StaffSchema().load(flask.request.json).data
     staff_obj.id = staff_id
@@ -45,7 +45,7 @@ def save_staff(staff_id=None):
     return flask.jsonify(rod.model.schemas.StaffSchema().dump(staff_obj).data)
 
 
-@staff.route('/staff/<int:staff_id>', methods=['DELETE'])
+@staff_handler.route('/staff/<int:staff_id>', methods=['DELETE'])
 def delete_staff(staff_id):
     staff_obj = rod.model.staff.Staff.query.get(staff_id)
 

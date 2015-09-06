@@ -7,10 +7,10 @@ import rod.model.staff
 import rod.model.schemas
 
 
-auth = flask.Blueprint('auth', __name__)
+auth_handler = flask.Blueprint('auth', __name__)
 
 
-@auth.route('/auth', methods=['GET'])
+@auth_handler.route('/auth', methods=['GET'])
 def verify():
     staff = flask.ext.login.current_user
 
@@ -18,7 +18,7 @@ def verify():
         return flask.jsonify(rod.model.schemas.StaffSchema().dump(staff).data)
 
 
-@auth.route('/auth', methods=['POST'])
+@auth_handler.route('/auth', methods=['POST'])
 def login():
     staff = rod.model.db.session.query(rod.model.staff.Staff).filter_by(
         email=flask.request.json['email']
@@ -49,7 +49,7 @@ def login():
     raise rod.APIError('Authorization failed', status_code=401)
 
 
-@auth.route('/auth', methods=['DELETE'])
+@auth_handler.route('/auth', methods=['DELETE'])
 def logout():
     flask.ext.login.logout_user()
 

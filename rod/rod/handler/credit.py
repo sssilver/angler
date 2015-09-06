@@ -9,10 +9,10 @@ import rod.model.transaction
 import rod.model.schemas
 
 
-credit = flask.Blueprint('credit', __name__)
+credit_handler = flask.Blueprint('credit', __name__)
 
 
-@credit.route('/credit/student/<int:student_id>', methods=['POST'])
+@credit_handler.route('/credit/student/<int:student_id>', methods=['POST'])
 def student_credit(student_id):
     amount = decimal.Decimal(flask.request.json['amount'])
 
@@ -34,7 +34,7 @@ def student_credit(student_id):
     return flask.jsonify(rod.model.schemas.StudentTransactionSchema().dump(transaction).data)
 
 
-@credit.route('/credit/company/<int:company_id>', methods=['POST'])
+@credit_handler.route('/credit/company/<int:company_id>', methods=['POST'])
 def company_credit(company_id):
     amount = decimal.Decimal(flask.request.json['amount'])
 

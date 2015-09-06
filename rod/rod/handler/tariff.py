@@ -5,10 +5,10 @@ import rod.model.tariff
 import rod.model.schemas
 
 
-tariff = flask.Blueprint('tariff', __name__)
+tariff_handler = flask.Blueprint('tariff', __name__)
 
 
-@tariff.route('/tariff', methods=['GET'])
+@tariff_handler.route('/tariff', methods=['GET'])
 def list_tariff():
     course_id = flask.request.args.get('course_id')
 
@@ -25,14 +25,14 @@ def list_tariff():
     })
 
 
-@tariff.route('/tariff/<int:tariff_id>', methods=['GET'])
+@tariff_handler.route('/tariff/<int:tariff_id>', methods=['GET'])
 def get_tariff(tariff_id):
     tariff_obj = rod.model.db.session.query(rod.model.tariff.Tariff).get(tariff_id)
 
     return flask.jsonify(rod.model.schemas.TariffSchema().dump(tariff_obj).data)
 
 
-@tariff.route('/tariff', methods=['POST'])
+@tariff_handler.route('/tariff', methods=['POST'])
 def add_tariff():
     tariff_obj = rod.model.schemas.TariffSchema().load(flask.request.json).data
 
@@ -42,7 +42,7 @@ def add_tariff():
     return flask.jsonify(rod.model.schemas.TariffSchema().dump(tariff_obj).data)
 
 
-@tariff.route('/tariff/<int:tariff_id>', methods=['PUT'])
+@tariff_handler.route('/tariff/<int:tariff_id>', methods=['PUT'])
 def save_tariff(tariff_id):
     tariff_obj = rod.model.schemas.TariffSchema().load(flask.request.json).data
     tariff_obj.id = tariff_id
@@ -53,7 +53,7 @@ def save_tariff(tariff_id):
     return flask.jsonify(rod.model.schemas.TariffSchema().dump(tariff_obj).data)
 
 
-@tariff.route('/tariff/<int:tariff_id>', methods=['DELETE'])
+@tariff_handler.route('/tariff/<int:tariff_id>', methods=['DELETE'])
 def delete_tariff(tariff_id):
     tariff_obj = rod.model.tariff.Tariff.query.get(tariff_id)
 

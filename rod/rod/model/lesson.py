@@ -9,7 +9,7 @@ class Lesson(rod.model.db.Model, rod.model.PersistentMixin):
     __tablename__ = 'lesson'
 
     id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, primary_key=True)
-    date = sqlalchemy.schema.Column(sqlalchemy.types.DateTime)
+    time = sqlalchemy.schema.Column(sqlalchemy.types.DateTime)
 
     teacher_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('staff.id'))
     teacher = sqlalchemy.orm.relationship(

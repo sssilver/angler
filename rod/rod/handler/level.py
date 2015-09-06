@@ -5,10 +5,10 @@ import rod.model.level
 import rod.model.schemas
 
 
-level = flask.Blueprint('level', __name__)
+level_handler = flask.Blueprint('level', __name__)
 
 
-@level.route('/level', methods=['GET'])
+@level_handler.route('/level', methods=['GET'])
 def list_level():
     course_id = flask.request.args.get('course_id')
 
@@ -25,14 +25,14 @@ def list_level():
     })
 
 
-@level.route('/level/<int:level_id>', methods=['GET'])
+@level_handler.route('/level/<int:level_id>', methods=['GET'])
 def get_level(level_id):
     level_obj = rod.model.db.session.query(rod.model.level.Level).get(level_id)
 
     return flask.jsonify(rod.model.schemas.LevelSchema().dump(level_obj).data)
 
 
-@level.route('/level', methods=['POST'])
+@level_handler.route('/level', methods=['POST'])
 def add_level():
     level_obj = rod.model.schemas.LevelSchema().load(flask.request.json).data
 
@@ -42,7 +42,7 @@ def add_level():
     return flask.jsonify(rod.model.schemas.LevelSchema().dump(level_obj).data)
 
 
-@level.route('/level/<int:level_id>', methods=['PUT'])
+@level_handler.route('/level/<int:level_id>', methods=['PUT'])
 def save_level(level_id):
     level_obj = rod.model.schemas.LevelSchema().load(flask.request.json).data
     level_obj.id = level_id
@@ -53,7 +53,7 @@ def save_level(level_id):
     return flask.jsonify(rod.model.schemas.LevelSchema().dump(level_obj).data)
 
 
-@level.route('/level/<int:level_id>', methods=['DELETE'])
+@level_handler.route('/level/<int:level_id>', methods=['DELETE'])
 def delete_level(level_id):
     level_obj = rod.model.level.Level.query.get(level_id)
 

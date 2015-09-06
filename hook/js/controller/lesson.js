@@ -1,8 +1,10 @@
-app.controller(
-    'LessonsCtrl',
-    ['$scope', '$q', '$state', '$stateParams', '$log', '$location', '$resource', 'Model', 'TIMES', 'DAYS', '$modal',
-        function ($scope, $q, $state, $stateParams, $log, $location, $resource, Model, TIMES, DAYS, $modal) {
+app.controller('LessonsCtrl',
+    function ($scope, $q, $state, $stateParams, $log, $location, $resource, Model, TIMES, DAYS, $modal, Auth) {
 
+    // Get the current teacher's groups
+    $scope.groups = Model.query({model: 'group', teacher_id: Auth.getCurrentUser().id}, function (groups) {
+        $scope.groups = groups.items;
+    });
 
     $scope.dlgFile = function (lesson) {
         if (lesson)
@@ -10,21 +12,17 @@ app.controller(
         else
             $scope.lesson = {};
 
-        console.log(lesson);
-
-
         var modalInstance = $modal.open({
             templateUrl: 'template/dlg-lesson.html',
             controller: 'FileLessonDialogCtrl',
             resolve: {
-                lesson: function () {
-                    return $scope.lesson;
-                }
+                lesson: function () { return $scope.lesson },
+                groups: function () { return $scope.groups }
             }
         });
 
         modalInstance.result.then(function (lesson) {
-            lesson_service = new Model(lesson);
+            var lesson_service = new Model(lesson);
 
             if (lesson.id) {
                 lesson_service.$save(
@@ -41,7 +39,6 @@ app.controller(
                     }
                 )
             }
-            console.log(lesson);
         }, function () {
             $log.info('Modal dismissed at: ' + new Date());
         });
@@ -57,19 +54,16 @@ app.controller(
 
     $scope.refresh();
 
-}]);
+});
 
 
 app.controller(
     'FileLessonDialogCtrl',
-    ['$scope', '$log', '$modalInstance', '$modal', 'lesson', 'Model',
-        function ($scope, $log, $modalInstance, $modal, lesson, Model) {
+    ['$scope', '$log', '$modalInstance', '$modal', 'lesson', 'Model', 'Auth',
+        function ($scope, $log, $modalInstance, $modal, lesson, Model, Auth) {
 
     $scope.lesson = lesson;
     $scope.lesson.attendance = {};
-    Model.query({'model': 'group'}, function (groups) {
-        $scope.groups = groups.objects;
-    });
 
     $scope.$watch('lesson.group.students', function (newValue, oldValue) {
         if (newValue !== oldValue)
@@ -81,7 +75,7 @@ app.controller(
 
     $scope.isActive = function (student) {
         return student.is_suspended ? false : true;
-    }
+    };
 
     $scope.populateStudents = function (group) {
         Model.query(
@@ -94,7 +88,6 @@ app.controller(
             }
         );
     };
-
 
     $scope.ok = function () {
         var datetime = new Date();
@@ -114,7 +107,7 @@ app.controller(
             // TODO: This is the right thing to do, but flask-restless is dumb
             // date: datetime.getTime() / 1000  // Convert to UNIX timestamp
             date: datetime.toISOString()
-        }
+        };
 
         console.log(lesson);
         $modalInstance.close(lesson);

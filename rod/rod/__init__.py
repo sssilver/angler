@@ -28,6 +28,7 @@ import rod.handler.level
 import rod.handler.student
 import rod.handler.group
 import rod.handler.credit
+import rod.handler.lesson
 
 
 def create_app(config):
@@ -54,14 +55,15 @@ def create_app(config):
 
     # Register blueprints
     blueprints = {
-        rod.handler.auth.auth,
-        rod.handler.staff.staff,
-        rod.handler.course.course,
-        rod.handler.tariff.tariff,
-        rod.handler.level.level,
-        rod.handler.student.student,
-        rod.handler.group.group,
-        rod.handler.credit.credit
+        rod.handler.auth.auth_handler,
+        rod.handler.staff.staff_handler,
+        rod.handler.course.course_handler,
+        rod.handler.tariff.tariff_handler,
+        rod.handler.level.level_handler,
+        rod.handler.student.student_handler,
+        rod.handler.group.group_handler,
+        rod.handler.credit.credit_handler,
+        rod.handler.lesson.lesson_handler
     }
 
     for blueprint in blueprints:
