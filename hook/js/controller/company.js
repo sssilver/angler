@@ -1,16 +1,13 @@
-app.controller(
-    'CompaniesCtrl',
-        ['$scope', '$log', '$modal', 'Model',
-            function ($scope, $log, $modal, Model) {
+app.controller('CompaniesCtrl', function ($scope, $log, $modal, Restangular) {
 
     $scope.dlgCompany = function (company) {
 
         if (company)
             $scope.company = company;
         else
-            $scope.company = {};
+            $scope.company = Restangular.one('company');
 
-        var modalInstance = $modal.open({
+        $modal.open({
             templateUrl: 'template/dlg-company.html',
             controller: 'CompanyDialogCtrl',
             resolve: {
@@ -18,56 +15,36 @@ app.controller(
                     return $scope.company;
                 }
             }
-        });
-
-        modalInstance.result.then(function (company) {
-            var company_service = new Model(company);
-
-            if (company.id) {
-                company_service.$save(
-                    {'model': 'company', 'resource_id': company.id},
-                    function () {
-                        $scope.refresh();
-                    }
-                );
-            } else {
-                company_service.$post(
-                    {'model': 'company'},
-                    function () {
-                        $scope.refresh();
-                    }
-                );
-            }
+        }).result.then(function (company) {
+            company.save().then(function () {
+                $scope.refresh();
+            });
         }, function () {
             $log.info('Modal dismissed at: ' + new Date());
         });
     };
 
     $scope.refresh = function () {
-        var companies = Model.query({'model': 'company'}, function () {
+        Restangular.all('company').getList().then(function (companies) {
             $scope.companies = companies;
         });
     };
 
     $scope.remove = function (id) {
         if (confirm('Are you sure?')) {
-            Model.remove({'model': 'company', 'resource_id': id}, function () {
+            Restangular.one('course', id).remove().then(function () {
                 $scope.refresh();
             });
         }
     };
 
     $scope.refresh();
-}]);
+});
 
 
-app.controller(
-    'CompanyDialogCtrl',
-        ['$scope', '$log', '$modalInstance', '$modal', 'company', 'Model',
-            function ($scope, $log, $modalInstance, $modal, company, Model) {
+app.controller('CompanyDialogCtrl', function ($scope, $log, $modalInstance, $modal, company) {
 
     $scope.company = company;
-    console.log(company);
 
     $scope.ok = function () {
         $modalInstance.close($scope.company);
@@ -76,6 +53,4 @@ app.controller(
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
     };
-
-}]);
-
+});

@@ -1,7 +1,4 @@
-app.controller(
-    'CoursesCtrl',
-        ['$scope', '$log', '$modal', 'Model', 'TIMES', 'DAYS',
-            function ($scope, $log, $modal, Model, TIMES, DAYS) {
+app.controller('CoursesCtrl', function ($scope, $log, $modal, Restangular) {
 
     $scope.dlgLevels = function (course) {
         $modal.open({
@@ -30,13 +27,12 @@ app.controller(
     };
 
     $scope.dlgCourse = function (course) {
-
         if (course)
             $scope.course = course;
         else
-            $scope.course = {};
+            $scope.course = Restangular.one('course');
 
-        var modalInstance = $modal.open({
+        $modal.open({
             templateUrl: 'template/dlg-course.html',
             controller: 'CourseDialogCtrl',
             resolve: {
@@ -44,54 +40,34 @@ app.controller(
                     return $scope.course;
                 }
             }
-        });
-
-        modalInstance.result.then(function (course) {
-            var course_service = new Model(course);
-
-            if (course.id) {
-                course_service.$save(
-                    {model: 'course', resource_id: course.id},
-                    function () {
-                        $scope.refresh();
-                    }
-                );
-            } else {
-                course_service.$post(
-                    {'model': 'course'},
-                    function () {
-                        $scope.refresh();
-                    }
-                );
-            }
+        }).result.then(function (course) {
+            course.save().then(function () {
+                $scope.refresh();
+            });
         }, function () {
             $log.info('Modal dismissed at: ' + new Date());
         });
     };
 
     $scope.refresh = function () {
-        var courses = Model.query({model: 'course'}, function () {
-            $scope.courses = courses.items;
+        Restangular.all('course').getList().then(function (courses) {
+            $scope.courses = courses;
         });
     };
 
     $scope.remove = function (id) {
         if (confirm('Are you sure?')) {
-            Model.remove({'model': 'course', 'resource_id': id}, function () {
+            Restangular.one('course', id).remove().then(function () {
                 $scope.refresh();
             });
         }
     };
 
     $scope.refresh();
-}]);
+});
 
 
-app.controller(
-    'CourseDialogCtrl',
-        ['$scope', '$log', '$modalInstance', '$modal', 'course', 'Model',
-            function ($scope, $log, $modalInstance, $modal, course, Model) {
-
+app.controller('CourseDialogCtrl', function ($scope, $log, $modalInstance, $modal, course) {
     $scope.course = course;
 
     $scope.ok = function () {
@@ -102,18 +78,15 @@ app.controller(
         $modalInstance.dismiss('cancel');
     };
 
-}]);
+});
 
-app.controller(
-    'LevelsDialogCtrl',
-        ['$scope', '$log', '$modalInstance', '$modal', 'course', 'Model',
-            function ($scope, $log, $modalInstance, $modal, course, Model) {
 
+app.controller('LevelsDialogCtrl', function ($scope, $log, $modalInstance, $modal, course, Restangular) {
     $scope.course = course;
 
-    $scope.remove = function (level_id) {
+    $scope.remove = function (levelID) {
         if (confirm('Are you sure?')) {
-            Model.remove({'model': 'level', 'resource_id': level_id}, function () {
+            Restangular.one('level', levelID).remove().then(function () {
                 $scope.refresh();
             });
         }
@@ -123,10 +96,10 @@ app.controller(
         if (level) {
             $scope.level = level;
         } else {
-            $scope.level = {course: course.id};
+            $scope.level = Restangular.one('course', course.id).one('level');
         }
 
-        var modalInstance = $modal.open({
+        $modal.open({
             templateUrl: 'template/dlg-level.html',
             controller: 'LevelDialogCtrl',
             resolve: {
@@ -134,26 +107,10 @@ app.controller(
                     return $scope.level;
                 }
             }
-        });
-
-        modalInstance.result.then(function (level) {
-            var level_service = new Model(level);
-
-            if (level.id) {
-                level_service.$save(
-                    {model: 'level', resource_id: level.id},
-                    function () {
-                        $scope.refresh();
-                    }
-                );
-            } else {
-                level_service.$post(
-                    {model: 'level'},
-                    function () {
-                        $scope.refresh();
-                    }
-                );
-            }
+        }).result.then(function (level) {
+            level.save().then(function () {
+                $scope.refresh();
+            });
         }, function () {
             $log.info('Modal dismissed at: ' + new Date());
         });
@@ -168,21 +125,17 @@ app.controller(
     };
 
     $scope.refresh = function () {
-        var levels = Model.query({model: 'level', course_id: course.id}, function () {
-            $scope.levels = levels.items;
+        Restangular.one('course', course.id).all('level').getList().then(function (levels) {
+            $scope.levels = levels;
         });
     };
 
     $scope.refresh();
-}]);
+});
 
 
-app.controller(
-    'LevelDialogCtrl',
-        ['$scope', '$modalInstance', 'level', 'Model',
-            function ($scope, $modalInstance, level, Model) {
-
-    $scope.level = angular.copy(level);
+app.controller('LevelDialogCtrl', function ($scope, $modalInstance, level) {
+    $scope.level = level;
 
     $scope.ok = function () {
         $modalInstance.close($scope.level);
@@ -192,8 +145,7 @@ app.controller(
         $modalInstance.dismiss('cancel');
     };
 
-}]);
-
+});
 
 
 app.controller(

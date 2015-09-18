@@ -19,12 +19,23 @@
         </div>
       </div>
       <div class="form-group">
+        <label for="group_teacher" class="col-sm-3 control-label">Teacher</label>
+        <div class="col-sm-9">
+          <select id="group_teacher"
+                  class="form-control"
+                  ng-model="group.teacher_id"
+                  ng-options="teacher.id as teacher.name for teacher in teachers">
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
         <label for="group_course" class="col-sm-3 control-label">Course</label>
         <div class="col-sm-9">
           <select id="group_course"
                   class="form-control"
-                  ng-model="selected_course"
-                  ng-options="course as course.title for course in courses">
+                  ng-model="selectedCourse"
+                  ng-change="populateLevels()"
+                  ng-options="course.id as course.title for course in courses">
           </select>
         </div>
       </div>
@@ -33,9 +44,9 @@
         <div class="col-sm-9">
           <select id="group_level"
                   class="form-control"
-                  ng-model="selected_level">
-            <option ng-repeat="level in levels | filter: level.course_id == selected_course.id">{{level.title}}</option>
-          </select>
+                  ng-options="level.id as level.title for level in levels"
+                  ng-model="group.level_id"
+                  ng-disabled="!levels.length"></select>
         </div>
       </div>
     </fieldset>

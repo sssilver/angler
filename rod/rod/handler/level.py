@@ -32,27 +32,6 @@ def get_level(level_id):
     return flask.jsonify(rod.model.schemas.LevelSchema().dump(level_obj).data)
 
 
-@level_handler.route('/level', methods=['POST'])
-def add_level():
-    level_obj = rod.model.schemas.LevelSchema().load(flask.request.json).data
-
-    rod.model.db.session.add(level_obj)
-    rod.model.db.session.commit()
-
-    return flask.jsonify(rod.model.schemas.LevelSchema().dump(level_obj).data)
-
-
-@level_handler.route('/level/<int:level_id>', methods=['PUT'])
-def save_level(level_id):
-    level_obj = rod.model.schemas.LevelSchema().load(flask.request.json).data
-    level_obj.id = level_id
-
-    rod.model.db.session.merge(level_obj)
-    rod.model.db.session.commit()
-
-    return flask.jsonify(rod.model.schemas.LevelSchema().dump(level_obj).data)
-
-
 @level_handler.route('/level/<int:level_id>', methods=['DELETE'])
 def delete_level(level_id):
     level_obj = rod.model.level.Level.query.get(level_id)

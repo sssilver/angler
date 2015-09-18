@@ -1,5 +1,4 @@
 import datetime
-import dateutil.parser
 import re
 import sqlalchemy.types
 import sqlalchemy.schema
@@ -24,7 +23,7 @@ class Student(rod.model.db.Model, rod.model.PersistentMixin):
     gender = sqlalchemy.schema.Column(sqlalchemy.types.Boolean)
 
     # Student Data
-    reg_date = sqlalchemy.schema.Column(sqlalchemy.types.DateTime, default=datetime.datetime.utcnow)
+    reg_date = sqlalchemy.schema.Column(sqlalchemy.types.Date, default=datetime.datetime.utcnow)
     ref_type = sqlalchemy.schema.Column(sqlalchemy.types.Integer)
     ref = sqlalchemy.schema.Column(sqlalchemy.types.String())
 
@@ -35,7 +34,8 @@ class Student(rod.model.db.Model, rod.model.PersistentMixin):
     )
 
     # Interview
-    ivw_date = sqlalchemy.schema.Column(sqlalchemy.types.DateTime)
+    ivw_date = sqlalchemy.schema.Column(sqlalchemy.types.Date)
+    ivw_time = sqlalchemy.schema.Column(sqlalchemy.types.Time(timezone=True))
     ivw_teacher_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('staff.id'))
     ivw_teacher = sqlalchemy.orm.relationship(
         'Staff'
@@ -85,17 +85,6 @@ class Student(rod.model.db.Model, rod.model.PersistentMixin):
             sqlalchemy.sql.func.sum(StudentTransaction.amount)
         ]).where(StudentTransaction.student_id==cls.id).as_scalar()
     '''
-
-    @sqlalchemy.orm.validates('dob', 'reg_date', 'ivw_date')
-    def validate_datetime(self, key, date):
-        if date is None:
-            return None
-
-        converted_date = dateutil.parser.parse(date).replace(tzinfo=None)
-
-        assert isinstance(converted_date, datetime.datetime)
-
-        return converted_date
 
     @sqlalchemy.orm.validates('email')
     def validate_email(self, key, email):

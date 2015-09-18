@@ -52,33 +52,7 @@ app.constant('DAYS', {
 });
 
 
-app.factory('Model', function ($resource) {
-    return $resource(SERVICE_ENDPOINT + '/:model/:resource_id/:field', {}, {
-        get: {
-            method: 'GET',
-            isArray: false
-        },
-
-        query: {
-            method: 'GET',
-            isArray: false
-        },
-
-        post: {
-            method: 'POST'
-        },
-
-        save: {
-            method: 'PUT'
-        },
-
-        remove: {
-            method: 'DELETE'
-        }
-    });
-});
-
-
+/*
 app.factory('Credit', function ($resource) {
     return $resource(SERVICE_ENDPOINT + '/credit/:type/:entity_id', {}, {
         post: {
@@ -86,6 +60,7 @@ app.factory('Credit', function ($resource) {
         }
     });
 });
+*/
 
 
 app.factory('Auth', function ($http, $rootScope, $cookieStore) {

@@ -1,4 +1,4 @@
-app.controller('LoginCtrl', function ($scope, $log, $rootScope, $modal, Model, Auth) {
+app.controller('LoginCtrl', function ($scope, $log, $rootScope, $modal, Auth) {
     $scope.login = function () {
         $log.info('Logging in ' + $scope.email);
 

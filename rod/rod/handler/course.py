@@ -2,6 +2,7 @@ import flask
 
 import rod
 import rod.model.course
+import rod.model.level
 import rod.model.schemas
 
 
@@ -14,7 +15,7 @@ def list_course():
 
     return flask.jsonify({
         'items': rod.model.schemas.CourseSchema(many=True).dump(all_courses).data,
-        'count': len(all_courses)
+        'meta': {'count': len(all_courses)}
     })
 
 
@@ -27,29 +28,63 @@ def get_course(course_id):
 
 @course_handler.route('/course', methods=['POST'])
 def add_course():
-    course_obj = rod.model.schemas.CourseSchema().load(flask.request.json).data
-    rod.model.db.session.add(course_obj)
+    course = rod.model.schemas.CourseSchema().load(flask.request.json).data
+    rod.model.db.session.add(course)
     rod.model.db.session.commit()
 
-    return flask.jsonify(rod.model.schemas.CourseSchema().dump(course_obj).data)
+    return flask.jsonify(rod.model.schemas.CourseSchema().dump(course).data)
 
 
 @course_handler.route('/course/<int:course_id>', methods=['PUT'])
 def save_course(course_id):
-    course_obj = rod.model.schemas.CourseSchema().load(flask.request.json).data
-    course_obj.id = course_id
+    course = rod.model.schemas.CourseSchema().load(flask.request.json).data
+    course.id = course_id
 
-    rod.model.db.session.merge(course_obj)
+    rod.model.db.session.merge(course)
     rod.model.db.session.commit()
 
-    return flask.jsonify(rod.model.schemas.CourseSchema().dump(course_obj).data)
+    return flask.jsonify(rod.model.schemas.CourseSchema().dump(course).data)
 
 
 @course_handler.route('/course/<int:course_id>', methods=['DELETE'])
 def delete_course(course_id):
-    course_obj = rod.model.course.Course.query.get(course_id)
+    course = rod.model.course.Course.query.get(course_id)
 
-    rod.model.db.session.delete(course_obj)
+    rod.model.db.session.delete(course)
     rod.model.db.session.commit()
 
-    return flask.jsonify(rod.model.schemas.StaffSchema().dump(course_obj).data)
+    return flask.jsonify(rod.model.schemas.StaffSchema().dump(course).data)
+
+
+@course_handler.route('/course/<int:course_id>/level', methods=['POST'])
+def add_level(course_id):
+    level = rod.model.schemas.LevelSchema().load(flask.request.json).data
+    level.course_id = course_id
+
+    rod.model.db.session.add(level)
+    rod.model.db.session.commit()
+
+    return flask.jsonify(rod.model.schemas.LevelSchema().dump(level).data)
+
+
+@course_handler.route('/course/<int:course_id>/level', methods=['GET'])
+def list_level(course_id):
+    query = rod.model.level.Level.query.filter_by(is_deleted=False)
+
+    levels = query.filter_by(course_id=course_id).all()
+
+    return flask.jsonify({
+        'items': rod.model.schemas.LevelSchema(many=True).dump(levels).data,
+        'meta': {'count': len(levels)}
+    })
+
+
+@course_handler.route('/course/<int:course_id>/level/<int:level_id>', methods=['PUT'])
+def save_level(course_id, level_id):
+    level = rod.model.schemas.LevelSchema().load(flask.request.json).data
+    level.id = level_id
+
+    rod.model.db.session.merge(level)
+    rod.model.db.session.commit()
+
+    return flask.jsonify(rod.model.schemas.LevelSchema().dump(level).data)

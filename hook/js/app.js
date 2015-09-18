@@ -4,11 +4,11 @@
 var app = angular.module(
     'scool',
     [
-        'ngResource',
         'ngCookies',
         'ui.router',
         'ui.bootstrap',
-        'ui.select2'
+        'ui.select2',
+        'restangular'
     ]
 );
 

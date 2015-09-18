@@ -14,13 +14,13 @@
     "tests"
   ],
   "dependencies": {
-    "angular-resource": "*",
     "angular-cookies": "*",
     "angular-ui-router": "*",
     "angular-ui-select2": "*",
     "angular": "*",
     "bootstrap": "*",
     "angular-bootstrap": "*",
-    "angular-route": "*"
+    "angular-route": "*",
+    "restangular": "*"
   }
 }

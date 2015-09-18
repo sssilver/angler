@@ -1,8 +1,5 @@
-app.controller(
-    'HomeCtrl',
-        ['$scope', '$log', '$modal', 'Model',
-            function ($scope, $log, $modal, Model) {
+app.controller('HomeCtrl', function ($scope, $log, $modal) {
 
     console.log('Home');
 
-}]);
+});

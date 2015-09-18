@@ -1,4 +1,30 @@
-app.config(function ($stateProvider, $httpProvider) {
+app.config(function ($stateProvider, $httpProvider, RestangularProvider) {
+
+    RestangularProvider.setBaseUrl(window.location.protocol + '//' + window.location.hostname + ':5000');
+
+    // Add a response interceptor
+    RestangularProvider.addResponseInterceptor(function(data, operation) {
+        var extractedData;
+
+        if (operation === 'getList') {
+            extractedData = data.items;
+            extractedData.meta = data.meta;
+        } else {
+            extractedData = data;
+        }
+
+        return extractedData;
+    });
+
+    RestangularProvider.setOnElemRestangularized(function(elem, isCollection, route) {
+        if (!isCollection && route === 'credit') {
+            // This will add a method called evaluate that will do a get to path evaluate with NO default
+            // query params and with some default header
+            // signature is (name, operation, path, params, headers, elementToPost)
+            elem.addRestangularMethod('credit', 'post', 'credit', undefined);
+        }
+        return elem;
+    });
 
     $httpProvider.defaults.withCredentials = true;
 

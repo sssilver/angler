@@ -1,21 +1,11 @@
-app.controller(
-    'StudentsCtrl',
-        ['$scope', '$q', '$state', '$stateParams', '$log', '$location', '$resource', 'Model', 'TIMES', 'DAYS', '$modal', 'Credit',
-            function ($scope, $q, $state, $stateParams, $log, $location, $resource, Model, TIMES, DAYS, $modal, Credit) {
+app.controller('StudentsCtrl', function ($scope, $q, $state, $stateParams, $log, $location, Restangular, TIMES, DAYS, $modal) {
 
     if ($stateParams.student_id) {  // Detail view?
         $scope.refreshStudent = function () {
             // Load the requested student
-            var student = Model.query(
-                {
-                    model: 'student',
-                    resource_id: $stateParams.student_id
-                },
-                function () {
-                    $scope.student = student;
-                    console.log(student);
-                }
-            );
+            Restangular.one('student', $stateParams.student_id).get().then(function (student) {
+                $scope.student = student;
+            });
         };
 
         $scope.refreshStudent();
@@ -25,11 +15,9 @@ app.controller(
         if (student)
             $scope.student = student;
         else
-            $scope.student = {};
+            $scope.student = Restangular.one('student');
 
-        console.log(student);
-
-        var modalInstance = $modal.open({
+        $modal.open({
             templateUrl: 'template/dlg-student.html',
             controller: 'StudentFormCtrl',
             resolve: {
@@ -37,29 +25,10 @@ app.controller(
                     return $scope.student;
                 }
             }
-        });
-
-        modalInstance.result.then(function (student) {
-            delete student.balance;  // Remove the hybrid property
-
-            var student_service = new Model(student);
-
-            if (student.id) {
-                student_service.$save(
-                    {model: 'student', resource_id: student.id},
-                    function () {
-                        $scope.refresh();
-                    }
-                );
-            } else {
-                student_service.$post(
-                    {model: 'student'},
-                    function () {
-                        $scope.refresh();
-                    }
-                )
-            }
-            console.log(student);
+        }).result.then(function (student) {
+            student.save().then(function () {
+                $scope.refresh();
+            });
         }, function () {
             $log.info('Modal dismissed at: ' + new Date());
         });
@@ -98,8 +67,8 @@ app.controller(
     };
 
     $scope.refresh = function () {
-        var students = Model.query({model: 'student'}, function () {
-            $scope.students = students.items;
+        Restangular.all('student').getList().then(function (students) {
+            $scope.students = students;
         });
     };
 
@@ -141,7 +110,7 @@ app.controller(
     };
 
     $scope.dlgCredit = function (student) {
-        var modalInstance = $modal.open({
+        $modal.open({
             templateUrl: 'template/dlg-credit.html',
             controller: 'StudentCreditDialogCtrl',
             resolve: {
@@ -149,20 +118,12 @@ app.controller(
                     return $scope.student;
                 }
             }
-        });
+        }).result.then(function (transaction) {
+            var studentCredit = Restangular.all('credit').one('student', $scope.student.id);
 
-        modalInstance.result.then(function (transaction) {
-            var creditService = new Credit(transaction);
-
-            creditService.$post(
-                {
-                    type: 'student',
-                    entity_id: $scope.student.id
-                },
-                function () {
-                    $scope.refreshStudent();
-                }
-            );
+            studentCredit.doPOST(transaction).then(function () {
+                $scope.refreshStudent();
+            });
         }, function () {
             $log.info('Modal dismissed at: ' + new Date());
         });
@@ -195,18 +156,15 @@ app.controller(
 
     $scope.refresh();
     $scope.selectedStudents = [];
-}]);
+});
 
 
-app.controller(
-    'StudentFormCtrl',
-        ['$scope', '$modalInstance', 'Model', 'student',
-            function ($scope, $modalInstance, Model, student) {
+app.controller('StudentFormCtrl', function ($scope, $modalInstance, student, Restangular) {
 
     $scope.student = student;
 
-    var teachers = Model.query({model: 'staff'}, function () {
-        $scope.teachers = teachers.items;
+    Restangular.all('staff').getList().then(function (teachers) {
+        $scope.teachers = teachers;
     });
 
     /*
@@ -231,16 +189,12 @@ app.controller(
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
     };
+});
 
-}]);
 
-
-app.controller(
-    'StudentCreditDialogCtrl',
-        ['$scope', '$log', '$modalInstance', '$modal', 'student', 'Model',
-            function ($scope, $log, $modalInstance, $modal, student, Model) {
-
+app.controller('StudentCreditDialogCtrl', function ($scope, $log, $modalInstance, $modal, student) {
     $scope.student = student;
+
     $scope.transaction = {
         student_id: student.id
     };
@@ -253,7 +207,7 @@ app.controller(
         $modalInstance.dismiss('cancel');
     };
 
-}]);
+});
 
 
 app.controller(
@@ -277,45 +231,32 @@ app.controller(
 }]);
 
 
-app.controller(
-    'GroupsDialogCtrl',
-        ['$scope', '$log', '$modalInstance', '$modal', 'students', 'Model',
-            function ($scope, $log, $modalInstance, $modal, students, Model) {
+app.controller('GroupsDialogCtrl', function ($scope, $log, $modalInstance, $modal, students, Restangular) {
 
     $scope.students = students;
     $scope.selected_group = {};
     $scope.selected_tariff = {};
 
-    var courses = Model.query({model: 'course'}, function () {
-        $scope.courses = courses.items;
+
+
+    Restangular.all('course').getList().then(function (courses) {
+        $scope.courses = courses;
     });
 
-    var teachers = Model.query({model: 'staff'}, function () {
-        $scope.teachers = teachers.items;
+    Restangular.all('staff').getList().then(function (staffs) {
+        $scope.teachers = staffs;
     });
 
     $scope.populateTariffs = function (course) {
-        var tariffs = Model.query(
-            {
-                model: 'tariff',
-                course_id: course.id
-            },
-            function () {
-                $scope.tariffs = tariffs.items;
-            }
-        );
+        Restangular.all('tariff').getList({course_id: course.id}).then(function (tariffs) {
+            $scope.tariffs = tariffs;
+        });
     };
 
     $scope.populateLevels = function (course) {
-        var levels = Model.query(
-            {
-                model: 'level',
-                course_id: course.id
-            },
-            function () {
-                $scope.levels = levels.items;
-            }
-        );
+        Restangular.all('level').getList({course_id: course.id}).then(function (levels) {
+            $scope.levels = levels;
+        });
     };
 
     $scope.populateGroups = function (level, teacher) {
@@ -324,37 +265,29 @@ app.controller(
             return;
         }
 
-        var groups = Model.query({
-            model: 'group',
-            teacher_id: teacher.id,
-            level_id: level.id
-        }, function () {
-            $scope.groups = groups.items;
-
-            console.log(groups);
+        Restangular.all('group').getList({teacher_id: teacher.id, level_id: level.id}).then(function (groups) {
+            $scope.groups = groups;
         });
     };
 
     $scope.createGroup = function (level, teacher) {
         var title;
-        $scope.selection = {};
 
         if (!(title = prompt('Group title')))
             return;
 
-        var group_service = new Model({
-            title: title,
-            level: level.id,
-            teacher: teacher.id
-        });
+        var group = Restangular.one('group');
+        group.title = title;
+        group.level = level.id;
+        group.teacher = teacher.id;
 
-        group_service.$post({
-            model: 'group'
-        }).then(function (response) {
+        group.save().then(function (response) {
             $scope.populateGroups(level, teacher);
             console.log(response);
-            console.log($scope.selection.group);
-            $scope.selection.group = response.data;
+            console.log($scope.selection);
+            console.log(response.data);
+            $scope.selection.group = response;
+            console.log($scope.selection);
         });
     };
 
@@ -366,4 +299,4 @@ app.controller(
         $modalInstance.dismiss('cancel');
     };
 
-}]);
+});

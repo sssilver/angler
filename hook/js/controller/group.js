@@ -1,14 +1,12 @@
-app.controller('GroupsCtrl', function ($scope, $log, $modal, Model) {
+app.controller('GroupsCtrl', function ($scope, $log, $modal, Restangular) {
 
     $scope.dlgGroup = function (group) {
         if (group)
             $scope.group = group;
         else
-            $scope.group = {};
+            $scope.group = Restangular.one('group');
 
-        console.log(group);
-
-        var modalInstance = $modal.open({
+        $modal.open({
             templateUrl: 'template/dlg-group.html',
             controller: 'GroupDialogCtrl',
             resolve: {
@@ -16,34 +14,17 @@ app.controller('GroupsCtrl', function ($scope, $log, $modal, Model) {
                     return $scope.group;
                 }
             }
-        });
-
-        modalInstance.result.then(function (group) {
-            var group_service = new Model(group);
-
-            if (group.id) {
-                group_service.$save(
-                    {'model': 'group', 'id': group.id},
-                    function () {
-                        $scope.refresh();
-                    }
-                );
-            } else {
-                group_service.$post(
-                    {'model': 'group'},
-                    function () {
-                        $scope.refresh();
-                    }
-                )
-            }
-            console.log(group);
+        }).result.then(function (group) {
+            group.save().then(function () {
+                $scope.refresh();
+            });
         }, function () {
             $log.info('Modal dismissed at: ' + new Date());
         });
     };
 
     $scope.refresh = function () {
-        var groups = Model.query({'model': 'group'}, function () {
+        Restangular.all('group').getList().then(function (groups) {
             $scope.groups = groups;
         });
     };
@@ -59,17 +40,30 @@ app.controller('GroupsCtrl', function ($scope, $log, $modal, Model) {
     $scope.refresh();
 });
 
-app.controller('GroupDialogCtrl', function ($scope, $log, $modalInstance, $modal, Model, group) {
+app.controller('GroupDialogCtrl', function ($scope, $log, $modalInstance, $modal, Restangular, group) {
     $scope.group = group;
-    console.log(group);
+    $scope.selectedCourse = null;
 
-    var courses = Model.query({model: 'course'}, function () {
-        $scope.courses = courses.objects;
+    if ($scope.group.level_id) {  // Group level is set, we need to populate the courses accordingly
+        Restangular.one('level', $scope.group.level_id).get().then(function (level) {
+            $scope.selectedCourse = level.course_id;
+            $scope.populateLevels();
+        });
+    }
+
+    Restangular.all('staff').getList().then(function (staffs) {
+        $scope.teachers = staffs;
     });
 
-    var levels = Model.query({model: 'level'}, function () {
-        $scope.levels = levels;
+    Restangular.all('course').getList().then(function (courses) {
+        $scope.courses = courses;
     });
+
+    $scope.populateLevels = function () {
+        Restangular.all('level').getList({course_id: $scope.selectedCourse}).then(function (levels) {
+            $scope.levels = levels;
+        });
+    };
 
     $scope.ok = function () {
         $modalInstance.close($scope.group);
