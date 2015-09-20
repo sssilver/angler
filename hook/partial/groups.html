@@ -13,8 +13,10 @@
 <table class="table table-striped">
   <tr>
     <th>Title</th>
+    <th>Course</th>
     <th>Level</th>
     <th>Teacher</th>
+    <th>Students</th>
     <th></th>
   </tr>
 
@@ -22,11 +24,16 @@
     <td>
       <a ng-click="dlgGroup(group)">{{group.title}}</a>
     </td>
+    <td>{{group.level.course.title}}</td>
     <td>{{group.level.title}}</td>
     <td>{{group.teacher.name}}</td>
+    <td>{{group.students.length}}</td>
     <td>
       <div class="pull-right">
-        <button class="btn btn-danger" ng-click="remove(group.id)">
+        <button class="btn btn-sm btn-default" ng-click="manageStudents(group)">
+          <span class="fa fa-users"> Manage students</span>
+        </button>
+        <button class="btn btn-sm btn-danger" ng-click="remove(group)">
           <span class="glyphicon-white glyphicon glyphicon-remove"></span>
         </button>
       </div>

@@ -3,6 +3,7 @@ import flask
 import rod
 import rod.model.course
 import rod.model.level
+import rod.model.tariff
 import rod.model.schemas
 
 
@@ -88,3 +89,37 @@ def save_level(course_id, level_id):
     rod.model.db.session.commit()
 
     return flask.jsonify(rod.model.schemas.LevelSchema().dump(level).data)
+
+
+@course_handler.route('/course/<int:course_id>/tariff', methods=['POST'])
+def add_tariff(course_id):
+    tariff = rod.model.schemas.TariffSchema().load(flask.request.json).data
+    tariff.course_id = course_id
+
+    rod.model.db.session.add(tariff)
+    rod.model.db.session.commit()
+
+    return flask.jsonify(rod.model.schemas.TariffSchema().dump(tariff).data)
+
+
+@course_handler.route('/course/<int:course_id>/tariff', methods=['GET'])
+def list_tariff(course_id):
+    query = rod.model.tariff.Tariff.query.filter_by(is_deleted=False)
+
+    tariffs = query.filter_by(course_id=course_id).all()
+
+    return flask.jsonify({
+        'items': rod.model.schemas.TariffSchema(many=True).dump(tariffs).data,
+        'meta': {'count': len(tariffs)}
+    })
+
+
+@course_handler.route('/course/<int:course_id>/tariff/<int:tariff_id>', methods=['PUT'])
+def save_tariff(course_id, tariff_id):
+    tariff = rod.model.schemas.TariffSchema().load(flask.request.json).data
+    tariff.id = tariff_id
+
+    rod.model.db.session.merge(tariff)
+    rod.model.db.session.commit()
+
+    return flask.jsonify(rod.model.schemas.TariffSchema().dump(tariff).data)

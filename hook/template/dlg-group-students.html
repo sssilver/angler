@@ -1,0 +1,41 @@
+<div class="modal-header">
+  <h3>Group Student Management</h3>
+</div>
+
+<div class="modal-body">
+  <table class="table table-condensed" ng-show="group.students.length">
+    <tr ng-repeat="student in group.students">
+      <td>{{student.name}}</td>
+      <td></td>
+    </tr>
+  </table>
+
+  <form role="form">
+    <fieldset>
+      <legend>Add Student</legend>
+
+      <div class="form-group">
+        <label for="newStudent">Add a new student to the group</label>
+        <select class="form-control"
+                id="newStudent"
+                ng-model="student"
+                ng-options="student.name for student in students"></select>
+      </div>
+      <div ng-show="newStudent">
+        <div class="form-group">
+          <label for="tariff">Tariff</label>
+          <select class="form-control"
+                  id="tariff"
+                  ng-model="tariff"
+                  ng-options="tariff for tariff in tariffs"></select>
+
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-primary" ng-click="ok()">OK</button>
+  <button class="btn" ng-click="cancel()">Cancel</button>
+</div>

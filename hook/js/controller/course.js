@@ -15,7 +15,7 @@ app.controller('CoursesCtrl', function ($scope, $log, $modal, Restangular) {
 
     $scope.dlgTariffs = function (course) {
         $modal.open({
-            templateUrl: 'template/tariffs.html',
+            templateUrl: 'template/dlg-tariffs.html',
             controller: 'TariffsDialogCtrl',
             resolve: {
                 course: function () {
@@ -148,16 +148,13 @@ app.controller('LevelDialogCtrl', function ($scope, $modalInstance, level) {
 });
 
 
-app.controller(
-    'TariffsDialogCtrl',
-        ['$scope', '$log', '$modalInstance', '$modal', 'course', 'Model',
-            function ($scope, $log, $modalInstance, $modal, course, Model) {
+app.controller('TariffsDialogCtrl', function ($scope, $log, $modalInstance, $modal, course, Restangular) {
 
     $scope.course = course;
 
     $scope.remove = function (tariff_id) {
         if (confirm('Are you sure?')) {
-            Model.remove({'model': 'tariff', 'resource_id': tariff_id}, function () {
+            Restangular.one('tariff', tariff_id).remove().then(function () {
                 $scope.refresh();
             });
         }
@@ -167,10 +164,10 @@ app.controller(
         if (tariff) {
             $scope.tariff = tariff;
         } else {
-            $scope.tariff = {course: course.id};
+            $scope.tariff = Restangular.one('course', course.id).one('tariff');
         }
 
-        var modalInstance = $modal.open({
+        $modal.open({
             templateUrl: 'template/dlg-tariff.html',
             controller: 'TariffDialogCtrl',
             resolve: {
@@ -178,26 +175,11 @@ app.controller(
                     return $scope.tariff;
                 }
             }
-        });
-
-        modalInstance.result.then(function (tariff) {
-            var tariff_service = new Model(tariff);
-
-            if (tariff.id) {
-                tariff_service.$save(
-                    {'model': 'tariff', 'resource_id': tariff.id},
-                    function () {
-                        $scope.refresh();
-                    }
-                );
-            } else {
-                tariff_service.$post(
-                    {'model': 'tariff'},
-                    function () {
-                        $scope.refresh();
-                    }
-                );
-            }
+        }).result.then(function (tariff) {
+            console.log(tariff);
+            tariff.save().then(function () {
+                $scope.refresh();
+            });
         }, function () {
             $log.info('Modal dismissed at: ' + new Date());
         });
@@ -212,21 +194,17 @@ app.controller(
     };
 
     $scope.refresh = function () {
-        var tariffs = Model.query({model: 'tariff', course_id: course.id}, function () {
-            $scope.tariffs = tariffs.items;
+        Restangular.one('course', course.id).all('tariff').getList().then(function (tariffs) {
+            $scope.tariffs = tariffs;
         })
     };
 
     $scope.refresh();
-}]);
+});
 
 
-app.controller(
-    'TariffDialogCtrl',
-        ['$scope', '$modalInstance', 'tariff', 'Model',
-            function ($scope, $modalInstance, tariff, Model) {
-
-    $scope.tariff = angular.copy(tariff);
+app.controller('TariffDialogCtrl', function ($scope, $modalInstance, tariff) {
+    $scope.tariff = tariff;
 
     $scope.ok = function () {
         $modalInstance.close($scope.tariff);
@@ -235,5 +213,4 @@ app.controller(
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
     };
-
-}]);
+});

@@ -21,6 +21,7 @@
     "bootstrap": "*",
     "angular-bootstrap": "*",
     "angular-route": "*",
-    "restangular": "*"
+    "restangular": "*",
+    "font-awesome": "*"
   }
 }

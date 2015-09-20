@@ -23,15 +23,33 @@ app.controller('GroupsCtrl', function ($scope, $log, $modal, Restangular) {
         });
     };
 
+    $scope.manageStudents = function (group) {
+        $modal.open({
+            templateUrl: 'template/dlg-group-students.html',
+            controller: 'ManageStudentsDialogCtrl',
+            resolve: {
+                group: function () {
+                    return group;
+                }
+            }
+        }).result.then(function (group) {
+            group.save().then(function () {
+                $scope.refresh();
+            });
+        }, function () {
+            $log.info('Modal dismissed at: ' + new Date());
+        });
+    };
+
     $scope.refresh = function () {
         Restangular.all('group').getList().then(function (groups) {
             $scope.groups = groups;
         });
     };
 
-    $scope.remove = function (id) {
+    $scope.remove = function (group) {
         if (confirm('Are you sure?')) {
-            Model.remove({'model': 'group', 'id': id}, function () {
+            Restangular.one('group', group.id).remove().then(function () {
                 $scope.refresh();
             });
         }
@@ -64,6 +82,33 @@ app.controller('GroupDialogCtrl', function ($scope, $log, $modalInstance, $modal
             $scope.levels = levels;
         });
     };
+
+    $scope.ok = function () {
+        $modalInstance.close($scope.group);
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+});
+
+
+app.controller('ManageStudentsDialogCtrl', function ($scope, $log, $modalInstance, $modal, Restangular, group) {
+    $scope.group = group;
+    console.log(group);
+
+    Restangular.one('level', group.level_id).get().then(function (level) {
+        $scope.level = level;
+        Restangular.all('tariff').getList({course_id: level.course_id}).then(function (tariffs) {
+            $scope.tariffs = tariffs;
+
+            console.log(tariffs);
+        })
+    });
+
+    Restangular.all('student').getList().then(function (students) {
+        $scope.students = students;
+    });
 
     $scope.ok = function () {
         $modalInstance.close($scope.group);
