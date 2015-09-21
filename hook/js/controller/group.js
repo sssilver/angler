@@ -101,13 +101,21 @@ app.controller('ManageStudentsDialogCtrl', function ($scope, $log, $modalInstanc
         });
     });
 
-    $scope.addStudentToGroup = function (student, group, tariff) {
-        Restangular.one('group', group.id).all('students').post([{
+    $scope.addMember = function (student, group, tariff) {
+        Restangular.one('group', group.id).all('memberships').post([{
             student_id: student.id,
             tariff_id: tariff.id
         }]).then(function () {
             $scope.refresh();
         });
+    };
+
+    $scope.removeMember = function (group, membership) {
+        if (confirm('Are you sure?')) {
+            Restangular.one('group', group.id).one('memberships', membership.id).remove().then(function () {
+                $scope.refresh();
+            });
+        }
     };
 
     $scope.refresh = function () {

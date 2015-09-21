@@ -47,12 +47,26 @@ def add_group():
     return flask.jsonify(rod.model.schemas.GroupSchema().dump(group).data)
 
 
-@group_handler.route('/group/<int:group_id>/students', methods=['POST'])
-def add_students_to_group(group_id):
+@group_handler.route('/group/<int:group_id>/memberships', methods=['POST'])
+def add_member(group_id):
     # Add each student to the group with their respective tariff
     for member in flask.request.json:
+        student_id = member['student_id']
+        # Important: make sure this student doesn't have active membership in this group
+        first_active_membership = rod.model.student.Membership.query.filter_by(
+            student_id=student_id,
+            group_id=group_id,
+            is_deleted=False  # Previous memberships are OK
+        ).first()
+
+        if first_active_membership:
+            raise rod.APIError(
+                'Student {} already in this group'.format(first_active_membership.student.name),
+                status_code=401
+            )
+
         membership = rod.model.student.Membership()
-        membership.student_id = member['student_id']
+        membership.student_id = student_id
         membership.tariff_id = member['tariff_id']
         membership.group_id = group_id
 
@@ -63,6 +77,17 @@ def add_students_to_group(group_id):
     group = rod.model.db.session.query(rod.model.group.Group).get(group_id)
 
     return flask.jsonify(rod.model.schemas.GroupSchema().dump(group).data)
+
+
+@group_handler.route('/group/<int:group_id>/memberships/<int:membership_id>', methods=['DELETE'])
+def remove_member(group_id, membership_id):
+    membership = rod.model.student.Membership.query.get(membership_id)
+
+    # Remove membership
+    rod.model.db.session.delete(membership)
+    rod.model.db.session.commit()
+
+    return flask.jsonify(rod.model.schemas.MembershipSchema().dump(membership).data)
 
 
 @group_handler.route('/group/<int:group_id>', methods=['PUT'])
