@@ -4,8 +4,8 @@
 
 <div class="modal-body">
   <h4>Active Students</h4>
-  <table class="table table-condensed" ng-show="group.memberships.length">
-    <tr ng-repeat="membership in group.memberships | filter: {is_deleted: false}">
+  <table class="table table-condensed" ng-show="group.active_memberships.length">
+    <tr ng-repeat="membership in group.active_memberships">
       <td>{{membership.student.name}}</td>
       <td>
         <div class="pull-right">
@@ -20,8 +20,8 @@
   </table>
 
   <h4>Former Students</h4>
-  <table class="table table-condensed" ng-show="group.memberships.length">
-    <tr ng-repeat="membership in group.memberships | filter: {is_deleted: true}">
+  <table class="table table-condensed" ng-show="group.inactive_memberships.length">
+    <tr ng-repeat="membership in group.inactive_memberships">
       <td>{{membership.student.name}}</td>
     </tr>
   </table>

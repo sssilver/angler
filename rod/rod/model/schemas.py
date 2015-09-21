@@ -61,6 +61,8 @@ class GroupSchema(rod.model.BaseSchema):
     teacher_id = marshmallow_sqlalchemy.field_for(rod.model.group.Group, 'teacher_id')
     # students = marshmallow_sqlalchemy.field_for(rod.model.group.Group, 'memberships', dump_only=True)
     memberships = marshmallow.fields.Nested(MembershipSchema, dump_only=True, many=True)
+    active_memberships = marshmallow.fields.Nested(MembershipSchema, dump_only=True, many=True)
+    inactive_memberships = marshmallow.fields.Nested(MembershipSchema, dump_only=True, many=True)
 
 
 class StudentTransactionSchema(rod.model.BaseSchema):

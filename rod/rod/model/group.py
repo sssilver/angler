@@ -1,6 +1,7 @@
 import sqlalchemy.types
 import sqlalchemy.schema
 import sqlalchemy.orm
+import sqlalchemy.ext.hybrid
 
 import rod.model
 
@@ -27,6 +28,22 @@ class Group(rod.model.db.Model, rod.model.PersistentMixin):
     memberships = sqlalchemy.orm.relationship(
         'Membership'
     )
+
+    @sqlalchemy.ext.hybrid.hybrid_property
+    def active_memberships(self):
+        return [
+            membership
+            for membership in self.memberships
+            if membership.is_deleted is not True
+        ]
+
+    @sqlalchemy.ext.hybrid.hybrid_property
+    def inactive_memberships(self):
+        return [
+            membership
+            for membership in self.memberships
+            if membership.is_deleted is True
+        ]
 
     # Lessons this group held
     lessons = sqlalchemy.orm.relationship(
