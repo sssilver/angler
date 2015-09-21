@@ -68,7 +68,7 @@ class Student(rod.model.db.Model, rod.model.PersistentMixin):
     # Groups this student is a member of
     groups = sqlalchemy.orm.relationship(
         'Group',
-        secondary='student_group'
+        secondary='membership'
     )
 
     # Student balance
@@ -95,13 +95,17 @@ class Student(rod.model.db.Model, rod.model.PersistentMixin):
         return email
 
 
-class StudentGroup(rod.model.db.Model, rod.model.PersistentMixin):
-    __tablename__ = 'student_group'
+class Membership(rod.model.db.Model, rod.model.PersistentMixin):
+    __tablename__ = 'membership'
 
-    student_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('student.id'), primary_key=True)
+    # Student-Group many-to-many association ID
+    # Not using a composite primary key, because Marshmallow doesn't support it
+    id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, primary_key=True)
+
+    student_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('student.id'))
     student = sqlalchemy.orm.relationship('Student')
 
-    group_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('group.id'), primary_key=True)
+    group_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('group.id'))
     group = sqlalchemy.orm.relationship('Group')
 
     tariff_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('tariff.id'))
@@ -118,10 +122,14 @@ class StudentGroup(rod.model.db.Model, rod.model.PersistentMixin):
 class Attendance(rod.model.db.Model, rod.model.PersistentMixin):
     __tablename__ = 'attendance'
 
-    student_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('student.id'), primary_key=True)
+    # Student attendance many-to-many association ID
+    # Not using a composite primary key, because Marshmallow doesn't support it
+    id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, primary_key=True)
+
+    student_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('student.id'))
     student = sqlalchemy.orm.relationship('Student')
 
-    lesson_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('lesson.id'), primary_key=True)
+    lesson_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('lesson.id'))
     lesson = sqlalchemy.orm.relationship('Lesson')
 
     # Was the student present(False) or absent(True)?

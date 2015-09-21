@@ -24,8 +24,8 @@ class Group(rod.model.db.Model, rod.model.PersistentMixin):
     )
 
     # Students who are a member of this group
-    students = sqlalchemy.orm.relationship(
-        'StudentGroup'
+    memberships = sqlalchemy.orm.relationship(
+        'Membership'
     )
 
     # Lessons this group held

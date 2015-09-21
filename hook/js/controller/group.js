@@ -32,10 +32,8 @@ app.controller('GroupsCtrl', function ($scope, $log, $modal, Restangular) {
                     return group;
                 }
             }
-        }).result.then(function (group) {
-            group.save().then(function () {
-                $scope.refresh();
-            });
+        }).result.then(function () {
+            $scope.refresh();
         }, function () {
             $log.info('Modal dismissed at: ' + new Date());
         });
@@ -95,26 +93,36 @@ app.controller('GroupDialogCtrl', function ($scope, $log, $modalInstance, $modal
 
 app.controller('ManageStudentsDialogCtrl', function ($scope, $log, $modalInstance, $modal, Restangular, group) {
     $scope.group = group;
-    console.log(group);
 
     Restangular.one('level', group.level_id).get().then(function (level) {
         $scope.level = level;
         Restangular.all('tariff').getList({course_id: level.course_id}).then(function (tariffs) {
             $scope.tariffs = tariffs;
-
-            console.log(tariffs);
-        })
+        });
     });
 
-    Restangular.all('student').getList().then(function (students) {
-        $scope.students = students;
-    });
+    $scope.addStudentToGroup = function (student, group, tariff) {
+        Restangular.one('group', group.id).all('students').post([{
+            student_id: student.id,
+            tariff_id: tariff.id
+        }]).then(function () {
+            $scope.refresh();
+        });
+    };
 
-    $scope.ok = function () {
+    $scope.refresh = function () {
+        Restangular.all('student').getList().then(function (students) {
+            $scope.allStudents = students;
+        });
+
+        Restangular.one('group', $scope.group.id).get().then(function (group) {
+            $scope.group = group;
+        });
+    };
+
+    $scope.close = function () {
         $modalInstance.close($scope.group);
     };
 
-    $scope.cancel = function () {
-        $modalInstance.dismiss('cancel');
-    };
+    $scope.refresh();
 });

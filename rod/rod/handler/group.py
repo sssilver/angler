@@ -47,18 +47,22 @@ def add_group():
     return flask.jsonify(rod.model.schemas.GroupSchema().dump(group).data)
 
 
-@group_handler.route('/group/<int:group_id>', methods=['POST'])
+@group_handler.route('/group/<int:group_id>/students', methods=['POST'])
 def add_students_to_group(group_id):
     # Add each student to the group with their respective tariff
-    for member in flask.request.json['members']:
-        student_group = rod.model.student.StudentGroup()
-        student_group.student_id = member['student_id']
-        student_group.tariff_id = member['tariff_id']
-        student_group.group_id = group_id
+    for member in flask.request.json:
+        membership = rod.model.student.Membership()
+        membership.student_id = member['student_id']
+        membership.tariff_id = member['tariff_id']
+        membership.group_id = group_id
 
-        rod.model.db.session.add(student_group)
+        rod.model.db.session.add(membership)
 
     rod.model.db.session.commit()  # Execute all together
+
+    group = rod.model.db.session.query(rod.model.group.Group).get(group_id)
+
+    return flask.jsonify(rod.model.schemas.GroupSchema().dump(group).data)
 
 
 @group_handler.route('/group/<int:group_id>', methods=['PUT'])

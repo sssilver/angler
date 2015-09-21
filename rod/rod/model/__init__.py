@@ -7,7 +7,6 @@ import sqlalchemy.ext.declarative
 import sqlalchemy.schema
 import sqlalchemy.types
 import marshmallow_sqlalchemy
-import importlib
 
 
 declarative_base = lambda cls: sqlalchemy.ext.declarative.declarative_base(cls=cls)
