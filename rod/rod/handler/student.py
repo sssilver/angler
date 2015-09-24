@@ -2,6 +2,7 @@ import flask
 
 import rod
 import rod.model.student
+import rod.model.group
 import rod.model.schemas
 
 
@@ -18,7 +19,7 @@ def list_student():
     if course_id:
         query = query.filter_by(course_id=course_id)
 
-    if group_id:  # TODO: JOIN
+    if group_id:
         query = query.join(rod.model.student.Student.groups)
         query = query.filter(rod.model.group.Group.id == group_id)
 
