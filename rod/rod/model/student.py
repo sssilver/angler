@@ -72,7 +72,7 @@ class Student(rod.model.db.Model, rod.model.PersistentMixin):
     )
 
     # Student balance
-    balance = sqlalchemy.schema.Column(sqlalchemy.types.Numeric(scale=2))
+    balance = sqlalchemy.schema.Column(sqlalchemy.types.Numeric(scale=2), default=0.00)
 
     '''
     @sqlalchemy.ext.hybrid.hybrid_property

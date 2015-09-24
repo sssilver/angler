@@ -19,7 +19,7 @@ class Tariff(rod.model.db.Model, rod.model.PersistentMixin):
     )
 
     # Price of this payment plan
-    price = sqlalchemy.schema.Column(sqlalchemy.types.Integer)
+    price = sqlalchemy.schema.Column(sqlalchemy.types.Numeric(scale=2))
 
     # What type of a plan is this?
     type = sqlalchemy.schema.Column(sqlalchemy.types.Enum(

@@ -17,4 +17,4 @@ class Company(rod.model.db.Model, rod.model.PersistentMixin):
     contact_position = sqlalchemy.schema.Column(sqlalchemy.types.Text)
 
     # Corporate balance
-    balance = sqlalchemy.schema.Column(sqlalchemy.types.Numeric(scale=2))
+    balance = sqlalchemy.schema.Column(sqlalchemy.types.Numeric(scale=2), default=0.00)
