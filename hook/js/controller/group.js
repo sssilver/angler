@@ -101,11 +101,26 @@ app.controller('ManageStudentsDialogCtrl', function ($scope, $log, $modalInstanc
         });
     });
 
-    $scope.addMember = function (student, group, tariff) {
-        Restangular.one('group', group.id).all('memberships').post([{
+    Restangular.all('company').getList().then(function (companies) {
+        $scope.companies = companies;
+    });
+
+    $scope.validateAdd = function () {
+        if (!$scope.tariff) return false;
+
+        return ($scope.tariff.type == 'student') || ($scope.tariff.type == 'company' && $scope.company);
+    };
+
+    $scope.addMember = function (student, group, tariff, company) {
+        var membership = {
             student_id: student.id,
             tariff_id: tariff.id
-        }]).then(function () {
+        };
+
+        if (company)  // For corporate tariff memberships
+            membership.company_id = company.id;
+
+        Restangular.one('group', group.id).all('memberships').post([membership]).then(function () {
             $scope.refresh();
         });
     };

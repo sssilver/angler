@@ -15,3 +15,6 @@ class Company(rod.model.db.Model, rod.model.PersistentMixin):
     contact_email = sqlalchemy.schema.Column(sqlalchemy.types.Text)
     contact_phone = sqlalchemy.schema.Column(sqlalchemy.types.Text)
     contact_position = sqlalchemy.schema.Column(sqlalchemy.types.Text)
+
+    # Corporate balance
+    balance = sqlalchemy.schema.Column(sqlalchemy.types.Numeric(scale=2))

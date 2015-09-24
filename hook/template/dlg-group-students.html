@@ -3,28 +3,32 @@
 </div>
 
 <div class="modal-body">
-  <h4>Active Students</h4>
-  <table class="table table-condensed" ng-show="group.active_memberships.length">
-    <tr ng-repeat="membership in group.active_memberships">
-      <td>{{membership.student.name}}</td>
-      <td>
-        <div class="pull-right">
-          <button class="btn btn-xs btn-danger"
-                  ng-click="removeMember(group, membership)"
-                  title="Remove {{membership.student.name}} from this group">
-            <span class="glyphicon-white glyphicon glyphicon-remove"></span>
-          </button>
-        </div>
-      </td>
-    </tr>
-  </table>
+  <div ng-show="group.active_memberships.length">
+    <h4>Active Students</h4>
+    <table class="table table-condensed">
+      <tr ng-repeat="membership in group.active_memberships">
+        <td>{{membership.student.name}}</td>
+        <td>
+          <div class="pull-right">
+            <button class="btn btn-xs btn-danger"
+                    ng-click="removeMember(group, membership)"
+                    title="Remove {{membership.student.name}} from this group">
+              <span class="glyphicon-white glyphicon glyphicon-remove"></span>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
 
-  <h4>Former Students</h4>
-  <table class="table table-condensed" ng-show="group.inactive_memberships.length">
-    <tr ng-repeat="membership in group.inactive_memberships">
-      <td>{{membership.student.name}}</td>
-    </tr>
-  </table>
+  <div ng-show="group.inactive_memberships.length">
+    <h4>Former Students</h4>
+    <table class="table table-condensed">
+      <tr ng-repeat="membership in group.inactive_memberships">
+        <td>{{membership.student.name}}</td>
+      </tr>
+    </table>
+  </div>
 
   <form role="form">
     <fieldset>
@@ -45,8 +49,15 @@
                   ng-model="tariff"
                   ng-options="tariff as tariff.title for tariff in tariffs"></select>
         </div>
-        <div class="form-group text-center" ng-show="tariff">
-          <button class="btn btn-success" ng-click="addMember(student, group, tariff)">
+        <div class="form-group" ng-show="tariff.type=='company'">
+          <label for="company">Company</label>
+          <select class="form-control"
+                  id="company"
+                  ng-model="company"
+                  ng-options="company as company.title for company in companies"></select>
+        </div>
+        <div class="form-group text-center" ng-show="validateAdd()">
+          <button class="btn btn-success" ng-click="addMember(student, group, tariff, company)">
             <span class="fa fa-user-plus"></span>
             Add <em>{{student.name}}</em> to <em>{{group.title}}</em> using <em>{{tariff.title}}</em> payment plan
           </button>

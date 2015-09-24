@@ -70,6 +70,9 @@ def add_member(group_id):
         membership.tariff_id = member['tariff_id']
         membership.group_id = group_id
 
+        if 'company_id' in member:
+            membership.company_id = member['company_id']
+
         rod.model.db.session.add(membership)
 
     rod.model.db.session.commit()  # Execute all together

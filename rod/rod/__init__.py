@@ -26,6 +26,7 @@ import rod.handler.course
 import rod.handler.tariff
 import rod.handler.level
 import rod.handler.student
+import rod.handler.company
 import rod.handler.group
 import rod.handler.credit
 import rod.handler.lesson
@@ -61,6 +62,7 @@ def create_app(config):
         rod.handler.tariff.tariff_handler,
         rod.handler.level.level_handler,
         rod.handler.student.student_handler,
+        rod.handler.company.company_handler,
         rod.handler.group.group_handler,
         rod.handler.credit.credit_handler,
         rod.handler.lesson.lesson_handler

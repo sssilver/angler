@@ -111,11 +111,15 @@ class Membership(rod.model.db.Model, rod.model.PersistentMixin):
     tariff_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('tariff.id'))
     tariff = sqlalchemy.orm.relationship('Tariff')
 
+    # The company this membership is associated with (only for corporate tariffs)
+    company_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('company.id'))
+    company = sqlalchemy.orm.relationship('Company')
+
     # Date when student was added to the group
     add_date = sqlalchemy.schema.Column(sqlalchemy.types.DateTime, default=datetime.datetime.utcnow)
 
     # Is the student's membership in this group suspended?
-    # If yes, his balance will not be affected by absenteeism
+    # If yes, their balance will not be affected by absenteeism
     is_suspended = sqlalchemy.schema.Column(sqlalchemy.types.Boolean)
 
 

@@ -7,7 +7,9 @@ import rod.model.staff
 import rod.model.tariff
 import rod.model.level
 import rod.model.student
+import rod.model.company
 import rod.model.group
+import rod.model.lesson
 import rod.model.transaction
 
 
@@ -43,6 +45,11 @@ class StudentSchema(rod.model.BaseSchema):
         model = rod.model.student.Student
 
 
+class CompanySchema(rod.model.BaseSchema):
+    class Meta(rod.model.BaseSchema.Meta):
+        model = rod.model.company.Company
+
+
 class MembershipSchema(rod.model.BaseSchema):
     class Meta(rod.model.BaseSchema.Meta):
         model = rod.model.student.Membership
@@ -59,10 +66,17 @@ class GroupSchema(rod.model.BaseSchema):
     lessons = marshmallow_sqlalchemy.field_for(rod.model.group.Group, 'lessons', dump_only=True)
     level_id = marshmallow_sqlalchemy.field_for(rod.model.group.Group, 'level_id')
     teacher_id = marshmallow_sqlalchemy.field_for(rod.model.group.Group, 'teacher_id')
-    # students = marshmallow_sqlalchemy.field_for(rod.model.group.Group, 'memberships', dump_only=True)
     memberships = marshmallow.fields.Nested(MembershipSchema, dump_only=True, many=True)
     active_memberships = marshmallow.fields.Nested(MembershipSchema, dump_only=True, many=True)
     inactive_memberships = marshmallow.fields.Nested(MembershipSchema, dump_only=True, many=True)
+
+
+class LessonSchema(rod.model.BaseSchema):
+    class Meta(rod.model.BaseSchema.Meta):
+        model = rod.model.lesson.Lesson
+
+    group = marshmallow.fields.Nested(GroupSchema, dump_only=True)
+    group_id = marshmallow_sqlalchemy.field_for(rod.model.lesson.Lesson, 'group_id')
 
 
 class StudentTransactionSchema(rod.model.BaseSchema):
