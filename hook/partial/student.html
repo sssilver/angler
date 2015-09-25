@@ -1,6 +1,7 @@
 <div class="page-header">
   <h1>
     {{student.name}}
+
     <div class="pull-right">
       <!-- Button trigger modal -->
       <button class="btn" ng-click="dlgRefund()">
@@ -13,9 +14,9 @@
   </h1>
 </div>
 
+Balance: {{student.balance}}
 
+Groups:
 <ul>
-  <li ng-repeat="(attribute, value) in student">
-    {{attribute}}: <em>{{value}}</em>
-  </li>
+  <li ng-repeat="group in groups">{{group.title}}</li>
 </ul>

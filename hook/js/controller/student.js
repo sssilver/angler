@@ -3,8 +3,13 @@ app.controller('StudentsCtrl', function ($scope, $q, $state, $stateParams, $log,
     if ($stateParams.student_id) {  // Detail view?
         $scope.refreshStudent = function () {
             // Load the requested student
-            Restangular.one('student', $stateParams.student_id).get().then(function (student) {
+            var student_id = $stateParams.student_id;
+            Restangular.one('student', student_id).get().then(function (student) {
                 $scope.student = student;
+            });
+
+            Restangular.all('group').getList({student_id: student_id}).then(function (groups) {
+                $scope.groups = groups;
             });
         };
 

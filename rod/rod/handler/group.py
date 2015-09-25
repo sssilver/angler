@@ -13,6 +13,7 @@ group_handler = flask.Blueprint('group', __name__)
 def list_group():
     teacher_id = flask.request.args.get('teacher_id')
     level_id = flask.request.args.get('level_id')
+    student_id = flask.request.args.get('student_id')
 
     query = rod.model.group.Group.query.filter_by(is_deleted=False)
 
@@ -21,6 +22,10 @@ def list_group():
 
     if level_id:
         query = query.filter_by(level_id=level_id)
+
+    if student_id:
+        query = query.join(rod.model.group.Group.students)
+        query = query.filter(rod.model.student.Student.id == student_id)
 
     groups = query.all()
 

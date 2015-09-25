@@ -29,6 +29,11 @@ class Group(rod.model.db.Model, rod.model.PersistentMixin):
         'Membership'
     )
 
+    students = sqlalchemy.orm.relationship(
+        'Student',
+        secondary='membership'
+    )
+
     @sqlalchemy.ext.hybrid.hybrid_property
     def active_memberships(self):
         return [
