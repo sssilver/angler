@@ -44,6 +44,11 @@ class StudentSchema(rod.model.BaseSchema):
     class Meta(rod.model.BaseSchema.Meta):
         model = rod.model.student.Student
 
+    groups = marshmallow_sqlalchemy.field_for(rod.model.student.Student, 'groups', dump_only=True)
+    transactions = marshmallow_sqlalchemy.field_for(rod.model.student.Student, 'transactions', dump_only=True)
+    availability = marshmallow_sqlalchemy.field_for(rod.model.student.Student, 'availability', dump_only=True)
+    comments = marshmallow_sqlalchemy.field_for(rod.model.student.Student, 'comments', dump_only=True)
+
 
 class CompanySchema(rod.model.BaseSchema):
     class Meta(rod.model.BaseSchema.Meta):
