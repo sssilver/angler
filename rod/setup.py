@@ -8,11 +8,11 @@ distutils.core.setup(
     packages=setuptools.find_packages(),
 
     long_description=open('README.txt').read(),
-    author='Silver',
+    author='sssilver',
     author_email='sssilver@gmail.com',
 
     install_requires={
-        'flask'
+        'flask>=0.10',
         'flask-login',
         'flask-script',
         'flask-cors',
@@ -23,5 +23,11 @@ distutils.core.setup(
         'sqlalchemy',
         'marshmallow-sqlalchemy',
         'python-dateutil'
+    },
+
+    entry_points = {
+        'console_scripts': [
+            'angler-rod = manage:main',
+        ],
     }
 )

@@ -56,6 +56,7 @@ app.controller('GroupsCtrl', function ($scope, $log, $modal, Restangular) {
     $scope.refresh();
 });
 
+
 app.controller('GroupDialogCtrl', function ($scope, $log, $modalInstance, $modal, Restangular, group) {
     $scope.group = group;
     $scope.selectedCourse = null;
@@ -145,6 +146,17 @@ app.controller('ManageStudentsDialogCtrl', function ($scope, $log, $modalInstanc
 
     $scope.close = function () {
         $modalInstance.close($scope.group);
+    };
+
+    $scope.refresh();
+});
+
+
+app.controller('GroupCtrl', function ($scope, $stateParams, Restangular) {
+    $scope.refresh = function () {
+        Restangular.one('group', $stateParams.group_id).get().then(function (group) {
+            $scope.group = group;
+        });
     };
 
     $scope.refresh();

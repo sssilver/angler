@@ -1,0 +1,12 @@
+<div class="page-header">
+  <h1>
+    {{group.title}}
+  </h1>
+</div>
+
+<h2>List of current students in {{group.title}}</h2>
+<ul>
+  <li ng-repeat="membership in group.memberships">
+    {{membership.student.name}}
+  </li>
+</ul>

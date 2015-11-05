@@ -22,7 +22,7 @@
 
   <tr ng-repeat="group in groups">
     <td>
-      <a ng-click="dlgGroup(group)">{{group.title}}</a>
+      <a ui-sref="user.group({group_id: group.id})">{{group.title}}</a>
     </td>
     <td>{{group.level.course.title}}</td>
     <td>{{group.level.title}}</td>
@@ -32,6 +32,9 @@
       <div class="pull-right">
         <button class="btn btn-sm btn-default" ng-click="manageStudents(group)">
           <span class="fa fa-users"> Manage students</span>
+        </button>
+        <button class="btn btn-sm btn-default" ng-click="dlgGroup(group); $event.stopPropagation()">
+          <span class="glyphicon-white glyphicon glyphicon-pencil"></span>
         </button>
         <button class="btn btn-sm btn-danger" ng-click="remove(group)">
           <span class="glyphicon-white glyphicon glyphicon-remove"></span>

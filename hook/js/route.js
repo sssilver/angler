@@ -71,6 +71,12 @@ app.config(function ($stateProvider, $httpProvider, RestangularProvider) {
             controller: 'GroupsCtrl'
         })
 
+        .state('user.group', {
+            url: '/groups/:group_id',
+            templateUrl: 'partial/group.html',
+            controller: 'GroupCtrl'
+        })
+
         .state('user.students', {
             url: '/students',
             templateUrl: 'partial/students.html',
