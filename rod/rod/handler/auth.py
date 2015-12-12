@@ -14,8 +14,10 @@ auth_handler = flask.Blueprint('auth', __name__)
 def verify():
     staff = flask.ext.login.current_user
 
-    if staff.is_authenticated():
-        return flask.jsonify(rod.model.schemas.StaffSchema().dump(staff).data)
+    if not staff.is_authenticated:
+        raise rod.APIError('Not authorized', status_code=401)
+
+    return flask.jsonify(rod.model.schemas.StaffSchema().dump(staff).data)
 
 
 @auth_handler.route('/auth', methods=['POST'])
