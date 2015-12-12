@@ -1,4 +1,11 @@
-flask:
-  DEBUG: false
-  SECRET_KEY: Rocket in the sky
-  SQLALCHEMY_DATABASE_URI: postgresql://angler:4ng13r@localhost/angler
+general:
+  locale: en_US.utf8
+  debug: true
+  secret_key: s0qr58j/3y0OR~X5HzjmN2LWX/_?RTan
+
+network:
+  host: 0.0.0.0
+  port: 5000
+
+db:
+  uri: postgresql://aharutyunyan:@127.0.0.1/angler

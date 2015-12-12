@@ -3,14 +3,14 @@ FROM debian:latest
 MAINTAINER sssilver@gmail.com
 
 RUN apt-get update
-RUN apt-get install -y build-essential git curl lsb-release
+RUN apt-get install -y build-essential git curl lsb-release libffi-dev locales-all
 RUN apt-get install -y python python-dev python-setuptools python-software-properties python-pip
-RUN apt-get install -y nginx supervisor sqlite3
+RUN apt-get install -y nginx supervisor libpq-dev
 
-# Install Node.js and Javascript goodies
+# Install Javascript goodies
 RUN curl -sL https://deb.nodesource.com/setup | bash -
 RUN apt-get update
-RUN apt-get install -y nodejs npm
+RUN apt-get install -y nodejs
 RUN npm install -g bower
 
 # Configure nginx
@@ -26,12 +26,13 @@ RUN mkdir /opt/angler
 ADD hook /opt/angler/hook
 ADD rod /opt/angler/rod
 
-# Install dependencies
+# Install Hook dependencies
 WORKDIR /opt/angler/hook
 RUN bower install --allow-root
-WORKDIR /opt/angler
-RUN apt-get install -y libpq-dev
-RUN pip install -r rod/requirements.txt
+
+# Install Rod
+WORKDIR /opt/angler/rod
+RUN python setup.py install
 
 # Setup nginx site
 RUN rm /etc/nginx/sites-enabled/*
