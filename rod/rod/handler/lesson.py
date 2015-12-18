@@ -60,7 +60,7 @@ def file_lesson(group_id):
             student.balance -= membership.tariff.price
 
             student_transaction = rod.model.transaction.StudentTransaction()
-            student_transaction.staff = lesson.teacher_id
+            student_transaction.staff_id = lesson.teacher_id
             student_transaction.amount = membership.tariff.price
             student_transaction.student_id = student_id
             student_transaction.type = 'payment'
