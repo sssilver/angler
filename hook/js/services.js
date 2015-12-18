@@ -66,11 +66,13 @@ app.factory('Credit', function ($resource) {
 app.factory('Auth', function ($http, $rootScope, $cookieStore) {
     return {
         login: function (credentials) {
+            console.log('Auth.logout');
+            var self = this;
             return $http
                 .post(SERVICE_ENDPOINT + '/auth', credentials)
                 .success(function (data, status, headers, config) {
                     console.info('loginSuccess');
-                    this.user = data;
+                    self.user = data;
                     $cookieStore.put('angler-user', data);
                     $rootScope.$broadcast('loginSuccess');
                 }).
@@ -82,17 +84,23 @@ app.factory('Auth', function ($http, $rootScope, $cookieStore) {
 
         logout: function () {
             console.log('Auth.logout');
+            var self = this;
             return $http
                 .delete(SERVICE_ENDPOINT + '/auth')
                 .success(function () {
                     console.log('logoutSuccess');
+                    delete self.user;
                     $rootScope.$broadcast('logoutSuccess');
                 });
         },
 
         verify: function () {
+            var self = this;
             return $http
                 .get(SERVICE_ENDPOINT + '/auth')
+                .success(function (data) {
+                    self.user = data;
+                })
                 .error(function () {
                     $rootScope.$broadcast('unauthorized');
                 });

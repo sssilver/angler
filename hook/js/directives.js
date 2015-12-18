@@ -60,7 +60,7 @@ app.directive('scInteger', function () {
     };
 });
 
-app.directive('scMultiselect', [function () {
+app.directive('scMultiselect', function () {
     return {
         link: function (scope, element, attrs) {
             //element = $(element);
@@ -92,4 +92,15 @@ app.directive('scMultiselect', [function () {
             });
         }
     };
-}]);
+});
+
+app.directive('scPermission', function (Auth) {
+    return {
+        link: function (scope, element, attrs, ctrl) {
+            if (Auth.user.role != attrs.scPermission) {  // Mismatching permission
+                // Hide this control
+                $(element).css('display', 'none');
+            }
+        }
+    };
+});
