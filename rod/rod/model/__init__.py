@@ -3,40 +3,15 @@ import flask.ext.sqlalchemy
 import sqlalchemy
 import sqlalchemy.orm
 import sqlalchemy.orm.session
-import sqlalchemy.ext.declarative
 import sqlalchemy.schema
 import sqlalchemy.types
 import marshmallow_sqlalchemy
 
 
-declarative_base = lambda cls: sqlalchemy.ext.declarative.declarative_base(cls=cls)
-
-# Base = declarative_base()
-
-'''
-class Database(object):
-    def __init__(self, data_source):
-        self.engine = sqlalchemy.create_engine(data_source, convert_unicode=True)
-
-        self.session_class = sqlalchemy.orm.scoped_session(
-            sqlalchemy.orm.sessionmaker(
-                autocommit=False,
-                autoflush=False,
-                bind=self.engine,
-                class_=NoDeleteSession
-            )
-        )
-
-        self.session = self.session_class
-
-        Base.query = self.session.query_property()
-
-    def create_tables(self):
-        Base.metadata.create_all(bind=self.engine)
-'''
-
-
 class RodSQLAlchemy(flask.ext.sqlalchemy.SQLAlchemy):
+    def __init__(self, metadata=None):
+        super(RodSQLAlchemy, self).__init__(metadata=metadata)
+
     def create_session(self, options):
         final_options = dict(options)
 
@@ -98,8 +73,8 @@ class PersistentMixin(object):
     is_deleted = sqlalchemy.schema.Column(sqlalchemy.types.Boolean, default=False)
 
 
-db = RodSQLAlchemy()
-# db = flask.ext.sqlalchemy.SQLAlchemy()
+meta = sqlalchemy.MetaData()
+db = RodSQLAlchemy(metadata=meta)
 
 
 class BaseSchema(marshmallow_sqlalchemy.ModelSchema):

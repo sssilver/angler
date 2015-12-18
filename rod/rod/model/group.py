@@ -12,13 +12,21 @@ class Group(rod.model.db.Model, rod.model.PersistentMixin):
     id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, primary_key=True)
     title = sqlalchemy.schema.Column(sqlalchemy.types.String(100))
 
-    level_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('level.id'))
+    level_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer,
+                                        sqlalchemy.schema.ForeignKey(
+                                            'level.id',
+                                            name='fk_group_level_id'
+                                        ))
     level = sqlalchemy.orm.relationship(
         'Level',
         back_populates='groups'
     )
 
-    teacher_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('staff.id'))
+    teacher_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer,
+                                          sqlalchemy.schema.ForeignKey(
+                                              'staff.id',
+                                              name='fk_group_teacher_id'
+                                          ))
     teacher = sqlalchemy.orm.relationship(
         'Staff',
         back_populates='groups'

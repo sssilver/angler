@@ -19,6 +19,13 @@ class Staff(rod.model.db.Model, rod.model.PersistentMixin):
     address = sqlalchemy.schema.Column(sqlalchemy.types.String)
     dob = sqlalchemy.schema.Column(sqlalchemy.types.Date)
     gender = sqlalchemy.schema.Column(sqlalchemy.types.Boolean)
+    role = sqlalchemy.schema.Column(sqlalchemy.types.Enum(
+        'ADMIN',
+        'DIRECTOR',
+        'TEACHER',
+
+        name='staff_role'
+    ), default='TEACHER')
 
     authenticated = sqlalchemy.schema.Column(sqlalchemy.types.Boolean, default=False)
 

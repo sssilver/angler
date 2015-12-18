@@ -36,12 +36,20 @@ class Student(rod.model.db.Model, rod.model.PersistentMixin):
     # Interview
     ivw_date = sqlalchemy.schema.Column(sqlalchemy.types.Date)
     ivw_time = sqlalchemy.schema.Column(sqlalchemy.types.Time(timezone=True))
-    ivw_teacher_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('staff.id'))
+    ivw_teacher_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer,
+                                              sqlalchemy.schema.ForeignKey(
+                                                  'staff.id',
+                                                  name='fk_student_ivw_teacher_id'
+                                              ))
     ivw_teacher = sqlalchemy.orm.relationship(
         'Staff'
     )
 
-    ivw_level_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('level.id'))
+    ivw_level_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer,
+                                            sqlalchemy.schema.ForeignKey(
+                                                'level.id',
+                                                name='fk_student_ivw_level_id'
+                                            ))
     ivw_level = sqlalchemy.orm.relationship(
         'Level'
     )
@@ -102,17 +110,33 @@ class Membership(rod.model.db.Model, rod.model.PersistentMixin):
     # Not using a composite primary key, because Marshmallow doesn't support it
     id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, primary_key=True)
 
-    student_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('student.id'))
+    student_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer,
+                                          sqlalchemy.schema.ForeignKey(
+                                              'student.id',
+                                              name='fk_membership_student_id'
+                                          ))
     student = sqlalchemy.orm.relationship('Student')
 
-    group_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('group.id'))
+    group_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer,
+                                        sqlalchemy.schema.ForeignKey(
+                                            'group.id',
+                                            name='fk_membership_group_id'
+                                        ))
     group = sqlalchemy.orm.relationship('Group')
 
-    tariff_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('tariff.id'))
+    tariff_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer,
+                                         sqlalchemy.schema.ForeignKey(
+                                             'tariff.id',
+                                             name='fk_membership_tariff_id'
+                                         ))
     tariff = sqlalchemy.orm.relationship('Tariff')
 
     # The company this membership is associated with (only for corporate tariffs)
-    company_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('company.id'))
+    company_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer,
+                                          sqlalchemy.schema.ForeignKey(
+                                              'company.id',
+                                              name='fk_membership_company_id'
+                                          ))
     company = sqlalchemy.orm.relationship('Company')
 
     # Date when student was added to the group
@@ -130,10 +154,18 @@ class Attendance(rod.model.db.Model, rod.model.PersistentMixin):
     # Not using a composite primary key, because Marshmallow doesn't support it
     id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, primary_key=True)
 
-    student_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('student.id'))
+    student_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer,
+                                          sqlalchemy.schema.ForeignKey(
+                                              'student.id',
+                                              name='fk_attendance_student_id'
+                                          ))
     student = sqlalchemy.orm.relationship('Student')
 
-    lesson_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('lesson.id'))
+    lesson_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer,
+                                         sqlalchemy.schema.ForeignKey(
+                                             'lesson.id',
+                                             name='fk_attendance_lesson_id'
+                                         ))
     lesson = sqlalchemy.orm.relationship('Lesson')
 
     # Was the student present(False) or absent(True)?
@@ -147,7 +179,11 @@ class Availability(rod.model.db.Model):
     __tablename__ = 'availability'
 
     id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, primary_key=True)
-    student_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('student.id'))
+    student_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer,
+                                          sqlalchemy.schema.ForeignKey(
+                                              'student.id',
+                                              name='fk_availability_student_id'
+                                          ))
     student = sqlalchemy.orm.relationship('Student')
     day = sqlalchemy.schema.Column(sqlalchemy.types.SmallInteger)  # 0..6 for each weekday
     range_from = sqlalchemy.schema.Column(sqlalchemy.types.Integer)

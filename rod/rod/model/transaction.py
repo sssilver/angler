@@ -22,7 +22,11 @@ class Transaction(rod.model.db.Model, rod.model.PersistentMixin):
     time = sqlalchemy.schema.Column(sqlalchemy.types.DateTime, default=datetime.datetime.utcnow)
 
     # Who administered it?
-    staff_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('staff.id'))
+    staff_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer,
+                                        sqlalchemy.schema.ForeignKey(
+                                            'staff.id',
+                                            name='fk_transaction_staff_id'
+                                        ))
     staff = sqlalchemy.orm.relationship('Staff')
 
     # How much?
@@ -53,7 +57,11 @@ class Transaction(rod.model.db.Model, rod.model.PersistentMixin):
 class CompanyTransaction(Transaction):
     __mapper_args__ = {'polymorphic_identity': 'company'}
 
-    company_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('company.id'))
+    company_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer,
+                                          sqlalchemy.schema.ForeignKey(
+                                              'company.id',
+                                              name='fk_transaction_company_id'
+                                          ))
     company = sqlalchemy.orm.relationship(
         'Company'
     )
@@ -62,7 +70,11 @@ class CompanyTransaction(Transaction):
 class StudentTransaction(Transaction):
     __mapper_args__ = {'polymorphic_identity': 'student'}
 
-    student_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('student.id'))
+    student_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer,
+                                          sqlalchemy.schema.ForeignKey(
+                                              'student.id',
+                                              name='fk_transaction_student_id'
+                                          ))
     student = sqlalchemy.orm.relationship(
         'Student'
     )

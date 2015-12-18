@@ -11,13 +11,21 @@ class Comment(rod.model.db.Model, rod.model.PersistentMixin):
     id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, primary_key=True)
 
     # Staff the comment is posted by
-    staff_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('staff.id'))
+    staff_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer,
+                                        sqlalchemy.schema.ForeignKey(
+                                            'staff.id',
+                                            name='fk_comment_staff_id'
+                                        ))
     staff = sqlalchemy.orm.relationship(
         'Staff'
     )
 
     # Student the comment refers to
-    student_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('student.id'))
+    student_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer,
+                                          sqlalchemy.schema.ForeignKey(
+                                              'student.id',
+                                              name='fk_comment_student_id'
+                                          ))
     student = sqlalchemy.orm.relationship(
         'Student'
     )

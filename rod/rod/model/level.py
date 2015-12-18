@@ -12,7 +12,11 @@ class Level(rod.model.db.Model, rod.model.PersistentMixin):
     title = sqlalchemy.schema.Column(sqlalchemy.types.String())
 
     # Course this level belongs to
-    course_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer, sqlalchemy.schema.ForeignKey('course.id'))
+    course_id = sqlalchemy.schema.Column(sqlalchemy.types.Integer,
+                                         sqlalchemy.schema.ForeignKey(
+                                             'course.id',
+                                             name='fk_level_course_id'
+                                         ))
     course = sqlalchemy.orm.relationship(
         'Course'
     )
