@@ -40,6 +40,19 @@
                    required />
           </div>
         </div>
+        <div class="form-group">
+          <label for="staff_role" class="col-sm-3 control-label">Role</label>
+          <div class="col-sm-9">
+            <select class="form-control"
+                    id="staff_role"
+                    ng-model="staff.role"
+                    required>
+              <option>TEACHER</option>
+              <option>DIRECTOR</option>
+              <option>ADMIN</option>
+            </select>
+          </div>
+        </div>
     </fieldset>
 
     <fieldset>

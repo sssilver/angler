@@ -75,13 +75,18 @@ def createuser():
     staff.email = flask.ext.script.prompt('User email')
     staff.set_password(flask.ext.script.prompt_pass('User password'))
 
+    for index, role in enumerate(staff.ROLES):
+        print " ({}) {}".format(index + 1, role)
+
+    staff.role = staff.ROLES[int(flask.ext.script.prompt('User role')) - 1]
+
     try:
         rod.model.db.session.add(staff)
         rod.model.db.session.commit()
     except sqlalchemy.exc.IntegrityError:
-        log.error('User {} already exists'.format(staff.email))
+        log.error('User {} ({}) already exists'.format(staff.email, staff.role))
 
-    log.info('User {} successfully created.'.format(staff.email))
+    log.info('User {} ({}) successfully created.'.format(staff.email, staff.role))
     log.info('Profile details can be entered using the web interface.')
 
 
