@@ -97,7 +97,12 @@ app.directive('scMultiselect', function () {
 app.directive('scPermission', function (Auth) {
     return {
         link: function (scope, element, attrs, ctrl) {
-            if (Auth.user.role != attrs.scPermission) {  // Mismatching permission
+            var permissions = attrs.scPermission.split(',');
+
+            if (!permissions.length)
+                return;
+
+            if (permissions.indexOf(Auth.user.role) == -1) {  // Mismatching permission
                 // Hide this control
                 $(element).css('display', 'none');
             }
