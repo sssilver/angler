@@ -18,6 +18,7 @@ distutils.core.setup(
         'flask-cors',
         'flask-sqlalchemy',
         'flask-bcrypt',
+        'simplejson',
         'pyyaml',
         'psycopg2',
         'sqlalchemy',
