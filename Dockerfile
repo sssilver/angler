@@ -11,7 +11,7 @@ RUN apt-get install -y nginx supervisor libpq-dev
 RUN curl -sL https://deb.nodesource.com/setup | bash -
 RUN apt-get update
 RUN apt-get install -y nodejs
-RUN npm install -g bower
+RUN npm install -g npm
 
 # Configure nginx
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
@@ -28,7 +28,7 @@ ADD rod /opt/angler/rod
 
 # Install Hook dependencies
 WORKDIR /opt/angler/hook
-RUN bower install --allow-root
+RUN npm install
 
 # Install Rod
 WORKDIR /opt/angler/rod

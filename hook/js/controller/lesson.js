@@ -1,11 +1,13 @@
 app.controller('LessonsCtrl', function ($scope, $q, $state, $stateParams, $log, $location, TIMES, DAYS, $modal, Auth, Restangular) {
-
     // Get the current teacher's groups
     Restangular.all('group').getList({teacher_id: Auth.getCurrentUser().id}).then(function (groups) {
         $scope.groups = groups;
+        console.log(typeof(groups[1].id));
     });
 
     $scope.dlgFile = function (lesson) {
+        console.log(typeof(lesson.group_id));
+
         $modal.open({
             templateUrl: 'template/dlg-lesson.html',
             controller: 'FileLessonDialogCtrl',
@@ -34,7 +36,23 @@ app.controller('LessonsCtrl', function ($scope, $q, $state, $stateParams, $log, 
 
     $scope.refresh = function () {
         Restangular.all('lesson').getList().then(function (lessons) {
-            $scope.lessons = lessons;
+            // Group lessons by date to display them in the UI
+            // This is harder than what seems like a trivial problem
+            var groupedLessons = {};
+            angular.forEach(lessons, function (lesson) {
+                lesson.time = new Date(lesson.time);  // Convert time from string to an actual Date object
+                var date = new Date(lesson.time).toISOString().slice(0, 10);
+
+                // Get every unique date to the granularity we want to group by with
+                if (!(date in groupedLessons))
+                    groupedLessons[date] = [];
+
+                groupedLessons[date].push(lesson);
+            });
+
+            // Get the list of unique dates to group with and sort them separately
+            $scope.dateGroups = Object.keys(groupedLessons).sort();
+            $scope.groupedLessons = groupedLessons;
         });
     };
 

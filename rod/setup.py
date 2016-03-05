@@ -1,7 +1,6 @@
 import distutils.core
 import setuptools
 
-
 distutils.core.setup(
     name='Angler Rod',
     version='2.0',
@@ -26,7 +25,7 @@ distutils.core.setup(
         'python-dateutil'
     },
 
-    entry_points = {
+    entry_points={
         'console_scripts': [
             'angler-rod = manage:main',
         ],

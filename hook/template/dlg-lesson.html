@@ -3,6 +3,8 @@
   <h3 ng-if="lesson.id">Amend an existing lesson</h3>
 </div>
 
+{{lesson.group_id}}
+
 <div class="modal-body">
   <form role="form" class="form-horizontal">
     <div class="form-group">
@@ -10,10 +12,11 @@
       <div class="col-sm-9">
         <select class="form-control"
                 id="lesson_group"
-                ng-options="group.title for group in groups"
-                ng-model="lesson.group"
+                ng-options="group.id as group.title for group in groups"
+                ng-model="lesson.group_id"
                 ng-change="populateStudents(lesson.group)"
-                required></select>
+                required>
+        </select>
       </div>
     </div>
 
@@ -24,7 +27,7 @@
                class="form-control"
                id="lesson_datetime"
                placeholder="Date and time of the lesson"
-               ng-model="lesson.datetime"
+               ng-model="lesson.time"
                required />
       </div>
     </div>

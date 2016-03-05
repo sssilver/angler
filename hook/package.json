@@ -1,0 +1,22 @@
+{
+  "name": "angler.hook",
+  "version": "2.0.0",
+  "description": "Angler",
+  "main": "index.js",
+  "dependencies": {
+    "angular-cookies": "*",
+    "angular-ui-router": "*",
+    "angular-ui-select2": "*",
+    "angular": "*",
+    "bootstrap": "*",
+    "angular-bootstrap": "*",
+    "angular-route": "*",
+    "restangular": "*",
+    "font-awesome": "*"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "sssilver@gmail.com",
+  "license": "BSD-2-Clause"
+}

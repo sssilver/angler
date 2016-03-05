@@ -1,7 +1,8 @@
 __pycache__/
 *.py[cod]
+*.swp
 .idea
 .DS_Store
 scool.db
-hook/lib
+hook/node_modules
 rod/Rod.egg-info

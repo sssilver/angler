@@ -13,4 +13,12 @@
 </div>
 
 
-{{lessons}}
+<div ng-repeat="date in dateGroups">
+  <h2>{{date | date:'d MMMM'}}</h2>
+
+  <ul>
+    <li ng-repeat="lesson in groupedLessons[date]">
+      <a ng-click="dlgFile(lesson)">{{lesson.time | date:'HH:mm'}} by {{lesson.group.teacher.name}}</a>
+    </li>
+  </ul>
+</div>
